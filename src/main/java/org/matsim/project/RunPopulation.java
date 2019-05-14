@@ -27,20 +27,6 @@ import org.opengis.feature.simple.SimpleFeature;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
-/**
- * This class generates a simple artificial MATSim demand for
- * the german city Löbau. This is similar to the tutorial held
- * at the MATSim user meeting 09 by glaemmel, however based on
- * the matsim api.
- *
- * The files needed to run this tutorial are placed in the matsim examples
- * repository that can be found in the root directory of the matsim
- * sourceforge svn under the path matsimExamples/tutorial/example8DemandGeneration.
- *
- * @author glaemmel
- * @author dgrether
- *
- */
 public class RunPopulation {
 
 	private static final Logger log = Logger.getLogger(RunPopulation.class);
@@ -56,8 +42,9 @@ public class RunPopulation {
 		String networkFile = exampleDirectory + "network.shp";
 
 		Scenario scenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
-
-		SimpleFeatureSource fts = ShapeFileReader.readDataFile(zonesFile); //reads the shape file in
+		
+		//reads the shape file in
+		SimpleFeatureSource fts = ShapeFileReader.readDataFile(zonesFile);
 		SimpleFeatureSource net = ShapeFileReader.readDataFile(networkFile);
 		
 		Random rnd = new Random();
