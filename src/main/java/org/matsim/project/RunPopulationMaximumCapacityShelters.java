@@ -17,16 +17,13 @@
  *                                                                         *
  * *********************************************************************** */
 
-package tutorial.population.demandGenerationFromShapefile;
+package org.matsim.project;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.shape.random.RandomPointsBuilder;
 import org.apache.log4j.Logger;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
@@ -48,8 +45,6 @@ import org.matsim.core.utils.geometry.geotools.MGC;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.gis.ShapeFileReader;
 import org.opengis.feature.simple.SimpleFeature;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
 
 /**
  * This class generates a simple artificial MATSim demand for
@@ -74,7 +69,7 @@ public class RunPopulationMaximumCapacityShelters {
 
 	private static int ID = 0;
 
-	private static final String exampleDirectory = "C:\\\\Users\\\\orran\\\\Desktop\\\\TentativaMATSim\\\\Network\\\\";
+	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\";
 
 	public static void main(String [] args) throws IOException {
 		
@@ -111,7 +106,7 @@ public class RunPopulationMaximumCapacityShelters {
 		createPersons(scenario, ft, shelter, rnd, (int) 1800, ct); //this method creates the remaining activities
 		createActivities(scenario, rnd, shelter, ct);//this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\TentativaMATSim\\Network\\population1.xml";
+		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\population1.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -153,7 +148,7 @@ public class RunPopulationMaximumCapacityShelters {
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson( pers ) ;
 			Plan plan = pb.createPlan();
-			Point p = getRandomPointInFeature(rnd, ft);
+			org.locationtech.jts.geom.Point p = getRandomPointInFeature(rnd, ft);
 			Coord c = MGC.point2Coord(p);
 			c = ct.transform(c);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
@@ -162,12 +157,13 @@ public class RunPopulationMaximumCapacityShelters {
 		}
 	}
 
-	private static Point getRandomPointInFeature(Random rnd, SimpleFeature ft) {
+	private static org.locationtech.jts.geom.Point getRandomPointInFeature(Random rnd, SimpleFeature ft) {
 		
-        RandomPointsBuilder randomPointsBuilder = new RandomPointsBuilder(new GeometryFactory());
+        org.locationtech.jts.shape.random.RandomPointsBuilder randomPointsBuilder = new org.locationtech.jts.shape.random.RandomPointsBuilder(
+				new org.locationtech.jts.geom.GeometryFactory());
         randomPointsBuilder.setNumPoints(1);
-        randomPointsBuilder.setExtent( (Geometry)ft.getDefaultGeometry());
-        Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
+        randomPointsBuilder.setExtent( (org.locationtech.jts.geom.Geometry) ft.getDefaultGeometry());
+        org.locationtech.jts.geom.Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
         return MGC.coordinate2Point(coordinate);
         
 	}

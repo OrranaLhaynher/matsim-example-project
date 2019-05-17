@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-MATSimGUI<matsim-example-project>",
+            "request": "launch",
+            "mainClass": "org.matsim.gui.MATSimGUI",
+            "projectName": "matsim-example-project"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-PopulationGenerationRandomly<matsim-example-project>",
+            "request": "launch",
+            "mainClass": "org.matsim.project.PopulationGenerationRandomly",
+            "projectName": "matsim-example-project"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RunMatsim<matsim-example-project>",
+            "request": "launch",
+            "mainClass": "org.matsim.project.RunMatsim",
+            "projectName": "matsim-example-project"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RunMatsimFromExamplesUtils<matsim-example-project>",
+            "request": "launch",
+            "mainClass": "org.matsim.project.RunMatsimFromExamplesUtils",
+            "projectName": "matsim-example-project"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RunPopulation<matsim-example-project>",
+            "request": "launch",
+            "mainClass": "org.matsim.project.RunPopulation",
+            "projectName": "matsim-example-project"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-RunPopulationMaximumCapacityShelters<matsim-example-project>",
+            "request": "launch",
+            "mainClass": "org.matsim.project.RunPopulationMaximumCapacityShelters",
+            "projectName": "matsim-example-project"
+        }
+    ]
+}
