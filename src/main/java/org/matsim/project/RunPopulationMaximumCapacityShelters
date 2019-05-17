@@ -1,4 +1,23 @@
-package population;
+/* *********************************************************************** *
+ * project: org.matsim.*																															*
+ *                                                                         *
+ * *********************************************************************** *
+ *                                                                         *
+ * copyright       : (C) 2007 by the members listed in the COPYING,        *
+ *                   LICENSE and WARRANTY file.                            *
+ * email           : info at matsim dot org                                *
+ *                                                                         *
+ * *********************************************************************** *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *   See also COPYING, LICENSE and WARRANTY file                           *
+ *                                                                         *
+ * *********************************************************************** */
+
+package tutorial.population.demandGenerationFromShapefile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,11 +51,26 @@ import org.opengis.feature.simple.SimpleFeature;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
-public class RunDemandGenerationFromShapefileExample {
+/**
+ * This class generates a simple artificial MATSim demand for
+ * the german city Löbau. This is similar to the tutorial held
+ * at the MATSim user meeting 09 by glaemmel, however based on
+ * the matsim api.
+ *
+ * The files needed to run this tutorial are placed in the matsim examples
+ * repository that can be found in the root directory of the matsim
+ * sourceforge svn under the path matsimExamples/tutorial/example8DemandGeneration.
+ *
+ * @author glaemmel
+ * @author dgrether
+ *
+ */
+
+public class RunPopulationMaximumCapacityShelters {
 	
 	private static final String UTM33N = "PROJCS[\"WGS_1984_UTM_Zone_33N\",GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137,298.257223563]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",15],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"Meter\",1]]";
 
-	private static final Logger log = Logger.getLogger(RunDemandGenerationFromShapefileExample.class);
+	private static final Logger log = Logger.getLogger(RunPopulationMaximumCapacityShelters.class);
 
 	private static int ID = 0;
 
