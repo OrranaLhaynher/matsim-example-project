@@ -26,18 +26,6 @@ public class TestYen {
 		new MatsimNetworkReader(scenario.getNetwork()).readFile(NETWORKFILE);
 		net = scenario.getNetwork();
 
-        /* Example 2 */
-        //graphFilename = "edu/ufl/cise/bsmock/graph/ksp/test/tiny_graph_02.txt";
-        //sourceNode = "1";
-        //targetNode = "9";
-        //K = 10;
-
-        /* Example 3 */
-        //graphFilename = "edu/ufl/cise/bsmock/graph/ksp/test/small_road_network_01.txt";
-        //sourceNode = "5524";
-        //targetNode = "7239";
-        //K = 5;
-
         usageExample1(net,K);
     }
 
