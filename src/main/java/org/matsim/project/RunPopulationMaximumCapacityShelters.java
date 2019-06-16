@@ -116,9 +116,12 @@ public class RunPopulationMaximumCapacityShelters {
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need
-
+		int i = 0;
+		List<Coord> coord = new ArrayList<>();
+		coord = getShelter(ct);
+		
 		for (Person pers : pop.getPersons().values()) { //this loop iterates over all persons
-			int i = 0;
+			
 			Plan plan = pers.getPlans().get(0); //each person has exactly one plan, that has been created in createPersons(...)
 			Activity homeAct = (Activity) plan.getPlanElements().get(0); //every plan has only one activity so far (home activity)
 			homeAct.setEndTime(7*3600); // sets the endtime of this activity to 7 am
@@ -127,8 +130,6 @@ public class RunPopulationMaximumCapacityShelters {
 			plan.addLeg(leg); // there needs to be a log between two activities
 
 			//work activity on a random link within one of the commercial areas
-			List<Coord> coord = new ArrayList<>();
-			coord = getShelter(ct);
 			//Coord p = getRandomElement(coord);
 			Activity shelt = pb.createActivityFromCoord("shelter", new Coord((coord.get(i).getX()), (coord.get(i).getY()))); // sets the coordinates of shelters
 			double startTime = 8*3600;
