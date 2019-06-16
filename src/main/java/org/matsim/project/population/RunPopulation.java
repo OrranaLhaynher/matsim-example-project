@@ -33,7 +33,7 @@ public class RunPopulation {
 
 	private static int ID = 0;
 
-	private static final String exampleDirectory = "C:\\\\Users\\\\orran\\\\Desktop\\\\TentativaMATSim\\\\Network\\\\";
+	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\";
 
 	public static void main(String [] args) throws IOException {
 
@@ -69,7 +69,7 @@ public class RunPopulation {
 		createActivities(scenario, rnd, shelter); //this method creates the remaining activities
 		in.close();
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\\\\\\\TentativaMATSim\\\\\\\\Network\\\\\\\\pop.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\TentativaMATSim\\Network\\popULATION.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
