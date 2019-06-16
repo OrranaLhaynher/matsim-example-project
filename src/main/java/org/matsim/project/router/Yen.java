@@ -1,8 +1,6 @@
-package algorithm;
+package org.matsim.project.router;
 
-import java.nio.file.Path;
 import java.util.*;
-
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
@@ -13,7 +11,6 @@ import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
 import org.matsim.vehicles.Vehicle;
-import com.vividsolutions.jts.geomgraph.Edge;
 
 /**
  * Yen's algorithm for computing the K shortest loopless paths between two nodes in a graph.

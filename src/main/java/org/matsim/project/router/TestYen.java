@@ -1,4 +1,4 @@
-package algorithm;
+package org.matsim.project.router;
 
 import java.util.List;
 import org.matsim.api.core.v01.Id;
