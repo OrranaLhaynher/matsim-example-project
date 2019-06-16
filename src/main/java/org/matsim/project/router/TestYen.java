@@ -19,7 +19,7 @@ public class TestYen {
         /* Uncomment any of these example tests */
         int K = 4;
         Scenario scenario;
-        final String NETWORKFILE = "C:\\Users\\orran\\Desktop\\input\\input\\grid_network.xml";
+        final String NETWORKFILE = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\grid_network.xml";
         
         scenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
 		Network net; 
