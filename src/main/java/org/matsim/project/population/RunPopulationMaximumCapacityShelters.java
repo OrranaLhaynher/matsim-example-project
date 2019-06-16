@@ -17,7 +17,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.project;
+package org.matsim.project.population;
 
 import java.io.IOException;
 import java.util.ArrayList;
