@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v2.dtd">
+<config>
+	<module name="network">
+		<param name="inputNetworkFile" value="input/grid_network.xml"/>
+	</module>
+	<module name="plans">
+		<param name="inputPlansFile" value="input/plans.xml"/>
+	</module>
+	<module name="controler">
+		<param name="outputDirectory" value="output/router"/>
+		<param name="mobsim" value="qsim"/>
+		<param name="firstIteration" value="0"/>
+		<param name="lastIteration" value="0"/>
+		<param name="eventsFileFormat" value="xml"/>
+	</module>
+	<module name="qsim">
+		<param name="startTime" value="00:00:00"/>
+		<param name="endTime" value="24:00:00"/>
+		<param name="flowCapacityFactor" value="1.0"/>
+		<param name="storageCapacityFactor" value="1.0"/>
+		<param name="stuckTime" value="10"/>
+		<param name="removeStuckVehicles" value="yes"/>
+	</module>
+	
+	<module name="planCalcScore">
+		<param name="performing" value="+6"/>
+		<param name="lateArrival" value="-18.0"/>
+
+		<parameterset type="activityParams" >
+			<param name="activityType" value="home" />
+			<param name="typicalDuration" value="08:00:00" />
+		</parameterset>
+
+		<parameterset type="activityParams" >
+			<param name="activityType" value="work" />
+			<param name="typicalDuration" value="08:00:00" />
+			<param name="openingTime" value="07:00:00" />
+			<param name="latestStartTime" value="11:00:00" />
+			<param name="closingTime" value="20:00:00" />
+		</parameterset>
+
+
+	</module>
+	<module name="strategy">
+		<param name="maxAgentPlanMemorySize" value="5" /> <!-- 0 means unlimited -->
+
+		<param name="ModuleProbability_1" value="0.9" />
+		<param name="Module_1" value="BestScore" />
+
+		<param name="ModuleProbability_2" value="0.1" />
+		<param name="Module_2" value="ReRoute" />
+	</module>
+	
+</config>
