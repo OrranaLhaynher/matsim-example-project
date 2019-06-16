@@ -1,4 +1,4 @@
-package tutorial.population.demandGenerationFromShapefile;
+package org.matsim.project.population;
 
 import java.io.IOException;
 import java.util.ArrayList;
