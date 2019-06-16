@@ -106,7 +106,7 @@ public class RunPopulationMaximumCapacityShelters {
 		createPersons(scenario, ft, shelter, rnd, (int) 1800, ct); //this method creates the remaining activities
 		createActivities(scenario, rnd, shelter, ct);//this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\population1.xml";
+		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\population.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -150,9 +150,9 @@ public class RunPopulationMaximumCapacityShelters {
 			pop.addPerson( pers ) ;
 			Plan plan = pb.createPlan();
 			org.locationtech.jts.geom.Point p = getRandomPointInFeature(rnd, ft);
-			Coord c = MGC.point2Coord(p);
-			c = ct.transform(c);
-			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			//Coord c = MGC.point2Coord(p);
+			//c = ct.transform(c);
+			Activity act = pb.createActivityFromCoord("home", new Coord(p.getX(), p.getY()));
 			plan.addActivity(act);
 			pers.addPlan( plan ) ;
 		}
