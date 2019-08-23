@@ -130,7 +130,7 @@ public final class Yen implements LeastCostPathCalculator, Cloneable {
 	
 	                    // Root path = prefix portion of the (k-1)st path up to the spur node
 	                    // REFACTOR THIS
-						Path rootPath = (Path) previousPath.cloneTo(i);
+						Path rootPath = (Path) ((Yen) previousPath).cloneTo(i);
 	
 	                    /* Iterate over all of the (k-1) shortest paths */
 	                    for(Path p:ksp) {

@@ -158,14 +158,12 @@ public class RunPopulationMaximumCapacityShelters {
 	}
 
 	private static org.locationtech.jts.geom.Point getRandomPointInFeature(SimpleFeature ft) {
-		Random rnd = new Random();
         org.locationtech.jts.shape.random.RandomPointsBuilder randomPointsBuilder = new org.locationtech.jts.shape.random.RandomPointsBuilder(
 				new org.locationtech.jts.geom.GeometryFactory());
         randomPointsBuilder.setNumPoints(1);
         randomPointsBuilder.setExtent( (org.locationtech.jts.geom.Geometry) ft.getDefaultGeometry());
         org.locationtech.jts.geom.Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
         return MGC.coordinate2Point(coordinate);
-        
 	}
 	
     public static Coord getRandomElement(List<Coord> list){ 

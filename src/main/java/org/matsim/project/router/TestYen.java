@@ -15,7 +15,7 @@ import org.matsim.core.scenario.ScenarioUtils;
 
 public class TestYen {
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws CloneNotSupportedException {
         /* Uncomment any of these example tests */
         int K = 4;
         Scenario scenario;
@@ -29,7 +29,7 @@ public class TestYen {
         usageExample1(net,K);
     }
 
-    public static void usageExample1(Network network, int k) {
+    public static void usageExample1(Network network, int k) throws CloneNotSupportedException {
     	
         /* Read graph from file */
         System.out.print("Reading data from file... ");
