@@ -24,7 +24,7 @@ class NetworkGenerator {
 	// for this basic example UTM zone 33 North is the right coordinate system. This may differ depending on your scenario. See also http://en.wikipedia.org/wiki/Universal_Transverse_Mercator
 
 	public static void main(String [] args) throws SAXException {
-		String osm = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\evacuationArea.osm";
+		String osm = "C:\\Users\\orran\\Downloads\\map7.osm";
 
 		Scenario sc = ScenarioUtils.createScenario(ConfigUtils.createConfig()) ;
 		Network net = sc.getNetwork();

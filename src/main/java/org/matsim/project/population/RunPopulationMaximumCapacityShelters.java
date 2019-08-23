@@ -84,7 +84,6 @@ public class RunPopulationMaximumCapacityShelters {
 		SimpleFeatureSource fts = ShapeFileReader.readDataFile(zonesFile);
 		SimpleFeatureSource net = ShapeFileReader.readDataFile(networkFile);
 		
-		Random rnd = new Random();
 		SimpleFeature ft = null;
 		SimpleFeature shelter = null;
 
@@ -103,8 +102,8 @@ public class RunPopulationMaximumCapacityShelters {
 		it.close();
 		in.close();
 		
-		createPersons(scenario, ft, shelter, rnd, (int) 1800, ct); //this method creates the remaining activities
-		createActivities(scenario, rnd, shelter, ct);//this method creates the remaining activities
+		createPersons(scenario, ft, shelter, (int) 1800, ct); //this method creates the remaining activities
+		createActivities(scenario, shelter, ct);//this method creates the remaining activities
 		
 		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\population.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
@@ -112,7 +111,24 @@ public class RunPopulationMaximumCapacityShelters {
 		
 	}
 
-	private static void createActivities(Scenario scenario, Random rnd, SimpleFeature shelter, CoordinateTransformation ct) {
+	private static void createPersons(Scenario scenario, SimpleFeature ft, SimpleFeature shelter, int number, CoordinateTransformation ct) {
+		
+		Population pop = scenario.getPopulation();
+		PopulationFactory pb = pop.getFactory();
+		for (; number > 0; number--) {
+			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			pop.addPerson( pers ) ;
+			Plan plan = pb.createPlan();
+			org.locationtech.jts.geom.Point p = getRandomPointInFeature(ft);
+			Coord c = MGC.point2Coord(p);
+			c = ct.transform(c);
+			Activity act = pb.createActivityFromCoord("home", new Coord(p.getX(), p.getY()));
+			plan.addActivity(act);
+			pers.addPlan( plan ) ;
+		}
+	}
+
+	private static void createActivities(Scenario scenario, SimpleFeature shelter, CoordinateTransformation ct) {
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need
@@ -141,25 +157,8 @@ public class RunPopulationMaximumCapacityShelters {
 
 	}
 
-	private static void createPersons(Scenario scenario, SimpleFeature ft, SimpleFeature shelter, Random rnd, int number, CoordinateTransformation ct) {
-		
-		Population pop = scenario.getPopulation();
-		PopulationFactory pb = pop.getFactory();
-		for (; number > 0; number--) {
-			Person pers = pb.createPerson(Id.create(ID++, Person.class));
-			pop.addPerson( pers ) ;
-			Plan plan = pb.createPlan();
-			org.locationtech.jts.geom.Point p = getRandomPointInFeature(rnd, ft);
-			//Coord c = MGC.point2Coord(p);
-			//c = ct.transform(c);
-			Activity act = pb.createActivityFromCoord("home", new Coord(p.getX(), p.getY()));
-			plan.addActivity(act);
-			pers.addPlan( plan ) ;
-		}
-	}
-
-	private static org.locationtech.jts.geom.Point getRandomPointInFeature(Random rnd, SimpleFeature ft) {
-		
+	private static org.locationtech.jts.geom.Point getRandomPointInFeature(SimpleFeature ft) {
+		Random rnd = new Random();
         org.locationtech.jts.shape.random.RandomPointsBuilder randomPointsBuilder = new org.locationtech.jts.shape.random.RandomPointsBuilder(
 				new org.locationtech.jts.geom.GeometryFactory());
         randomPointsBuilder.setNumPoints(1);
