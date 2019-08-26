@@ -11,10 +11,10 @@ public class CSV {
 
     public static void main(String [] args) throws IOException {
 		String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\DATASET_final.csv";
-		String[][] data = new String[149][2];
+		String[][] data = new String[46][2];
 		data = getCSVData(csvFile);
 
-		for (int i = 0; i < 149; i++) {
+		for (int i = 0; i < 46; i++) {
 			for (int j = 0; j < 2; j++) {
 				System.out.println(data[i][j]);
 			}
@@ -27,7 +27,7 @@ public class CSV {
         String line = "";
         String cvsSplitBy = ",";
         String[] position = null;
-        String person[][] = new String[149][2];
+        String person[][] = new String[46][2];
 
         try {
 

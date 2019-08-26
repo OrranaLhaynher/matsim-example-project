@@ -39,7 +39,7 @@ public class PopulationNearShelter{
 	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
 	private static int ID = 0;
 	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
-	private static final String csvFile = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\dataset.csv";
+	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\RouteAnalysis\\dataset_before.csv";
 	
 	public static void main(String [] args) throws IOException {
 		
@@ -77,10 +77,10 @@ public class PopulationNearShelter{
 		in.close();
 		it.close();
 		
-		createPersons(scenario, hom, rnd, (int) 149, ct);
+		createPersons(scenario, hom, rnd, (int) 46, ct);
 		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population.xml";
+		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_before.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -116,7 +116,7 @@ public class PopulationNearShelter{
 	
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
-		String[][] position = new String[149][2];
+		String[][] position = new String[46][2];
 		position = CSV.getCSVData(csvFile);
 		int i = 0;
 		for (; number > 0; number--) {
