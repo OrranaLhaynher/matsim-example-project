@@ -134,7 +134,7 @@ public class PopulationNearShelter{
 	
 	public static  Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct, Activity home, Network network, MatsimClassDijkstra leastCost) {
 
-		Coord x = home.getCoord();				
+		/*Coord x = home.getCoord();				
 		Node node = NetworkUtils.getNearestNode((network), x); 
 		Node node1 = null;
 		List<Path> path = new ArrayList<Path>();
@@ -147,10 +147,11 @@ public class PopulationNearShelter{
     		//path.add(p);
     		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
     		path.add(p);
-		}
+		}*/
     	
-        //System.out.println(path);
-        return MGC.coord2Point(y.get(pos));
+		//System.out.println(path);
+		Coord c = ShelterCoord.getCoord(ct);
+        return MGC.coord2Point(c);
     	
     }
 

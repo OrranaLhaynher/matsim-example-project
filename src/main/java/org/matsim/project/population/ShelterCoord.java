@@ -9,7 +9,7 @@ import org.matsim.core.utils.geometry.CoordinateTransformation;
 
 public class ShelterCoord {
 	
-	public static List<Coord> getCoord(CoordinateTransformation ct) {
+	public static Coord getCoord(CoordinateTransformation ct) {
 		
 		Coord shelterHCES = new Coord ((double) -155.084807, (double) 19.721082);
 		Coord coordHCES = ct.transform(shelterHCES); 
@@ -44,7 +44,6 @@ public class ShelterCoord {
 		Coord shelterHPALM = new Coord ((double) -155.673607, (double) 20.024664);
 		Coord coordHPALM = ct.transform(shelterHPALM);
 		
-		//Coord coord;
 		List<Coord> list = new ArrayList<>(); 
 	     
 	    list.add(coordHCES);
@@ -59,8 +58,8 @@ public class ShelterCoord {
 	    list.add(coordHPA);
 	    list.add(coordHPALM);
 	    
-	    //coord = getRandomElement(list);
-	    return list;
+	    Coord coord = getRandomElement(list);
+	    return coord;
 	    
 	}
 	
