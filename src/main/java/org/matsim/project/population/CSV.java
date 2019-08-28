@@ -21,7 +21,7 @@ public class CSV {
 		}
 	}
 	
-    static String[][] getCSVData(String csvFile) {
+    public static String[][] getCSVData(String csvFile) {
 		
 		BufferedReader br = null;
         String line = "";

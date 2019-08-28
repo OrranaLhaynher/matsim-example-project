@@ -9,10 +9,12 @@
 
 	<module name="network">
 		<param name="inputNetworkFile" value="artigo.xml.gz" />
+		<param name="timeVariantNetwork" value="true" />
+		<param name="inputChangeEventsFile" value="networkChangeEvents.xml" />
 	</module>
 
 	<module name="plans">
-		<param name="inputPlansFile" value="population_before.xml.gz" />
+		<param name="inputPlansFile" value="population_after.xml.gz" />
 	</module>
 
 	<module name="controler">
