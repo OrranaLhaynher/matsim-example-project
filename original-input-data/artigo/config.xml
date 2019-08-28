@@ -14,7 +14,7 @@
 	</module>
 
 	<module name="plans">
-		<param name="inputPlansFile" value="population_after.xml.gz" />
+		<param name="inputPlansFile" value="population_before.xml.gz" />
 	</module>
 
 	<module name="controler">
