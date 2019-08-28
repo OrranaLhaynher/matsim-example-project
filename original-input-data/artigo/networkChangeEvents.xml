@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <networkChangeEvents xmlns="http://www.matsim.org/files/dtd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.matsim.org/files/dtd http://www.matsim.org/files/dtd/networkChangeEvents.xsd">
-    <networkChangeEvent startTime="07:40:00">
+    <networkChangeEvent startTime="08:20:00">
         <link refId="1"/>
         <link refId="10"/>
         <link refId="100"/>
