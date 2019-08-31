@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,14 +18,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.matsim.api.core.v01.Coord;
+import org.matsim.core.utils.geometry.CoordinateTransformation;
+import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
  
 public class Events{
- 
-    public static final String xmlFilePath = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\networkChangeEvents.xml";
-    public static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\RouteAnalysis\\linksID.csv";
+    
+    public static final String xmlFilePath = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\California\\networkChangeEvents.xml";
+    public static final String csvFile = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\California\\linksCalifornia.csv";
  
     public static void main(String argv[]) {
  
@@ -53,7 +58,7 @@ public class Events{
  
             // link element
             
-            String[][] id = new String[6994][1];
+            String[][] id = new String[8556][1];
             id = getCSVData(csvFile);
 
             for (int i=0; i<6994; i++){
@@ -94,7 +99,7 @@ public class Events{
         String line = "";
         String cvsSplitBy = ",";
         String[] position = null;
-        String link[][] = new String[6994][1];
+        String link[][] = new String[8556][1];
 
         try {
 
@@ -124,6 +129,6 @@ public class Events{
             }
         }
         return link;
-	}
+    }
 
 }

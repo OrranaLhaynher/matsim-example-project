@@ -75,7 +75,7 @@ public class PopulationGenerationRandomly {
 		createPersons(scenario, hom, rnd, (int) 1800, ct);
 		createActivities(scenario, rnd, shelter, ct); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\TentativaMATSim\\Network\\popul.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\TentativaMATSim\\Network\\populTeste.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		

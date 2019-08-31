@@ -4,15 +4,17 @@
 
 	<module name="global">
 		<param name="randomSeed" value="4711" />
-		<param name="coordinateSystem" value="UTM33N" />
+		<param name="coordinateSystem" value="EPSG:3311" />
 	</module>
 
 	<module name="network">
 		<param name="inputNetworkFile" value="network.xml.gz" />
+		<param name="timeVariantNetwork" value="true" />
+		<param name="inputChangeEventsFile" value="networkChangeEvents.xml" />
 	</module>
 
 	<module name="plans">
-		<param name="inputPlansFile" value="population1.xml.gz" />
+		<param name="inputPlansFile" value="population.xml.gz" />
 	</module>
 
 	<module name="controler">

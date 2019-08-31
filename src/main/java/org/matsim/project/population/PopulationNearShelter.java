@@ -1,7 +1,6 @@
 package org.matsim.project.population;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +13,6 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
 import org.matsim.api.core.v01.network.Network;
-import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Activity;
 import org.matsim.api.core.v01.population.Leg;
 import org.matsim.api.core.v01.population.Person;
@@ -23,9 +21,7 @@ import org.matsim.api.core.v01.population.Population;
 import org.matsim.api.core.v01.population.PopulationFactory;
 import org.matsim.api.core.v01.population.PopulationWriter;
 import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.network.io.MatsimNetworkReader;
-import org.matsim.core.router.util.LeastCostPathCalculator.Path;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.geotools.MGC;
@@ -37,9 +33,8 @@ public class PopulationNearShelter{
 	
 	private static final String UTM33N = "EPSG:2782";	
 	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
-	private static int ID = 0;
 	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
-	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\RouteAnalysis\\dataset_before.csv";
+	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\RouteAnalysis1\\dataset_after.csv";
 	
 	public static void main(String [] args) throws IOException {
 		
@@ -77,10 +72,11 @@ public class PopulationNearShelter{
 		in.close();
 		it.close();
 		
-		createPersons(scenario, hom, rnd, (int) 46, ct);
+		int columns = 3;
+		createPersons(scenario, hom, rnd, (int) 30, ct, columns);
 		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_before.xml";
+		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_after.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -90,6 +86,10 @@ public class PopulationNearShelter{
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need
+		String[] id = new String[3];
+		id[0] = "10699104971101079910497110";
+		id[1] = "111100100109971101111171165553";
+		id[2] = "99111103100101115105103110";
 
 		for (Person pers : pop.getPersons().values()) { //this loop iterates over all persons
 			
@@ -100,7 +100,21 @@ public class PopulationNearShelter{
 			Leg leg = pb.createLeg(TransportMode.car);
 			plan.addLeg(leg); // there needs to be a log between two activities
 
-			//work activity on a random link within one of the commercial areas
+			for (int i = 0; i < 3; i++) {
+				if(pers.getId().equals(Id.createPersonId(id[i]))){
+					List<Coord> coord = ShelterCoord.getCoordinates();
+					Activity mov = pb.createActivityFromCoord("mov", new Coord(coord.get(0).getX(), coord.get(0).getY()));
+					double startTime = 7.5*3600;
+					mov.setStartTime(startTime);
+					mov.setEndTime(startTime + 6*3600);
+					plan.addActivity(mov);
+	
+					Leg leg1 = pb.createLeg(TransportMode.car);
+					plan.addLeg(leg1); // there needs to be a log between two activities
+				} 
+			}
+
+			//shelter activity on a random shelter among the shelter set
 			org.locationtech.jts.geom.Point p = getShelterPointInFeature(rnd, shelter, ct, homeAct, network, leastCost);
 			Activity shelt = pb.createActivityFromCoord("shelter", new Coord(p.getX(), p.getY()));
 			double startTime = 8*3600;
@@ -112,18 +126,19 @@ public class PopulationNearShelter{
 
 	}
 
-	private static void createPersons(Scenario scenario, SimpleFeature ft, Random rnd, int number, CoordinateTransformation ct) {
+	private static void createPersons(Scenario scenario, SimpleFeature ft, Random rnd, int number, CoordinateTransformation ct, int col) {
 	
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
-		String[][] position = new String[46][2];
-		position = CSV.getCSVData(csvFile);
+		String[][] position = new String[number][col];
+		position = CSV.getCSVData(csvFile, number, col);
 		int i = 0;
+
 		for (; number > 0; number--) {
-			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			Person pers = pb.createPerson(Id.create(position[i][0], Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
-			Coord c = new Coord(Double.parseDouble(position[i][0]), Double.parseDouble(position[i][1]));
+			Coord c = new Coord(Double.parseDouble(position[i][1]), Double.parseDouble(position[i][2]));
 			Coord coord = ct.transform(c);
 			Activity act = pb.createActivityFromCoord("home", new Coord(coord.getX(), coord.getY()));
 			plan.addActivity(act);
@@ -131,8 +146,9 @@ public class PopulationNearShelter{
 			i++;
 		}
 	}
-	
-	public static  Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct, Activity home, Network network, MatsimClassDijkstra leastCost) {
+
+	public static Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct,
+			Activity home, Network network, MatsimClassDijkstra leastCost) {
 
 		/*Coord x = home.getCoord();				
 		Node node = NetworkUtils.getNearestNode((network), x); 
@@ -143,8 +159,6 @@ public class PopulationNearShelter{
     	
     	for (int i = 0; i < y.size(); i++) {
     		node1 = NetworkUtils.getNearestNode((network), y.get(i)); 
-    		//Path p = leastCost.calcLeastCostPath(node, node1, 0.0, null, null);
-    		//path.add(p);
     		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
     		path.add(p);
 		}*/
@@ -153,6 +167,6 @@ public class PopulationNearShelter{
 		Coord c = ShelterCoord.getCoord(ct);
         return MGC.coord2Point(c);
     	
-    }
+	}
 
 }

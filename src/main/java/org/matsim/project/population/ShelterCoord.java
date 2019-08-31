@@ -6,9 +6,17 @@ import java.util.Random;
 
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
+import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 
 public class ShelterCoord {
+
+	private static final String UTM33N = "EPSG:2782";
 	
+	public static void main(String[] args) {
+		List<Coord> coord = getCoordinates();
+		System.out.println(coord);
+	}
+
 	public static Coord getCoord(CoordinateTransformation ct) {
 		
 		Coord shelterHCES = new Coord ((double) -155.084807, (double) 19.721082);
@@ -66,6 +74,27 @@ public class ShelterCoord {
 	public static Coord getRandomElement(List<Coord> list){ 
         Random rand = new Random(); 
         return list.get(rand.nextInt(list.size())); 
-    } 
+	} 
+	
+	public static List<Coord> getCoordinates() {
+		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
+
+        Coord shelterHCES = new Coord ((double) -155.28821406, (double) 19.41980187);
+		Coord coordHCES = ct.transform(shelterHCES); 
+		
+		Coord shelterHSH = new Coord ((double) -155.086, (double) 19.7055);
+		Coord coordHSH = ct.transform(shelterHSH);
+		
+		Coord shelterUN = new Coord ((double) -154.92, (double) 19.4735);
+        Coord coordUN = ct.transform(shelterUN);
+        
+        List<Coord> list = new ArrayList<>(); 
+	     
+	    list.add(coordHCES);
+	    list.add(coordHSH);
+        list.add(coordUN);
+        
+        return list;
+    }
 
 }
