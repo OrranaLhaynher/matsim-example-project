@@ -46,15 +46,25 @@
 		<param name="activityPriority_0"        value="1" />
 		<param name="activityTypicalDuration_0" value="12:00:00" />
 		<param name="activityMinimalDuration_0" value="08:00:00" />
-	
-		<param name="activityType_1"            value="shelter" /> <!-- work -->
+		<param name="activityClosingTime_1"     value="07:00:00" />
+
+		<param name="activityType_1"            value="mov" /> <!-- mov -->
 		<param name="activityPriority_1"        value="1" />
-		<param name="activityTypicalDuration_1" value="08:00:00" />
-		<param name="activityMinimalDuration_1" value="06:00:00" />
-		<param name="activityOpeningTime_1"     value="08:00:00" />
-		<param name="activityLatestStartTime_1" value="09:00:00" />
+		<param name="activityTypicalDuration_1" value="00:30:00" />
+		<param name="activityMinimalDuration_1" value="00:10:00" />
+		<param name="activityOpeningTime_1"     value="07:30:00" />
+		<param name="activityLatestStartTime_1" value="07:40:00" />
 		<param name="activityEarliestEndTime_1" value="" />
-		<param name="activityClosingTime_1"     value="14:00:00" />
+		<param name="activityClosingTime_1"     value="13:30:00" />
+	
+		<param name="activityType_2"            value="shelter" /> <!-- work -->
+		<param name="activityPriority_2"        value="1" />
+		<param name="activityTypicalDuration_2" value="08:00:00" />
+		<param name="activityMinimalDuration_2" value="06:00:00" />
+		<param name="activityOpeningTime_2"     value="08:00:00" />
+		<param name="activityLatestStartTime_2" value="09:00:00" />
+		<param name="activityEarliestEndTime_2" value="" />
+		<param name="activityClosingTime_2"     value="14:00:00" />
 	</module>
 	
 	<module name="strategy">

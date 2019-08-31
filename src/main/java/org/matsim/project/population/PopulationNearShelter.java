@@ -106,7 +106,7 @@ public class PopulationNearShelter{
 					Activity mov = pb.createActivityFromCoord("mov", new Coord(coord.get(0).getX(), coord.get(0).getY()));
 					double startTime = 7.5*3600;
 					mov.setStartTime(startTime);
-					mov.setEndTime(startTime + 6*3600);
+					mov.setEndTime(startTime + 1*1800);
 					plan.addActivity(mov);
 	
 					Leg leg1 = pb.createLeg(TransportMode.car);
