@@ -11,10 +11,12 @@ import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 public class ShelterCoord {
 
 	private static final String UTM33N = "EPSG:2782";
-	
+	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\RouteAnalysis1\\dataset_after.csv";
+
 	public static void main(String[] args) {
-		List<Coord> coord = getCoordinates();
-		System.out.println(coord);
+		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
+		List<Coord> coord = getHomeCoordinates(30, ct, 3);
+		//System.out.println(coord);
 	}
 
 	public static Coord getCoord(CoordinateTransformation ct) {
@@ -79,13 +81,14 @@ public class ShelterCoord {
 	public static List<Coord> getCoordinates() {
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
 
-        Coord shelterHCES = new Coord ((double) -155.28821406, (double) 19.41980187);
+        Coord shelterHCES = new Coord (-155.28821406, 19.41980187);
 		Coord coordHCES = ct.transform(shelterHCES); 
+		System.out.println(shelterHCES);
 		
-		Coord shelterHSH = new Coord ((double) -155.086, (double) 19.7055);
+		Coord shelterHSH = new Coord (-155.086, 19.7055);
 		Coord coordHSH = ct.transform(shelterHSH);
 		
-		Coord shelterUN = new Coord ((double) -154.92, (double) 19.4735);
+		Coord shelterUN = new Coord (-154.92, 19.4735);
         Coord coordUN = ct.transform(shelterUN);
         
         List<Coord> list = new ArrayList<>(); 
@@ -93,6 +96,32 @@ public class ShelterCoord {
 	    list.add(coordHCES);
 	    list.add(coordHSH);
         list.add(coordUN);
+        
+        return list;
+	}
+	
+	public static List<Coord> getHomeCoordinates(int number, CoordinateTransformation ct, int col) {
+	
+		String[][] position = new String[number][col];
+		position = CSV.getCSVData(csvFile, number, col);
+		/*for (int i = 0; i < number; i++) {
+			for (int j = 0; j < col; j++) {
+				System.out.println(position[i][j]);		
+			}
+		} */
+		Double[][] coord = new Double[number][2];
+        Coord shelterHCES = new Coord (-155.28821406, 19.41980187);
+		Coord coordHCES = ct.transform(shelterHCES); 
+        
+		List<Coord> list = new ArrayList<>(); 
+		for (int i = 0; i < number; i++) {
+			for (int j = 0; j < 2; j++) {
+				//coord[i][0] = position[i][1];
+				//coord[i][1] = position[1][2];
+				//list.add(new Coord (Double.parseDouble(x), Double.parseDouble(y)));
+				System.out.println(Double.parseDouble(position[i][1])+ " " + Double.parseDouble(position[i][2]));
+			}
+		} 
         
         return list;
     }
