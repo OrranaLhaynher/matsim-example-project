@@ -34,7 +34,7 @@ public class PopulationNearShelter{
 	private static final String UTM33N = "EPSG:2782";	
 	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
 	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
-	private static final String csvFile = "C:\\Users\\orran\\Downloads\\dataset_before.csv";
+	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\dataset_after.csv";
 	
 	public static void main(String [] args) throws IOException {
 		
@@ -73,10 +73,10 @@ public class PopulationNearShelter{
 		it.close();
 		
 		int columns = 3;
-		createPersons(scenario, hom, rnd, (int) 50, ct, columns);
+		createPersons(scenario, hom, rnd, (int) 27, ct, columns);
 		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_before.xml";
+		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_after.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
