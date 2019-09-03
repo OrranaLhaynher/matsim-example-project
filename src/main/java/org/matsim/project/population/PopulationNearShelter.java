@@ -153,10 +153,10 @@ public class PopulationNearShelter{
 		Node node = NetworkUtils.getNearestNode((network), x); 
 		Node node1 = null;
 		List<Path> path = new ArrayList<Path>();
-    	List<Coord> y = ShelterCoord.getCoord(ct);
+		List<Coord> y = ShelterCoord.getCoord(ct);
     	int pos = 0;
-    	
-    	for (int i = 0; i < y.size(); i++) {
+		
+		for (int i = 0; i < y.size(); i++) {
     		node1 = NetworkUtils.getNearestNode((network), y.get(i)); 
     		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
     		path.add(p);
