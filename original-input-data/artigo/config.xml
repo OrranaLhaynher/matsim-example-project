@@ -14,7 +14,7 @@
 	</module>
 
 	<module name="plans">
-		<param name="inputPlansFile" value="population_before.xml.gz" />
+		<param name="inputPlansFile" value="population_after.xml.gz" />
 	</module>
 
 	<module name="controler">
@@ -59,6 +59,8 @@
 	
 		<param name="activityType_2"            value="shelter" /> <!-- work -->
 		<param name="activityPriority_2"        value="1" />
+		<param name="activityTypicalDuration_2" value="20:00:00" />
+		<param name="activityMinimalDuration_2" value="06:00:00" />
 		<param name="activityOpeningTime_2"     value="08:00:00" />
 		<param name="activityLatestStartTime_2" value="09:00:00" />
 		<param name="activityEarliestEndTime_2" value="" />

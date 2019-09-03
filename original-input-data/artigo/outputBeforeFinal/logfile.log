@@ -1,0 +1,1883 @@
+2019-09-03 13:31:28,217  INFO Gbl:59 JVM: 1.8.0_211; Oracle Corporation; mixed mode; 64-bit
+2019-09-03 13:31:28,218  INFO Gbl:63 OS: Windows 10; 10.0; amd64
+2019-09-03 13:31:28,218  INFO Gbl:66 CPU cores: 4
+2019-09-03 13:31:28,218  INFO Gbl:67 max. Memory: 3556.0MB (3728736256B)
+2019-09-03 13:31:28,220  INFO Gbl:105 MATSim-Build: r2e52cf1f54a31596d20f378d536f9dd7a0a860bb (2018-08-25 22:17:05)
+2019-09-03 13:31:28,223  INFO ControlerListenerManagerImpl:107 calling notifyStartup on org.matsim.counts.CountsControlerListener
+2019-09-03 13:31:28,223  INFO ControlerListenerManagerImpl:107 calling notifyStartup on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:28,231 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:28,233  INFO NetworkImpl:167  node # 1
+2019-09-03 13:31:28,234  INFO NetworkImpl:167  node # 4
+2019-09-03 13:31:28,235  INFO NetworkImpl:167  node # 16
+2019-09-03 13:31:28,236  INFO NetworkImpl:167  node # 64
+2019-09-03 13:31:28,237  INFO NetworkImpl:167  node # 256
+2019-09-03 13:31:28,238  INFO NetworkImpl:167  node # 1024
+2019-09-03 13:31:28,242  INFO NetworkImpl:167  node # 4096
+2019-09-03 13:31:28,253  INFO NetworkImpl:167  node # 16384
+2019-09-03 13:31:28,255  INFO NetworkImpl:163  link # 1
+2019-09-03 13:31:28,257  INFO NetworkImpl:163  link # 4
+2019-09-03 13:31:28,261  INFO NetworkImpl:163  link # 16
+2019-09-03 13:31:28,264  INFO NetworkImpl:163  link # 64
+2019-09-03 13:31:28,269  INFO NetworkImpl:163  link # 256
+2019-09-03 13:31:28,282  INFO NetworkImpl:163  link # 1024
+2019-09-03 13:31:28,302  INFO NetworkImpl:163  link # 4096
+2019-09-03 13:31:28,332  INFO NetworkImpl:163  link # 16384
+2019-09-03 13:31:28,415  INFO ControlerListenerManagerImpl:107 calling notifyStartup on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:28,416  INFO ControlerListenerManagerImpl:110 all ControlerStartupListeners called.
+2019-09-03 13:31:28,416  INFO ControlerUtils:58 config dump before iterations start
+2019-09-03 13:31:28,421  INFO Config:561 setting context to [file:/C:/Users/orran/OneDrive/Documentos/GitHub/matsim-example-project/original-input-data/artigo/]
+2019-09-03 13:31:28,437  INFO ControlerUtils:62 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config SYSTEM "http://www.matsim.org/files/dtd/config_v2.dtd">
+<config>
+<!-- ====================================================================== -->
+	<module name="JDEQSim" >
+		<param name="carSize" value="7.5" />
+		<param name="endTime" value="undefined" />
+		<param name="flowCapacityFactor" value="1.0" />
+		<param name="gapTravelSpeed" value="15.0" />
+		<param name="minimumInFlowCapacity" value="1800.0" />
+		<param name="squeezeTime" value="1800.0" />
+		<param name="storageCapacityFactor" value="1.0" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="TimeAllocationMutator" >
+		<!-- Default:true; Defines whether time mutation changes an activity's duration. -->
+		<param name="mutationAffectsDuration" value="true" />
+		<!-- Default:1800.0; Defines how many seconds a time mutation can maximally shift a time. -->
+		<param name="mutationRange" value="1800.0" />
+		<!-- false; Use individual settings for each subpopulation. If enabled but no settings are found, regular settings are uses as fallback. -->
+		<param name="useIndividualSettingsForSubpopulations" value="false" />
+	</module>
+<!-- ====================================================================== -->
+<!-- ====================================================================== -->
+	<module name="changeMode" >
+		<param name="ignoreCarAvailability" value="true" />
+		<param name="modes" value="car,pt" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="controler" >
+		<!-- Sets whether graphs showing some analyses should automatically be generated during the simulation. The generation of graphs usually takes a small amount of time that does not have any weight in big simulations, but add a significant overhead in smaller runs or in test cases where the graphical output is not even requested. -->
+		<param name="createGraphs" value="true" />
+		<!-- true if at the end of a run, plans, network, config etc should be dumped to a file -->
+		<param name="dumpDataAtEnd" value="true" />
+		<!-- Default=false. If enabled, the router takes travel times needed for turning moves into account. Cannot be used if the (Fast)AStarLandmarks routing or TravelTimeCalculator.separateModes is enabled. -->
+		<param name="enableLinkToLinkRouting" value="false" />
+		<!-- Default=xml; Specifies the file format for writing events. Currently supported: xml.
+		Multiple values can be specified separated by commas (','). -->
+		<param name="eventsFileFormat" value="xml" />
+		<!-- Default=0;  -->
+		<param name="firstIteration" value="0" />
+		<!-- Default=1000;  -->
+		<param name="lastIteration" value="5" />
+		<!-- Defines which mobility simulation will be used. Currently supported: qsim JDEQSim 
+		Depending on the chosen mobsim, you'll have to add additional config modules to configure the corresponding mobsim.
+		For 'qsim', add a module 'qsim' to the config. -->
+		<param name="mobsim" value="qsim" />
+		<param name="outputDirectory" value="./output" />
+		<!-- Possible values: failIfDirectoryExists, overwriteExistingFiles, deleteDirectoryIfExists -->
+		<param name="overwriteFiles" value="failIfDirectoryExists" />
+		<!-- The type of routing (least cost path) algorithm used, may have the values: Dijkstra, FastDijkstra, AStarLandmarks or FastAStarLandmarks -->
+		<param name="routingAlgorithmType" value="Dijkstra" />
+		<!-- An identifier for the current run which is used as prefix for output files and mentioned in output xml files etc. -->
+		<param name="runId" value="null" />
+		<!-- Comma-separated list of visualizer output file formats. `transims', `googleearth', and `otfvis'. -->
+		<param name="snapshotFormat" value="" />
+		<!-- iterationNumber % writeEventsInterval == 0 defines in which iterations events are written to a file. `0' disables events writing completely. -->
+		<param name="writeEventsInterval" value="1" />
+		<!-- iterationNumber % writePlansInterval == 0 defines (hopefully) in which iterations plans are written to a file. `0' disables plans writing completely.  Some plans in early iterations are always written -->
+		<param name="writePlansInterval" value="10" />
+		<!-- iterationNumber % writeSnapshotsInterval == 0 defines in which iterations snapshots are written to a file. `0' disables snapshots writing completely -->
+		<param name="writeSnapshotsInterval" value="1" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="counts" >
+		<!-- Transport modes that will be respected for the counts comparison. 'car' is default, which includes also bussed from the pt simulation module. Use this parameter in combination with 'filterModes' = true! -->
+		<param name="analyzedModes" value="car" />
+		<!-- Specifies over how many iterations the link volumes should be averaged that are used for the counts comparison. Use 1 or 0 to only use the link volumes of a single iteration. This values cannot be larger than the value specified for writeCountsInterval -->
+		<param name="averageCountsOverIterations" value="5" />
+		<!-- factor by which to re-scale the simulated values.  necessary when simulation runs with something different from 100%.  needs to be adapted manually -->
+		<param name="countsScaleFactor" value="1.0" />
+		<!-- distance to distanceFilterCenterNode to include counting stations. The unit of distance is the Euclidean distance implied by the coordinate system -->
+		<param name="distanceFilter" value="null" />
+		<!-- node id for center node of distance filter -->
+		<param name="distanceFilterCenterNode" value="null" />
+		<!-- If true, link counts from legs performed on modes not included in the 'analyzedModes' parameter are ignored. -->
+		<param name="filterModes" value="false" />
+		<!-- The Coordinates Reference System in which the coordinates are expressed in the input file. At import, the coordinates will be converted to the coordinate system defined in "global", and willbe converted back at export. If not specified, no conversion happens. -->
+		<param name="inputCRS" value="null" />
+		<!-- input file name to counts package -->
+		<param name="inputCountsFile" value="null" />
+		<!-- possible values: `html', `kml', `txt', `all' -->
+		<param name="outputformat" value="txt" />
+		<!-- Specifies how often the counts comparison should be calculated and written. -->
+		<param name="writeCountsInterval" value="10" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="facilities" >
+		<!-- If set to 'true', empty activity option will be created. -->
+		<param name="addEmptyActivityOption" value="false" />
+		<!-- Default is 'true'. In the case that a facility has no link assigned, the ActivityFacility can be assigned to the closest link. If there should be only one ActivityFacility per link and if no link-assignment should be done, set to 'false'.This will create a new ActivityFacility at the coordinate and the facility will not be assigned to a link. -->
+		<param name="assigningLinksToFacilitiesIfMissing" value="true" />
+		<!-- If set to 'true', opening time will be assigned to activity facilities from ActivityParams. Default is false. This will NOT override option 'addEmptyActivityOption'. -->
+		<param name="assigningOpeningTime" value="false" />
+		<!-- This defines how facilities should be created. Possible values: none fromFile setInScenario onePerActivityLocationInPlansFile  -->
+		<param name="facilitiesSource" value="none" />
+		<!-- A prefix to be used in activityFacility id. -->
+		<param name="idPrefix" value="" />
+		<!-- The Coordinates Reference System in which the coordinates are expressed in the input file. At import, the coordinates will be converted to the coordinate system defined in "global", and willbe converted back at export. If not specified, no conversion happens. -->
+		<param name="inputCRS" value="null" />
+		<param name="inputFacilitiesFile" value="null" />
+		<param name="inputFacilityAttributesFile" value="null" />
+		<!-- Sets whether all activities on a link should be collected within one ActivityFacility. Default is 'true'. If set to 'false', for each coordinate found in the population's activities a separate ActivityFacility will be created. -->
+		<param name="oneFacilityPerLink" value="true" />
+		<!-- If set to 'true' (which is the default), the link and coordinate attributes are replaced by null reference in the activities, as this information is now available via the facility. -->
+		<param name="removingLinksAndCoordinates" value="true" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="global" >
+		<param name="coordinateSystem" value="EPSG:2782" />
+		<param name="insistingOnDeprecatedConfigVersion" value="true" />
+		<!-- "global" number of threads.  This number is used, e.g., for replanning, but NOT in the mobsim.  This can typically be set to as many cores as you have available, or possibly even slightly more. -->
+		<param name="numberOfThreads" value="2" />
+		<param name="randomSeed" value="4711" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="households" >
+		<param name="inputFile" value="null" />
+		<param name="inputHouseholdAttributesFile" value="null" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="linkStats" >
+		<!-- Specifies over how many iterations the link volumes should be averaged that are used for the link statistics. Use 1 or 0 to only use the link volumes of a single iteration. This values cannot be larger than the value specified for writeLinkStatsInterval -->
+		<param name="averageLinkStatsOverIterations" value="5" />
+		<!-- Specifies how often the link stats should be calculated and written. Use 0 to disable the generation of link stats. -->
+		<param name="writeLinkStatsInterval" value="10" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="network" >
+		<!-- The Coordinates Reference System in which the coordinates are expressed in the input file. At import, the coordinates will be converted to the coordinate system defined in "global", and willbe converted back at export. If not specified, no conversion happens. -->
+		<param name="inputCRS" value="null" />
+		<param name="inputChangeEventsFile" value="null" />
+		<param name="inputNetworkFile" value="artigo.xml.gz" />
+		<param name="laneDefinitionsFile" value="null" />
+		<param name="timeVariantNetwork" value="false" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="parallelEventHandling" >
+		<!-- Estimated number of events during mobsim run. An optional optimization hint for the framework. -->
+		<param name="estimatedNumberOfEvents" value="null" />
+		<!-- Number of threads for parallel events handler. _null_ means the framework decides by itself. 0 is currently not possible. -->
+		<param name="numberOfThreads" value="null" />
+		<!-- If enabled, each event handler is assigned to its own thread. Note that enabling this feature disabled the numberOfThreads option! This feature is still experimental! -->
+		<param name="oneThreadPerHandler" value="false" />
+		<!-- If enabled, it is ensured that all events that are created during a time step of the mobility simulation are processed before the next time step is simulated. E.g. neccessary when within-day replanning is used. -->
+		<param name="synchronizeOnSimSteps" value="true" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="planCalcScore" >
+		<!-- logit model scale parameter. default: 1.  Has name and default value for historical reasons (see Bryan Raney's phd thesis). -->
+		<param name="BrainExpBeta" value="2.0" />
+		<param name="PathSizeLogitBeta" value="1.0" />
+		<!-- fraction of iterations at which MSA score averaging is started. The matsim theory department suggests to use this together with switching off choice set innovation (where a similar switch exists), but it has not been tested yet. -->
+		<param name="fractionOfIterationsToStartScoreMSA" value="null" />
+		<!-- new_score = (1-learningRate)*old_score + learningRate * score_from_mobsim.  learning rates close to zero emulate score averaging, but slow down initial convergence -->
+		<param name="learningRate" value="1.0" />
+		<!-- There used to be a plateau between duration=0 and duration=zeroUtilityDuration. This caused durations to evolve to zero once they were below zeroUtilityDuration, causing problems.  Only use this switch if you need to be backwards compatible with some old results.  (changed nov'13) -->
+		<param name="usingOldScoringBelowZeroUtilityDuration" value="false" />
+		<!-- write a plans file in each iteration directory which contains what each agent actually did, and the score it received. -->
+		<param name="writeExperiencedPlans" value="false" />
+		<parameterset type="scoringParameters" >
+			<param name="earlyDeparture" value="-0.0" />
+			<param name="lateArrival" value="-18.0" />
+			<param name="marginalUtilityOfMoney" value="1.0" />
+			<param name="performing" value="6.0" />
+			<param name="subpopulation" value="null" />
+			<param name="utilityOfLineSwitch" value="-1.0" />
+			<param name="waiting" value="-0.0" />
+			<param name="waitingPt" value="-6.0" />
+			<parameterset type="activityParams" >
+				<param name="activityType" value="dummy" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="undefined" />
+				<param name="minimalDuration" value="undefined" />
+				<param name="openingTime" value="undefined" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="true" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="02:00:00" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="car interaction" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="undefined" />
+				<param name="minimalDuration" value="undefined" />
+				<param name="openingTime" value="undefined" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="false" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="undefined" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="pt interaction" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="undefined" />
+				<param name="minimalDuration" value="undefined" />
+				<param name="openingTime" value="undefined" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="false" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="undefined" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="bike interaction" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="undefined" />
+				<param name="minimalDuration" value="undefined" />
+				<param name="openingTime" value="undefined" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="false" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="undefined" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="other interaction" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="undefined" />
+				<param name="minimalDuration" value="undefined" />
+				<param name="openingTime" value="undefined" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="false" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="undefined" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="walk interaction" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="undefined" />
+				<param name="minimalDuration" value="undefined" />
+				<param name="openingTime" value="undefined" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="false" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="undefined" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="home" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="undefined" />
+				<param name="minimalDuration" value="08:00:00" />
+				<param name="openingTime" value="undefined" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="true" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="12:00:00" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="mov" />
+				<param name="closingTime" value="13:30:00" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="07:40:00" />
+				<param name="minimalDuration" value="00:10:00" />
+				<param name="openingTime" value="07:30:00" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="true" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="00:30:00" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="activityParams" >
+				<param name="activityType" value="shelter" />
+				<param name="closingTime" value="undefined" />
+				<param name="earliestEndTime" value="undefined" />
+				<param name="latestStartTime" value="09:00:00" />
+				<param name="minimalDuration" value="06:00:00" />
+				<param name="openingTime" value="08:00:00" />
+				<param name="priority" value="1.0" />
+				<param name="scoringThisActivityAtAll" value="true" />
+				<!-- typical duration of activity.  needs to be defined and non-zero.  in sec. -->
+				<param name="typicalDuration" value="20:00:00" />
+				<!-- method to compute score at typical duration.  Options: | uniform | relative | Use uniform for backwards compatibility (all activities same score; higher proba to drop long acts). -->
+				<param name="typicalDurationScoreComputation" value="relative" />
+			</parameterset>
+			<parameterset type="modeParams" >
+				<!-- [utils] alternative-specific constant.  no guarantee that this is used anywhere. default=0 to be backwards compatible for the time being -->
+				<param name="constant" value="0.0" />
+				<!-- [utils/m] utility of walking per m, normally negative.  this is on top of the time (dis)utility. -->
+				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
+				<!-- [utils/hr] additional marginal utility of traveling.  normally negative.  this comes on top of the opportunity cost of time -->
+				<param name="marginalUtilityOfTraveling_util_hr" value="-6.0" />
+				<param name="mode" value="car" />
+				<!-- [unit_of_money/m] conversion of distance into money. Normally negative. -->
+				<param name="monetaryDistanceRate" value="0.0" />
+			</parameterset>
+			<parameterset type="modeParams" >
+				<!-- [utils] alternative-specific constant.  no guarantee that this is used anywhere. default=0 to be backwards compatible for the time being -->
+				<param name="constant" value="0.0" />
+				<!-- [utils/m] utility of walking per m, normally negative.  this is on top of the time (dis)utility. -->
+				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
+				<!-- [utils/hr] additional marginal utility of traveling.  normally negative.  this comes on top of the opportunity cost of time -->
+				<param name="marginalUtilityOfTraveling_util_hr" value="-6.0" />
+				<param name="mode" value="pt" />
+				<!-- [unit_of_money/m] conversion of distance into money. Normally negative. -->
+				<param name="monetaryDistanceRate" value="0.0" />
+			</parameterset>
+			<parameterset type="modeParams" >
+				<!-- [utils] alternative-specific constant.  no guarantee that this is used anywhere. default=0 to be backwards compatible for the time being -->
+				<param name="constant" value="0.0" />
+				<!-- [utils/m] utility of walking per m, normally negative.  this is on top of the time (dis)utility. -->
+				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
+				<!-- [utils/hr] additional marginal utility of traveling.  normally negative.  this comes on top of the opportunity cost of time -->
+				<param name="marginalUtilityOfTraveling_util_hr" value="-6.0" />
+				<param name="mode" value="walk" />
+				<!-- [unit_of_money/m] conversion of distance into money. Normally negative. -->
+				<param name="monetaryDistanceRate" value="0.0" />
+			</parameterset>
+			<parameterset type="modeParams" >
+				<!-- [utils] alternative-specific constant.  no guarantee that this is used anywhere. default=0 to be backwards compatible for the time being -->
+				<param name="constant" value="0.0" />
+				<!-- [utils/m] utility of walking per m, normally negative.  this is on top of the time (dis)utility. -->
+				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
+				<!-- [utils/hr] additional marginal utility of traveling.  normally negative.  this comes on top of the opportunity cost of time -->
+				<param name="marginalUtilityOfTraveling_util_hr" value="-6.0" />
+				<param name="mode" value="bike" />
+				<!-- [unit_of_money/m] conversion of distance into money. Normally negative. -->
+				<param name="monetaryDistanceRate" value="0.0" />
+			</parameterset>
+			<parameterset type="modeParams" >
+				<!-- [utils] alternative-specific constant.  no guarantee that this is used anywhere. default=0 to be backwards compatible for the time being -->
+				<param name="constant" value="0.0" />
+				<!-- [utils/m] utility of walking per m, normally negative.  this is on top of the time (dis)utility. -->
+				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
+				<!-- [utils/hr] additional marginal utility of traveling.  normally negative.  this comes on top of the opportunity cost of time -->
+				<param name="marginalUtilityOfTraveling_util_hr" value="-6.0" />
+				<param name="mode" value="ride" />
+				<!-- [unit_of_money/m] conversion of distance into money. Normally negative. -->
+				<param name="monetaryDistanceRate" value="0.0" />
+			</parameterset>
+			<parameterset type="modeParams" >
+				<!-- [utils] alternative-specific constant.  no guarantee that this is used anywhere. default=0 to be backwards compatible for the time being -->
+				<param name="constant" value="0.0" />
+				<!-- [utils/m] utility of walking per m, normally negative.  this is on top of the time (dis)utility. -->
+				<param name="marginalUtilityOfDistance_util_m" value="0.0" />
+				<!-- [utils/hr] additional marginal utility of traveling.  normally negative.  this comes on top of the opportunity cost of time -->
+				<param name="marginalUtilityOfTraveling_util_hr" value="-6.0" />
+				<param name="mode" value="other" />
+				<!-- [unit_of_money/m] conversion of distance into money. Normally negative. -->
+				<param name="monetaryDistanceRate" value="0.0" />
+			</parameterset>
+		</parameterset>
+	</module>
+<!-- ====================================================================== -->
+	<module name="plans" >
+		<!-- String: minOfDurationAndEndTime tryEndTimeThenDuration endTimeOnly. Anything besides minOfDurationAndEndTime will internally use a different (simpler) version of the TimeAllocationMutator. -->
+		<param name="activityDurationInterpretation" value="tryEndTimeThenDuration" />
+		<!-- The Coordinates Reference System in which the coordinates are expressed in the input file. At import, the coordinates will be converted to the coordinate system defined in "global", and willbe converted back at export. If not specified, no conversion happens. -->
+		<param name="inputCRS" value="null" />
+		<!-- Path to a file containing person attributes (required file format: ObjectAttributes). -->
+		<param name="inputPersonAttributesFile" value="null" />
+		<param name="inputPlansFile" value="population_before.xml.gz" />
+		<!-- Defines how routes are stored in memory. Currently supported: LinkNetworkRoute, CompressedNetworkRoute. -->
+		<param name="networkRouteType" value="LinkNetworkRoute" />
+		<!-- (not tested) will remove plan attributes that are presumably not used, such as activityStartTime. default=false -->
+		<param name="removingUnnecessaryPlanAttributes" value="false" />
+		<!-- Name of the (Object)Attribute defining the subpopulation to which pertains a Person (as freight, through traffic, etc.). The attribute must be of String type.  Change away from default only in desperate situations. -->
+		<param name="subpopulationAttributeName" value="subpopulation" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="planscalcroute" >
+		<!-- All the modes for which the router is supposed to generate network routes (like car) -->
+		<param name="networkModes" value="car" />
+		<parameterset type="teleportedModeParameters" >
+			<param name="beelineDistanceFactor" value="1.3" />
+			<param name="mode" value="bike" />
+			<!-- Free-speed factor for a teleported mode. Travel time = teleportedModeFreespeedFactor * <freespeed car travel time>. Insert a line like this for every such mode. Please do not set teleportedModeFreespeedFactor as well as teleportedModeSpeed for the same mode, but if you do, +teleportedModeFreespeedFactor wins over teleportedModeSpeed. -->
+			<param name="teleportedModeFreespeedFactor" value="null" />
+			<!-- Speed for a teleported mode. Travel time = (<beeline distance> * beelineDistanceFactor) / teleportedModeSpeed. Insert a line like this for every such mode. -->
+			<param name="teleportedModeSpeed" value="4.166666666666667" />
+		</parameterset>
+		<parameterset type="teleportedModeParameters" >
+			<param name="beelineDistanceFactor" value="1.3" />
+			<param name="mode" value="walk" />
+			<!-- Free-speed factor for a teleported mode. Travel time = teleportedModeFreespeedFactor * <freespeed car travel time>. Insert a line like this for every such mode. Please do not set teleportedModeFreespeedFactor as well as teleportedModeSpeed for the same mode, but if you do, +teleportedModeFreespeedFactor wins over teleportedModeSpeed. -->
+			<param name="teleportedModeFreespeedFactor" value="null" />
+			<!-- Speed for a teleported mode. Travel time = (<beeline distance> * beelineDistanceFactor) / teleportedModeSpeed. Insert a line like this for every such mode. -->
+			<param name="teleportedModeSpeed" value="0.8333333333333333" />
+		</parameterset>
+		<parameterset type="teleportedModeParameters" >
+			<param name="beelineDistanceFactor" value="1.3" />
+			<param name="mode" value="access_walk" />
+			<!-- Free-speed factor for a teleported mode. Travel time = teleportedModeFreespeedFactor * <freespeed car travel time>. Insert a line like this for every such mode. Please do not set teleportedModeFreespeedFactor as well as teleportedModeSpeed for the same mode, but if you do, +teleportedModeFreespeedFactor wins over teleportedModeSpeed. -->
+			<param name="teleportedModeFreespeedFactor" value="null" />
+			<!-- Speed for a teleported mode. Travel time = (<beeline distance> * beelineDistanceFactor) / teleportedModeSpeed. Insert a line like this for every such mode. -->
+			<param name="teleportedModeSpeed" value="0.8333333333333333" />
+		</parameterset>
+		<parameterset type="teleportedModeParameters" >
+			<param name="beelineDistanceFactor" value="1.3" />
+			<param name="mode" value="egress_walk" />
+			<!-- Free-speed factor for a teleported mode. Travel time = teleportedModeFreespeedFactor * <freespeed car travel time>. Insert a line like this for every such mode. Please do not set teleportedModeFreespeedFactor as well as teleportedModeSpeed for the same mode, but if you do, +teleportedModeFreespeedFactor wins over teleportedModeSpeed. -->
+			<param name="teleportedModeFreespeedFactor" value="null" />
+			<!-- Speed for a teleported mode. Travel time = (<beeline distance> * beelineDistanceFactor) / teleportedModeSpeed. Insert a line like this for every such mode. -->
+			<param name="teleportedModeSpeed" value="0.8333333333333333" />
+		</parameterset>
+		<parameterset type="teleportedModeParameters" >
+			<param name="beelineDistanceFactor" value="1.3" />
+			<param name="mode" value="undefined" />
+			<!-- Free-speed factor for a teleported mode. Travel time = teleportedModeFreespeedFactor * <freespeed car travel time>. Insert a line like this for every such mode. Please do not set teleportedModeFreespeedFactor as well as teleportedModeSpeed for the same mode, but if you do, +teleportedModeFreespeedFactor wins over teleportedModeSpeed. -->
+			<param name="teleportedModeFreespeedFactor" value="null" />
+			<!-- Speed for a teleported mode. Travel time = (<beeline distance> * beelineDistanceFactor) / teleportedModeSpeed. Insert a line like this for every such mode. -->
+			<param name="teleportedModeSpeed" value="13.88888888888889" />
+		</parameterset>
+		<parameterset type="teleportedModeParameters" >
+			<param name="beelineDistanceFactor" value="1.3" />
+			<param name="mode" value="ride" />
+			<!-- Free-speed factor for a teleported mode. Travel time = teleportedModeFreespeedFactor * <freespeed car travel time>. Insert a line like this for every such mode. Please do not set teleportedModeFreespeedFactor as well as teleportedModeSpeed for the same mode, but if you do, +teleportedModeFreespeedFactor wins over teleportedModeSpeed. -->
+			<param name="teleportedModeFreespeedFactor" value="1.0" />
+			<!-- Speed for a teleported mode. Travel time = (<beeline distance> * beelineDistanceFactor) / teleportedModeSpeed. Insert a line like this for every such mode. -->
+			<param name="teleportedModeSpeed" value="null" />
+		</parameterset>
+		<parameterset type="teleportedModeParameters" >
+			<param name="beelineDistanceFactor" value="1.3" />
+			<param name="mode" value="pt" />
+			<!-- Free-speed factor for a teleported mode. Travel time = teleportedModeFreespeedFactor * <freespeed car travel time>. Insert a line like this for every such mode. Please do not set teleportedModeFreespeedFactor as well as teleportedModeSpeed for the same mode, but if you do, +teleportedModeFreespeedFactor wins over teleportedModeSpeed. -->
+			<param name="teleportedModeFreespeedFactor" value="2.0" />
+			<!-- Speed for a teleported mode. Travel time = (<beeline distance> * beelineDistanceFactor) / teleportedModeSpeed. Insert a line like this for every such mode. -->
+			<param name="teleportedModeSpeed" value="null" />
+		</parameterset>
+	</module>
+<!-- ====================================================================== -->
+	<module name="ptCounts" >
+		<!-- factor by which to re-scale the simulated values.  necessary when simulation runs with something different from 100%.  needs to be adapted manually -->
+		<param name="countsScaleFactor" value="1.0" />
+		<!-- distance to distanceFilterCenterNode to include counting stations. The unit of distance is the Euclidean distance implied by the coordinate system -->
+		<param name="distanceFilter" value="null" />
+		<!-- node id for center node of distance filter -->
+		<param name="distanceFilterCenterNode" value="null" />
+		<!-- input file containing the alighting (getting off) counts for pt -->
+		<param name="inputAlightCountsFile" value="null" />
+		<!-- input file containing the boarding (getting on) counts for pt -->
+		<param name="inputBoardCountsFile" value="null" />
+		<!-- input file containing the occupancy counts for pt -->
+		<param name="inputOccupancyCountsFile" value="null" />
+		<!-- possible values: `html', `kml', `txt', `all' -->
+		<param name="outputformat" value="null" />
+		<!-- every how many iterations (starting with 0) counts comparisons are generated -->
+		<param name="ptCountsInterval" value="10" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="qsim" >
+		<!-- If set to true, creates a vehicle for each person corresponding to every network mode. However, this will be overridden if vehicle source is fromVehiclesData. -->
+		<param name="creatingVehiclesForAllNetworkModes" value="true" />
+		<param name="endTime" value="23:00:00" />
+		<param name="flowCapacityFactor" value="1.0" />
+		<!-- decides if waiting vehicles enter the network after or before the already driving vehicles were moved. Default: false -->
+		<param name="insertingWaitingVehiclesBeforeDrivingVehicles" value="false" />
+		<!-- If link dynamics is set as SeepageQ, set to false if all seep modes should perform seepage. Default is true (better option). -->
+		<param name="isRestrictingSeepage" value="true" />
+		<!-- If link dynamics is set as SeepageQ, set to true if seep mode do not consumes any space on the link. Default is false. -->
+		<param name="isSeepModeStorageFree" value="false" />
+		<!-- default: FIFO; options: FIFO PassingQ SeepageQ -->
+		<param name="linkDynamics" value="FIFO" />
+		<!-- The (initial) width of the links of the network. Use positive floating point values. This is used only for visualisation. -->
+		<param name="linkWidth" value="30.0" />
+		<!-- [comma-separated list] Defines which modes are congested modes. Technically, these are the modes that the departure handler of the netsimengine handles.  Effective cell size, effective lane width, flow capacity factor, and storage capacity factor need to be set with diligence.  Need to be vehicular modes to make sense. -->
+		<param name="mainMode" value="car" />
+		<!-- Shortens a link in the visualization, i.e. its start and end point are moved into towards the center. Does not affect traffic flow.  -->
+		<param name="nodeOffset" value="0.0" />
+		<!-- Number of threads used for the QSim.  Note that this setting is independent from the "global" threads setting.  In contrast to earlier versions, the non-parallel special version is no longer there. -->
+		<param name="numberOfThreads" value="1" />
+		<!-- Boolean. `true': stuck vehicles are removed, aborting the plan; `false': stuck vehicles are forced into the next link. `false' is probably the better choice. -->
+		<param name="removeStuckVehicles" value="false" />
+		<!-- If link dynamics is set as SeepageQ, set a seep mode. Default is bike. -->
+		<param name="seepMode" value="bike" />
+		<!-- Possible values: minOfEndtimeAndMobsimFinished, onlyUseEndtime -->
+		<param name="simEndtimeInterpretation" value="null" />
+		<!-- Options: maxOfStarttimeAndEarliestActivityEnd onlyUseStarttime  -->
+		<param name="simStarttimeInterpretation" value="maxOfStarttimeAndEarliestActivityEnd" />
+		<!-- snapshotStyle. One of: equiDist queue withHoles withHolesAndShowHoles kinematicWaves  -->
+		<param name="snapshotStyle" value="equiDist" />
+		<param name="snapshotperiod" value="07:00:00" />
+		<param name="startTime" value="06:00:00" />
+		<param name="storageCapacityFactor" value="1.0" />
+		<!-- time in seconds.  Time after which the frontmost vehicle on a link is called `stuck' if it does not move. -->
+		<param name="stuckTime" value="10.0" />
+		<param name="timeStepSize" value="00:00:01" />
+		<!-- options: queue withHoles kinematicWaves  -->
+		<param name="trafficDynamics" value="queue" />
+		<!-- Set this parameter to true if lanes should be used, false if not. -->
+		<param name="useLanes" value="false" />
+		<!-- If a route does not reference a vehicle, agents will use the vehicle with the same id as their own. -->
+		<param name="usePersonIdForMissingVehicleId" value="true" />
+		<!-- If false, the qsim accumulates fractional flows up to one flow unit in every time step.  If true, flows are updated only if an agent wants to enter the link or an agent is added to buffer. Default is true. -->
+		<param name="usingFastCapacityUpdate" value="true" />
+		<!-- if the qsim should use as many runners as there are threads (Christoph's dissertation version) or more of them, together with a thread pool (seems to be faster in some situations, but is not tested). -->
+		<param name="usingThreadpool" value="true" />
+		<!-- Defines what happens if an agent wants to depart, but the specified vehicle is not available. One of: teleport wait exception  -->
+		<param name="vehicleBehavior" value="teleport" />
+		<!-- If vehicles should all be the same default vehicle, or come from the vehicles file, or something else.  Possible values:  defaultVehicle modeVehicleTypesFromVehiclesData fromVehiclesData -->
+		<param name="vehiclesSource" value="defaultVehicle" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="scenario" >
+	</module>
+<!-- ====================================================================== -->
+	<module name="strategy" >
+		<!-- the external executable will be called with a config file as argument.  This is the pathname to a possible skeleton config, to which additional information will be added.  Can be null. -->
+		<param name="ExternalExeConfigTemplate" value="null" />
+		<!-- time out value (in seconds) after which matsim will consider the external strategy as failed -->
+		<param name="ExternalExeTimeOut" value="3600" />
+		<!-- root directory for temporary files generated by the external executable. Provided as a service; I don't think this is used by MATSim. -->
+		<param name="ExternalExeTmpFileRootDir" value="null" />
+		<!-- fraction of iterations where innovative strategies are switched off.  Something link 0.8 should be good.  E.g. if you run from iteration 400 to iteration 500, innovation is switched off at iteration 480 -->
+		<param name="fractionOfIterationsToDisableInnovation" value="Infinity" />
+		<!-- maximum number of plans per agent.  ``0'' means ``infinity''.  Currently (2010), ``5'' is a good number -->
+		<param name="maxAgentPlanMemorySize" value="5" />
+		<!-- strategyName of PlanSelector for plans removal.  Possible defaults: WorstPlanSelector SelectRandom SelectExpBetaForRemoval ChangeExpBetaForRemoval PathSizeLogitSelectorForRemoval . The current default, WorstPlanSelector is not a good choice from a discrete choice theoretical perspective. Alternatives, however, have not been systematically tested. kai, feb'12 -->
+		<param name="planSelectorForRemoval" value="WorstPlanSelector" />
+		<parameterset type="strategysettings" >
+			<!-- iteration after which strategy will be disabled.  most useful for ``innovative'' strategies (new routes, new times, ...). Normally, better use fractionOfIterationsToDisableInnovation -->
+			<param name="disableAfterIteration" value="-1" />
+			<!-- path to external executable (if applicable) -->
+			<param name="executionPath" value="null" />
+			<!-- strategyName of strategy.  Possible default names: SelectRandomBestScoreKeepLastSelectedChangeExpBetaSelectExpBetaSelectPathSizeLogit (selectors), ReRoute TimeAllocationMutator ChangeLegMode TimeAllocationMutator_ReRoute ChangeSingleLegMode ChangeSingleTripMode SubtourModeChoice ChangeTripMode TripSubtourModeChoice  (innovative strategies). -->
+			<param name="strategyName" value="BestScore" />
+			<!-- subpopulation to which the strategy applies. "null" refers to the default population, that is, the set of persons for which no explicit subpopulation is defined (ie no subpopulation attribute) -->
+			<param name="subpopulation" value="null" />
+			<!-- weight of a strategy: for each agent, a strategy will be selected with a probability proportional to its weight -->
+			<param name="weight" value="0.9" />
+		</parameterset>
+		<parameterset type="strategysettings" >
+			<!-- iteration after which strategy will be disabled.  most useful for ``innovative'' strategies (new routes, new times, ...). Normally, better use fractionOfIterationsToDisableInnovation -->
+			<param name="disableAfterIteration" value="-1" />
+			<!-- path to external executable (if applicable) -->
+			<param name="executionPath" value="null" />
+			<!-- strategyName of strategy.  Possible default names: SelectRandomBestScoreKeepLastSelectedChangeExpBetaSelectExpBetaSelectPathSizeLogit (selectors), ReRoute TimeAllocationMutator ChangeLegMode TimeAllocationMutator_ReRoute ChangeSingleLegMode ChangeSingleTripMode SubtourModeChoice ChangeTripMode TripSubtourModeChoice  (innovative strategies). -->
+			<param name="strategyName" value="ReRoute" />
+			<!-- subpopulation to which the strategy applies. "null" refers to the default population, that is, the set of persons for which no explicit subpopulation is defined (ie no subpopulation attribute) -->
+			<param name="subpopulation" value="null" />
+			<!-- weight of a strategy: for each agent, a strategy will be selected with a probability proportional to its weight -->
+			<param name="weight" value="0.1" />
+		</parameterset>
+		<parameterset type="strategysettings" >
+			<!-- iteration after which strategy will be disabled.  most useful for ``innovative'' strategies (new routes, new times, ...). Normally, better use fractionOfIterationsToDisableInnovation -->
+			<param name="disableAfterIteration" value="-1" />
+			<!-- path to external executable (if applicable) -->
+			<param name="executionPath" value="null" />
+			<!-- strategyName of strategy.  Possible default names: SelectRandomBestScoreKeepLastSelectedChangeExpBetaSelectExpBetaSelectPathSizeLogit (selectors), ReRoute TimeAllocationMutator ChangeLegMode TimeAllocationMutator_ReRoute ChangeSingleLegMode ChangeSingleTripMode SubtourModeChoice ChangeTripMode TripSubtourModeChoice  (innovative strategies). -->
+			<param name="strategyName" value="ReRoute" />
+			<!-- subpopulation to which the strategy applies. "null" refers to the default population, that is, the set of persons for which no explicit subpopulation is defined (ie no subpopulation attribute) -->
+			<param name="subpopulation" value="null" />
+			<!-- weight of a strategy: for each agent, a strategy will be selected with a probability proportional to its weight -->
+			<param name="weight" value="0.1" />
+		</parameterset>
+	</module>
+<!-- ====================================================================== -->
+	<module name="subtourModeChoice" >
+		<!-- Defines the chain-based modes, seperated by commas -->
+		<param name="chainBasedModes" value="car,bike" />
+		<!-- Defines whether car availability must be considered or not. A agent has no car only if it has no license, or never access to a car -->
+		<param name="considerCarAvailability" value="false" />
+		<!-- Defines all the modes available, including chain-based modes, seperated by commas -->
+		<param name="modes" value="car,pt,bike,walk" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="transit" >
+		<!-- The Coordinates Reference System in which the coordinates are expressed in the input file. At import, the coordinates will be converted to the coordinate system defined in "global", and willbe converted back at export. If not specified, no conversion happens. -->
+		<param name="inputScheduleCRS" value="null" />
+		<!-- Optional input file containing additional attributes for transit lines, stored as ObjectAttributes. -->
+		<param name="transitLinesAttributesFile" value="null" />
+		<!-- Comma-separated list of transportation modes that are handled as transit. Defaults to 'pt'. -->
+		<param name="transitModes" value="pt" />
+		<!-- Input file containing the transit schedule to be simulated. -->
+		<param name="transitScheduleFile" value="null" />
+		<!-- Optional input file containing additional attributes for transit stop facilities, stored as ObjectAttributes. -->
+		<param name="transitStopsAttributesFile" value="null" />
+		<!-- Set this parameter to true if transit should be simulated, false if not. -->
+		<param name="useTransit" value="false" />
+		<!-- Input file containing the vehicles used by the departures in the transit schedule. -->
+		<param name="vehiclesFile" value="null" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="transitRouter" >
+		<!-- additional time the router allocates when a line switch happens. Can be interpreted as a 'safety' time that agents need to safely transfer from one line to another -->
+		<param name="additionalTransferTime" value="0.0" />
+		<!-- Factor with which direct walk generalized cost is multiplied before it is compared to the pt generalized cost.  Set to a very high value to reduce direct walk results. -->
+		<param name="directWalkFactor" value="1.0" />
+		<!-- step size to increase searchRadius if no stops are found -->
+		<param name="extensionRadius" value="200.0" />
+		<!-- maximum beeline distance between stops that agents could transfer to by walking -->
+		<param name="maxBeelineWalkConnectionDistance" value="100.0" />
+		<!-- the radius in which stop locations are searched, given a start or target coordinate -->
+		<param name="searchRadius" value="1000.0" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="travelTimeCalculator" >
+		<!-- Transport modes that will be respected by the travel time collector. 'car' is default, which includes also busses from the pt simulation module. Use this parameter in combination with 'filterModes' = true! -->
+		<param name="analyzedModes" value="car" />
+		<param name="calculateLinkToLinkTravelTimes" value="false" />
+		<param name="calculateLinkTravelTimes" value="true" />
+		<!-- If true, link travel times from legs performed on modes not included in the 'analyzedModes' parameter are ignored. -->
+		<param name="filterModes" value="false" />
+		<!-- The lenght (in sec) of the time period that is splited into time bins; an additional time bin is created to aggregate all travel times collected after maxTime -->
+		<param name="maxTime" value="108000" />
+		<!-- If true, link travel times are measured and calculated separately for each mode in analyzedModes. Other modes are ignored. If true, filterModes has no effect. -->
+		<param name="separateModes" value="false" />
+		<!-- How to deal with congested time bins that have no link entry events. `optimistic' assumes free speed (too optimistic); 'experimental_LastMile' is experimental and probably too pessimistic. -->
+		<param name="travelTimeAggregator" value="optimistic" />
+		<!-- The size of the time bin (in sec) into which the link travel times are aggregated for the router -->
+		<param name="travelTimeBinSize" value="900" />
+		<!-- possible values: TravelTimeCalculatorArray TravelTimeCalculatorHashMap  -->
+		<param name="travelTimeCalculator" value="TravelTimeCalculatorArray" />
+		<!-- How to deal with link entry times at different positions during the time bin. Currently supported: average, linearinterpolation -->
+		<param name="travelTimeGetter" value="average" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="vehicles" >
+		<param name="vehiclesFile" value="null" />
+	</module>
+<!-- ====================================================================== -->
+	<module name="vspExperimental" >
+		<!-- (do not use except of you have to) There was a problem with pt interaction scoring.  Some people solved it by overwriting the parameters of the pt interaction activity type.  Doing this now throws an Exception.  If you still insist on doing this, set the following to true. -->
+		<param name="isAbleToOverwritePtInteractionParams" value="false" />
+		<param name="isGeneratingBoardingDeniedEvent" value="false" />
+		<!-- if an approximation of the opportunity cost of time is included into the radius calculation for location choice.`true' will be faster, but it is an approximation.  Default is `true'; `false' is available for backwards compatibility. -->
+		<param name="isUsingOpportunityCostOfTimeForLocationChoice" value="true" />
+		<param name="logitScaleParamForPlansRemoval" value="1.0" />
+		<!-- Options: | ignore | info | warn | abort | .  When violating VSP defaults, this results in nothing, logfile infos, logfile warnings, or aborts.  Members of VSP should use `abort' or talk to kai. -->
+		<param name="vspDefaultsCheckingLevel" value="ignore" />
+		<!-- if true then writes output_events in output directory.  default is `false'. Will only work when lastIteration is multiple of events writing interval -->
+		<param name="writingOutputEvents" value="true" />
+	</module>
+<!-- ====================================================================== -->
+
+</config>
+
+2019-09-03 13:31:28,471  INFO ControlerUtils:63 Complete config dump done.
+2019-09-03 13:31:28,472  INFO ControlerUtils:64 Checking consistency of config...
+2019-09-03 13:31:28,474  INFO VspConfigConsistencyCheckerImpl:58 NOT running vsp config consistency check because vsp defaults checking level is set to IGNORE
+2019-09-03 13:31:28,483  INFO ControlerUtils:66 Checking consistency of config done.
+2019-09-03 13:31:28,563 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:28,574 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:28,588  INFO NetworkImpl:426 building QuadTree for nodes: xrange(443131.1248588478,570436.5846525345); yrange(9000.250507828903,158428.51607133824)
+2019-09-03 13:31:28,617  INFO NetworkImpl:435 Building QuadTree took 0.033 seconds.
+2019-09-03 13:31:29,364  INFO Counter:61 [PersonPrepareForSim] handled person # 1
+2019-09-03 13:31:29,364  INFO Counter:61 [PersonPrepareForSim] handled person # 2
+2019-09-03 13:31:29,411  INFO Counter:61 [PersonPrepareForSim] handled person # 4
+2019-09-03 13:31:29,457  INFO Counter:61 [PersonPrepareForSim] handled person # 8
+2019-09-03 13:31:29,552  INFO Counter:61 [PersonPrepareForSim] handled person # 16
+2019-09-03 13:31:29,690  INFO Counter:61 [PersonPrepareForSim] handled person # 32
+2019-09-03 13:31:30,261  INFO Counter:67 [PersonPrepareForSim] handled person # 50
+2019-09-03 13:31:30,262  INFO Counter:61  vehicles # 1
+2019-09-03 13:31:30,262  INFO Counter:61  vehicles # 2
+2019-09-03 13:31:30,263  INFO Counter:61  vehicles # 4
+2019-09-03 13:31:30,263  INFO Counter:61  vehicles # 8
+2019-09-03 13:31:30,263  INFO Counter:61  vehicles # 16
+2019-09-03 13:31:30,263  INFO Counter:61  vehicles # 32
+2019-09-03 13:31:30,273  INFO AbstractController:126 ###################################################
+2019-09-03 13:31:30,273  INFO AbstractController:127 ### ITERATION 0 BEGINS
+2019-09-03 13:31:30,276  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:30,276  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:30,277  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.replanning.ReplanningContextImpl
+2019-09-03 13:31:30,277  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ExperiencedPlansServiceImpl$1
+2019-09-03 13:31:30,277  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ScoringFunctionsForPopulation$1
+2019-09-03 13:31:30,375  INFO ControlerListenerManagerImpl:148 [it.0] all ControlerIterationStartsListeners called.
+2019-09-03 13:31:30,376  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:30,376  INFO EventsManagerImpl:170 resetting Event-Handlers
+2019-09-03 13:31:30,377  INFO EventsManagerImpl:177   org.matsim.core.trafficmonitoring.TravelTimeCalculator
+2019-09-03 13:31:30,402  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToLegs
+2019-09-03 13:31:30,402  INFO EventsManagerImpl:177   org.matsim.analysis.VolumesAnalyzer
+2019-09-03 13:31:30,403  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToActivities
+2019-09-03 13:31:30,403  INFO EventsManagerImpl:177   org.matsim.analysis.CalcLegTimes
+2019-09-03 13:31:30,403  INFO EventsManagerImpl:177   org.matsim.analysis.LegHistogram
+2019-09-03 13:31:30,403  INFO EventsManagerImpl:177   org.matsim.core.scoring.ScoringFunctionsForPopulation
+2019-09-03 13:31:30,479  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:30,480  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:30,481  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:30,481  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:30,481  INFO EventsManagerImpl:156 
+2019-09-03 13:31:30,482  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:30,482  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:30,482  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:30,483  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:30,483  INFO EventsManagerImpl:156 
+2019-09-03 13:31:30,483  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.PlansDumpingImpl
+2019-09-03 13:31:30,483  INFO PlansDumpingImpl:75 dumping plans...
+2019-09-03 13:31:30,500  INFO Counter:61 [PopulationWriter] dumped person # 1
+2019-09-03 13:31:30,501  INFO Counter:61 [PopulationWriter] dumped person # 2
+2019-09-03 13:31:30,503  INFO Counter:61 [PopulationWriter] dumped person # 4
+2019-09-03 13:31:30,506  INFO Counter:61 [PopulationWriter] dumped person # 8
+2019-09-03 13:31:30,513  INFO Counter:61 [PopulationWriter] dumped person # 16
+2019-09-03 13:31:30,518  INFO Counter:61 [PopulationWriter] dumped person # 32
+2019-09-03 13:31:30,536  INFO PopulationWriter:139 Population written to: ./output/ITERS/it.0/0.plans.xml.gz
+2019-09-03 13:31:30,552  INFO Counter:67 [PopulationWriter] dumped person # 50
+2019-09-03 13:31:30,554  INFO PlansDumpingImpl:92 finished plans dump.
+2019-09-03 13:31:30,555  INFO ControlerListenerManagerImpl:229 calling notifyBeforeMobsim on org.matsim.core.population.VspPlansCleaner
+2019-09-03 13:31:30,555  INFO ControlerListenerManagerImpl:232 [it.0] all ControlerBeforeMobsimListeners called.
+2019-09-03 13:31:30,719  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:30,720  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:30,721  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimAfterSimStepListener
+2019-09-03 13:31:30,721  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener
+2019-09-03 13:31:30,722  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.vis.snapshotwriters.SnapshotWriterManager
+2019-09-03 13:31:30,722  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimInitializedListener
+2019-09-03 13:31:30,891  INFO Injector:80 === printInjector start ===
+2019-09-03 13:31:30,891  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.VehicularDepartureHandler 
+2019-09-03 13:31:30,894  INFO Injector:85   --> provider: Key[type=org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngineDepartureHandlerProvider, annotation=[none]][Scopes.SINGLETON]
+2019-09-03 13:31:30,894  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:25)
+2019-09-03 13:31:30,894  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,894  INFO Injector:92 
+2019-09-03 13:31:30,895  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.AgentFactory 
+2019-09-03 13:31:30,895  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.agents.AgentFactory, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@47f9738}[Scopes.SINGLETON]
+2019-09-03 13:31:30,896  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:30)
+2019-09-03 13:31:30,896  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,896  INFO Injector:92 
+2019-09-03 13:31:30,897  INFO Injector:84 org.matsim.core.mobsim.qsim.interfaces.Netsim 
+2019-09-03 13:31:30,898  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.interfaces.Netsim, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@2dcd168a[Scopes.SINGLETON]}
+2019-09-03 13:31:30,899  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:65)
+2019-09-03 13:31:30,899  INFO Injector:88   --> scope: Scopes.NO_SCOPE
+2019-09-03 13:31:30,899  INFO Injector:92 
+2019-09-03 13:31:30,899  INFO Injector:84 org.matsim.core.mobsim.jdeqsim.MessageQueue 
+2019-09-03 13:31:30,900  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@62ef27a8[Scopes.SINGLETON]
+2019-09-03 13:31:30,900  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:24)
+2019-09-03 13:31:30,901  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,901  INFO Injector:92 
+2019-09-03 13:31:30,901  INFO Injector:84 org.matsim.core.mobsim.qsim.jdeqsimengine.SteppableScheduler 
+2019-09-03 13:31:30,902  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@16fdec90[Scopes.SINGLETON]
+2019-09-03 13:31:30,902  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:25)
+2019-09-03 13:31:30,903  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,903  INFO Injector:92 
+2019-09-03 13:31:30,904  INFO Injector:84 org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine 
+2019-09-03 13:31:30,904  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@51acdf2e[Scopes.SINGLETON]
+2019-09-03 13:31:30,905  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:26)
+2019-09-03 13:31:30,905  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,905  INFO Injector:92 
+2019-09-03 13:31:30,905  INFO Injector:84 org.matsim.core.mobsim.qsim.ActivityEngine 
+2019-09-03 13:31:30,906  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@7ac0e420[Scopes.SINGLETON]
+2019-09-03 13:31:30,906  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.ActivityEnginePlugin$1.configure(ActivityEnginePlugin.java:23)
+2019-09-03 13:31:30,906  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,911  INFO Injector:92 
+2019-09-03 13:31:30,914  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngine 
+2019-09-03 13:31:30,917  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@4c51cf28[Scopes.SINGLETON]
+2019-09-03 13:31:30,922  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:24)
+2019-09-03 13:31:30,923  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,924  INFO Injector:92 
+2019-09-03 13:31:30,924  INFO Injector:84 org.matsim.core.mobsim.qsim.DefaultTeleportationEngine 
+2019-09-03 13:31:30,926  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@3e7dd664[Scopes.SINGLETON]
+2019-09-03 13:31:30,933  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.TeleportationPlugin$1.configure(TeleportationPlugin.java:21)
+2019-09-03 13:31:30,935  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,938  INFO Injector:92 
+2019-09-03 13:31:30,938  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.PopulationAgentSource 
+2019-09-03 13:31:30,939  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@4f25b795[Scopes.SINGLETON]
+2019-09-03 13:31:30,939  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:26)
+2019-09-03 13:31:30,940  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,940  INFO Injector:92 
+2019-09-03 13:31:30,941  INFO Injector:84 org.matsim.core.mobsim.qsim.QSim 
+2019-09-03 13:31:30,942  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@2dcd168a[Scopes.SINGLETON]
+2019-09-03 13:31:30,942  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:64)
+2019-09-03 13:31:30,944  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:30,944  INFO Injector:92 
+2019-09-03 13:31:30,944  INFO Injector:95 === printInjector end ===
+2019-09-03 13:31:30,945  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:30,945  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:30,946  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeSimStepListener
+2019-09-03 13:31:30,946  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine
+2019-09-03 13:31:31,012  INFO QNetsimEngine:504 Assigned 18088 nodes and 42206 links to QSimEngineRunner #0
+2019-09-03 13:31:31,015  INFO EventsManagerImpl:134  event # 1
+2019-09-03 13:31:31,019  INFO EventsManagerImpl:134  event # 4
+2019-09-03 13:31:31,021  INFO EventsManagerImpl:134  event # 16
+2019-09-03 13:31:31,022  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 07:00:00 : #links=7 #nodes=10
+2019-09-03 13:31:31,023  INFO QSim:506 SIMULATION (NEW QSim) AT 07:00:00 : #Veh=50 lost=0 simT=0.0s realT=0s; (s/r): 0.0
+2019-09-03 13:31:31,023  INFO Gbl:54 used RAM: 315398920B = 308006kB = 300MB  free: 283862264B = 270MB  total: 599261184B = 571MB
+2019-09-03 13:31:31,023  INFO EventsManagerImpl:134  event # 64
+2019-09-03 13:31:31,038  INFO EventsManagerImpl:134  event # 256
+2019-09-03 13:31:31,125  INFO EventsManagerImpl:134  event # 1024
+2019-09-03 13:31:31,153 ERROR BasicPlanAgentImpl:165 last activity of person driver agent id 991229711010199 has end time < infty; setting it to infty
+2019-09-03 13:31:31,153 ERROR BasicPlanAgentImpl:166  This message given only once.
+2019-09-03 13:31:31,279  INFO EventsManagerImpl:134  event # 4096
+2019-09-03 13:31:31,362  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 08:00:00 : #links=13 #nodes=1
+2019-09-03 13:31:31,363  INFO QSim:506 SIMULATION (NEW QSim) AT 08:00:00 : #Veh=45 lost=0 simT=3600.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:31,364  INFO Gbl:54 used RAM: 322711896B = 315148kB = 307MB  free: 276549288B = 263MB  total: 599261184B = 571MB
+2019-09-03 13:31:31,590  INFO EventsManagerImpl:134  event # 16384
+2019-09-03 13:31:31,706  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 09:00:00 : #links=9 #nodes=0
+2019-09-03 13:31:31,706  INFO QSim:506 SIMULATION (NEW QSim) AT 09:00:00 : #Veh=13 lost=0 simT=7200.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:31,707  INFO Gbl:54 used RAM: 332149208B = 324364kB = 316MB  free: 267111976B = 254MB  total: 599261184B = 571MB
+2019-09-03 13:31:31,881  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 10:00:00 : #links=1 #nodes=1
+2019-09-03 13:31:31,882  INFO QSim:506 SIMULATION (NEW QSim) AT 10:00:00 : #Veh=4 lost=0 simT=10800.0s realT=1s; (s/r): 10800.0
+2019-09-03 13:31:31,882  INFO Gbl:54 used RAM: 339462120B = 331505kB = 323MB  free: 259799064B = 247MB  total: 599261184B = 571MB
+2019-09-03 13:31:32,046  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 11:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:32,046  INFO QSim:506 SIMULATION (NEW QSim) AT 11:00:00 : #Veh=3 lost=0 simT=14400.0s realT=1s; (s/r): 14400.0
+2019-09-03 13:31:32,046  INFO Gbl:54 used RAM: 339462120B = 331505kB = 323MB  free: 259799064B = 247MB  total: 599261184B = 571MB
+2019-09-03 13:31:32,190  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 12:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:32,190  INFO QSim:506 SIMULATION (NEW QSim) AT 12:00:00 : #Veh=3 lost=0 simT=18000.0s realT=1s; (s/r): 18000.0
+2019-09-03 13:31:32,190  INFO Gbl:54 used RAM: 343000096B = 334961kB = 327MB  free: 256261088B = 244MB  total: 599261184B = 571MB
+2019-09-03 13:31:32,345  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 13:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:32,345  INFO QSim:506 SIMULATION (NEW QSim) AT 13:00:00 : #Veh=3 lost=0 simT=21600.0s realT=1s; (s/r): 21600.0
+2019-09-03 13:31:32,345  INFO Gbl:54 used RAM: 343000096B = 334961kB = 327MB  free: 256261088B = 244MB  total: 599261184B = 571MB
+2019-09-03 13:31:32,529  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 14:00:00 : #links=3 #nodes=1
+2019-09-03 13:31:32,535  INFO QSim:506 SIMULATION (NEW QSim) AT 14:00:00 : #Veh=3 lost=0 simT=25200.0s realT=1s; (s/r): 25200.0
+2019-09-03 13:31:32,538  INFO Gbl:54 used RAM: 346774992B = 338647kB = 330MB  free: 252486192B = 240MB  total: 599261184B = 571MB
+2019-09-03 13:31:32,713  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 15:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:32,713  INFO QSim:506 SIMULATION (NEW QSim) AT 15:00:00 : #Veh=1 lost=0 simT=28800.0s realT=1s; (s/r): 28800.0
+2019-09-03 13:31:32,714  INFO Gbl:54 used RAM: 350312944B = 342102kB = 334MB  free: 248948240B = 237MB  total: 599261184B = 571MB
+2019-09-03 13:31:32,877  INFO Gbl:187 Thread performance: Thread=class org.matsim.core.events.SimStepParallelEventsManagerImpl$ProcessEventsRunnable0  cpu-time=0.40625sec
+2019-09-03 13:31:32,878  INFO AbstractController$8:215 ### ITERATION 0 fires after mobsim event
+2019-09-03 13:31:32,879  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.analysis.LegTimesControlerListener
+2019-09-03 13:31:32,898  INFO LegTimesControlerListener:50 [0] average trip (probably: leg) duration is: 6514 seconds = 01:48:34
+2019-09-03 13:31:32,898  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.core.scoring.EventsToActivities$1
+2019-09-03 13:31:32,898  WARN CharyparNagelActivityScoring:252 The first and the last activity do not have the same type. 
+2019-09-03 13:31:32,899  WARN CharyparNagelActivityScoring:253 Will score the first activity from midnight to its end, and the last activity from its start to midnight.
+2019-09-03 13:31:32,899  WARN CharyparNagelActivityScoring:254 Because of the nonlinear function, this is not the same as scoring from start to end.
+2019-09-03 13:31:32,900  WARN CharyparNagelActivityScoring:255 first activity: [type=home][coord=null][linkId=28625][startTime=undefined][endTime=07:00:00][duration=undefined][facilityId=null]
+2019-09-03 13:31:32,901  WARN CharyparNagelActivityScoring:256 last activity: [type=shelter][coord=null][linkId=25696][startTime=08:35:29][endTime=undefined][duration=undefined][facilityId=null]
+2019-09-03 13:31:32,901  WARN CharyparNagelActivityScoring:257 This may also happen when plans are not completed when the simulation ends.
+2019-09-03 13:31:32,902  WARN CharyparNagelActivityScoring:259 Additional warnings of this type are suppressed.
+2019-09-03 13:31:32,904  INFO ControlerListenerManagerImpl:251 [it.0] all ControlerAfterMobsimListeners called.
+2019-09-03 13:31:32,904  INFO AbstractController$4:152 ### ITERATION 0 fires scoring event
+2019-09-03 13:31:32,905  INFO ControlerListenerManagerImpl:183 calling notifyScoring on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:32,907  INFO NewScoreAssignerImpl:36 it: 0 msaStart: null
+2019-09-03 13:31:32,910  INFO ControlerListenerManagerImpl:194 [it.0] all ControlerScoringListeners called.
+2019-09-03 13:31:32,913  INFO AbstractController$5:160 ### ITERATION 0 fires iteration end event
+2019-09-03 13:31:32,916  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:32,930  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:32,933  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:32,936  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:32,940  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.counts.CountsControlerListener
+2019-09-03 13:31:32,946  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:32,950  INFO ModeStatsControlerListener:155 -- mode share of mode bike = 0.0
+2019-09-03 13:31:32,953  INFO ModeStatsControlerListener:155 -- mode share of mode car = 1.0
+2019-09-03 13:31:32,954  INFO ModeStatsControlerListener:155 -- mode share of mode other = 0.0
+2019-09-03 13:31:32,954  INFO ModeStatsControlerListener:155 -- mode share of mode pt = 0.0
+2019-09-03 13:31:32,955  INFO ModeStatsControlerListener:155 -- mode share of mode ride = 0.0
+2019-09-03 13:31:32,955  INFO ModeStatsControlerListener:155 -- mode share of mode walk = 0.0
+2019-09-03 13:31:32,955  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:32,956  INFO ScoreStatsControlerListener:191 -- avg. score of the executed plan of each agent: 95.62609514357624
+2019-09-03 13:31:32,956  INFO ScoreStatsControlerListener:192 -- avg. score of the worst plan of each agent: 95.62609514357624
+2019-09-03 13:31:32,960  INFO ScoreStatsControlerListener:193 -- avg. of the avg. plan score per agent: 95.62609514357624
+2019-09-03 13:31:32,960  INFO ScoreStatsControlerListener:194 -- avg. score of the best plan of each agent: 95.62609514357624
+2019-09-03 13:31:32,961  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.TravelDistanceStatsControlerListener
+2019-09-03 13:31:32,961  INFO TravelDistanceStats:128 [TravelDistanceStats] using 2 thread(s).
+2019-09-03 13:31:33,000  INFO TravelDistanceStats:141 [TravelDistanceStats] all threads finished.
+2019-09-03 13:31:33,003  INFO TravelDistanceStats:161 -- average of the average leg distance per plan (executed plans only): 116286.07905359771
+2019-09-03 13:31:33,005  INFO TravelDistanceStats:162 (TravelDistanceStats takes an average over all legs where the simulation reports travelled distances. These are car legs, pt legs,
+2019-09-03 13:31:33,008  INFO TravelDistanceStats:163 (and teleported legs whose route contains a distance.)
+2019-09-03 13:31:33,012  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:33,036  INFO LegHistogramListener:72 number of legs:	53	100%
+2019-09-03 13:31:33,039  INFO LegHistogramListener:79 number of car legs:	53	100.0%
+2019-09-03 13:31:34,573  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:34,574  INFO ControlerListenerManagerImpl:171 [it.0] all ControlerIterationEndsListeners called.
+2019-09-03 13:31:35,000  INFO AbstractController:170 ### ITERATION 0 ENDS
+2019-09-03 13:31:35,001  INFO AbstractController:171 ###################################################
+2019-09-03 13:31:35,001  INFO AbstractController:126 ###################################################
+2019-09-03 13:31:35,002  INFO AbstractController:127 ### ITERATION 1 BEGINS
+2019-09-03 13:31:35,004  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:35,005  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:35,005  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.replanning.ReplanningContextImpl
+2019-09-03 13:31:35,005  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ExperiencedPlansServiceImpl$1
+2019-09-03 13:31:35,006  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ScoringFunctionsForPopulation$1
+2019-09-03 13:31:35,008  INFO ControlerListenerManagerImpl:148 [it.1] all ControlerIterationStartsListeners called.
+2019-09-03 13:31:35,011  INFO ControlerListenerManagerImpl:205 calling notifyReplanning on org.matsim.core.controler.corelisteners.PlansReplanningImpl
+2019-09-03 13:31:35,012 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:35,014 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:35,015 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:35,016 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:35,020  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 38 plans handled. Strategy: BestPlanSelector
+2019-09-03 13:31:35,022  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 5 plans
+2019-09-03 13:31:35,080  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:35,080  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:35,124  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:35,155  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:35,155  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 5 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:35,155  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 7 plans
+2019-09-03 13:31:35,191  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:35,227  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:35,258  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:35,302  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:35,303  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 7 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:35,303  INFO ControlerListenerManagerImpl:213 [it.1] all ControlerReplanningListeners called.
+2019-09-03 13:31:35,304  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:35,304  INFO EventsManagerImpl:170 resetting Event-Handlers
+2019-09-03 13:31:35,304  INFO EventsManagerImpl:177   org.matsim.core.trafficmonitoring.TravelTimeCalculator
+2019-09-03 13:31:35,336  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToLegs
+2019-09-03 13:31:35,336  INFO EventsManagerImpl:177   org.matsim.analysis.VolumesAnalyzer
+2019-09-03 13:31:35,338  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToActivities
+2019-09-03 13:31:35,340  INFO EventsManagerImpl:177   org.matsim.analysis.CalcLegTimes
+2019-09-03 13:31:35,341  INFO EventsManagerImpl:177   org.matsim.analysis.LegHistogram
+2019-09-03 13:31:35,341  INFO EventsManagerImpl:177   org.matsim.core.scoring.ScoringFunctionsForPopulation
+2019-09-03 13:31:35,345  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:35,345  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:35,346  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:35,346  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:35,347  INFO EventsManagerImpl:156 
+2019-09-03 13:31:35,347  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:35,347  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:35,348  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:35,348  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:35,348  INFO EventsManagerImpl:156 
+2019-09-03 13:31:35,348  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.PlansDumpingImpl
+2019-09-03 13:31:35,349  INFO PlansDumpingImpl:75 dumping plans...
+2019-09-03 13:31:35,353  INFO Counter:61 [PopulationWriter] dumped person # 1
+2019-09-03 13:31:35,356  INFO Counter:61 [PopulationWriter] dumped person # 2
+2019-09-03 13:31:35,360  INFO Counter:61 [PopulationWriter] dumped person # 4
+2019-09-03 13:31:35,362  INFO Counter:61 [PopulationWriter] dumped person # 8
+2019-09-03 13:31:35,366  INFO Counter:61 [PopulationWriter] dumped person # 16
+2019-09-03 13:31:35,370  INFO Counter:61 [PopulationWriter] dumped person # 32
+2019-09-03 13:31:35,380  INFO PopulationWriter:139 Population written to: ./output/ITERS/it.1/1.plans.xml.gz
+2019-09-03 13:31:35,439  INFO Counter:67 [PopulationWriter] dumped person # 50
+2019-09-03 13:31:35,439  INFO PlansDumpingImpl:92 finished plans dump.
+2019-09-03 13:31:35,439  INFO ControlerListenerManagerImpl:229 calling notifyBeforeMobsim on org.matsim.core.population.VspPlansCleaner
+2019-09-03 13:31:35,439  INFO ControlerListenerManagerImpl:232 [it.1] all ControlerBeforeMobsimListeners called.
+2019-09-03 13:31:35,455  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:35,456  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:35,457  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimAfterSimStepListener
+2019-09-03 13:31:35,467  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener
+2019-09-03 13:31:35,467  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.vis.snapshotwriters.SnapshotWriterManager
+2019-09-03 13:31:35,468  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimInitializedListener
+2019-09-03 13:31:35,566  INFO Injector:80 === printInjector start ===
+2019-09-03 13:31:35,579  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.VehicularDepartureHandler 
+2019-09-03 13:31:35,583  INFO Injector:85   --> provider: Key[type=org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngineDepartureHandlerProvider, annotation=[none]][Scopes.SINGLETON]
+2019-09-03 13:31:35,585  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:25)
+2019-09-03 13:31:35,588  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,589  INFO Injector:92 
+2019-09-03 13:31:35,589  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.AgentFactory 
+2019-09-03 13:31:35,590  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.agents.AgentFactory, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@67b68dc3}[Scopes.SINGLETON]
+2019-09-03 13:31:35,590  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:30)
+2019-09-03 13:31:35,590  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,590  INFO Injector:92 
+2019-09-03 13:31:35,591  INFO Injector:84 org.matsim.core.mobsim.qsim.interfaces.Netsim 
+2019-09-03 13:31:35,591  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.interfaces.Netsim, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@4f2e6db7[Scopes.SINGLETON]}
+2019-09-03 13:31:35,592  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:65)
+2019-09-03 13:31:35,592  INFO Injector:88   --> scope: Scopes.NO_SCOPE
+2019-09-03 13:31:35,594  INFO Injector:92 
+2019-09-03 13:31:35,595  INFO Injector:84 org.matsim.core.mobsim.jdeqsim.MessageQueue 
+2019-09-03 13:31:35,595  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@3f6094da[Scopes.SINGLETON]
+2019-09-03 13:31:35,596  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:24)
+2019-09-03 13:31:35,597  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,598  INFO Injector:92 
+2019-09-03 13:31:35,603  INFO Injector:84 org.matsim.core.mobsim.qsim.jdeqsimengine.SteppableScheduler 
+2019-09-03 13:31:35,604  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@1db30771[Scopes.SINGLETON]
+2019-09-03 13:31:35,605  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:25)
+2019-09-03 13:31:35,611  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,612  INFO Injector:92 
+2019-09-03 13:31:35,612  INFO Injector:84 org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine 
+2019-09-03 13:31:35,612  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@69160a0c[Scopes.SINGLETON]
+2019-09-03 13:31:35,613  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:26)
+2019-09-03 13:31:35,613  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,613  INFO Injector:92 
+2019-09-03 13:31:35,614  INFO Injector:84 org.matsim.core.mobsim.qsim.ActivityEngine 
+2019-09-03 13:31:35,614  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@6ad259d[Scopes.SINGLETON]
+2019-09-03 13:31:35,615  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.ActivityEnginePlugin$1.configure(ActivityEnginePlugin.java:23)
+2019-09-03 13:31:35,615  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,615  INFO Injector:92 
+2019-09-03 13:31:35,616  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngine 
+2019-09-03 13:31:35,616  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@1e2a39b7[Scopes.SINGLETON]
+2019-09-03 13:31:35,628  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:24)
+2019-09-03 13:31:35,629  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,629  INFO Injector:92 
+2019-09-03 13:31:35,629  INFO Injector:84 org.matsim.core.mobsim.qsim.DefaultTeleportationEngine 
+2019-09-03 13:31:35,629  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@2004e611[Scopes.SINGLETON]
+2019-09-03 13:31:35,630  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.TeleportationPlugin$1.configure(TeleportationPlugin.java:21)
+2019-09-03 13:31:35,631  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,631  INFO Injector:92 
+2019-09-03 13:31:35,631  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.PopulationAgentSource 
+2019-09-03 13:31:35,632  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@5ff24b0f[Scopes.SINGLETON]
+2019-09-03 13:31:35,633  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:26)
+2019-09-03 13:31:35,633  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,633  INFO Injector:92 
+2019-09-03 13:31:35,633  INFO Injector:84 org.matsim.core.mobsim.qsim.QSim 
+2019-09-03 13:31:35,634  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@4f2e6db7[Scopes.SINGLETON]
+2019-09-03 13:31:35,634  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:64)
+2019-09-03 13:31:35,635  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:35,638  INFO Injector:92 
+2019-09-03 13:31:35,638  INFO Injector:95 === printInjector end ===
+2019-09-03 13:31:35,638  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:35,638  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:35,639  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeSimStepListener
+2019-09-03 13:31:35,639  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine
+2019-09-03 13:31:35,696  INFO QNetsimEngine:504 Assigned 18088 nodes and 42206 links to QSimEngineRunner #0
+2019-09-03 13:31:35,703  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 07:00:00 : #links=7 #nodes=10
+2019-09-03 13:31:35,705  INFO QSim:506 SIMULATION (NEW QSim) AT 07:00:00 : #Veh=50 lost=0 simT=0.0s realT=0s; (s/r): 0.0
+2019-09-03 13:31:35,705  INFO Gbl:54 used RAM: 331497288B = 323727kB = 316MB  free: 310231224B = 295MB  total: 641728512B = 612MB
+2019-09-03 13:31:35,944  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 08:00:00 : #links=13 #nodes=1
+2019-09-03 13:31:35,945  INFO QSim:506 SIMULATION (NEW QSim) AT 08:00:00 : #Veh=45 lost=0 simT=3600.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:35,945  INFO Gbl:54 used RAM: 334013920B = 326185kB = 318MB  free: 307714592B = 293MB  total: 641728512B = 612MB
+2019-09-03 13:31:36,239  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 09:00:00 : #links=9 #nodes=0
+2019-09-03 13:31:36,239  INFO QSim:506 SIMULATION (NEW QSim) AT 09:00:00 : #Veh=13 lost=0 simT=7200.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:36,239  INFO Gbl:54 used RAM: 346108136B = 337996kB = 330MB  free: 295620376B = 281MB  total: 641728512B = 612MB
+2019-09-03 13:31:36,435  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 10:00:00 : #links=1 #nodes=1
+2019-09-03 13:31:36,436  INFO QSim:506 SIMULATION (NEW QSim) AT 10:00:00 : #Veh=4 lost=0 simT=10800.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:36,437  INFO Gbl:54 used RAM: 351910736B = 343662kB = 335MB  free: 289817776B = 276MB  total: 641728512B = 612MB
+2019-09-03 13:31:36,554  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 11:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:36,556  INFO QSim:506 SIMULATION (NEW QSim) AT 11:00:00 : #Veh=3 lost=0 simT=14400.0s realT=1s; (s/r): 14400.0
+2019-09-03 13:31:36,560  INFO Gbl:54 used RAM: 356454960B = 348100kB = 339MB  free: 285273552B = 272MB  total: 641728512B = 612MB
+2019-09-03 13:31:36,696  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 12:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:36,697  INFO QSim:506 SIMULATION (NEW QSim) AT 12:00:00 : #Veh=3 lost=0 simT=18000.0s realT=1s; (s/r): 18000.0
+2019-09-03 13:31:36,697  INFO Gbl:54 used RAM: 356454960B = 348100kB = 339MB  free: 285273552B = 272MB  total: 641728512B = 612MB
+2019-09-03 13:31:36,848  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 13:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:36,849  INFO QSim:506 SIMULATION (NEW QSim) AT 13:00:00 : #Veh=3 lost=0 simT=21600.0s realT=1s; (s/r): 21600.0
+2019-09-03 13:31:36,849  INFO Gbl:54 used RAM: 359740856B = 351309kB = 343MB  free: 281987656B = 268MB  total: 641728512B = 612MB
+2019-09-03 13:31:37,002  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 14:00:00 : #links=3 #nodes=1
+2019-09-03 13:31:37,003  INFO QSim:506 SIMULATION (NEW QSim) AT 14:00:00 : #Veh=3 lost=0 simT=25200.0s realT=1s; (s/r): 25200.0
+2019-09-03 13:31:37,003  INFO Gbl:54 used RAM: 364285072B = 355747kB = 347MB  free: 277443440B = 264MB  total: 641728512B = 612MB
+2019-09-03 13:31:37,167  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 15:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:37,167  INFO QSim:506 SIMULATION (NEW QSim) AT 15:00:00 : #Veh=1 lost=0 simT=28800.0s realT=1s; (s/r): 28800.0
+2019-09-03 13:31:37,168  INFO Gbl:54 used RAM: 368829328B = 360184kB = 351MB  free: 272899184B = 260MB  total: 641728512B = 612MB
+2019-09-03 13:31:37,247  INFO Gbl:187 Thread performance: Thread=class org.matsim.core.events.SimStepParallelEventsManagerImpl$ProcessEventsRunnable0  cpu-time=0.390625sec
+2019-09-03 13:31:37,250  INFO AbstractController$8:215 ### ITERATION 1 fires after mobsim event
+2019-09-03 13:31:37,250  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.analysis.LegTimesControlerListener
+2019-09-03 13:31:37,269  INFO LegTimesControlerListener:50 [1] average trip (probably: leg) duration is: 6514 seconds = 01:48:34
+2019-09-03 13:31:37,270  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.core.scoring.EventsToActivities$1
+2019-09-03 13:31:37,273  WARN CharyparNagelActivityScoring:252 The first and the last activity do not have the same type. 
+2019-09-03 13:31:37,274  WARN CharyparNagelActivityScoring:253 Will score the first activity from midnight to its end, and the last activity from its start to midnight.
+2019-09-03 13:31:37,274  WARN CharyparNagelActivityScoring:254 Because of the nonlinear function, this is not the same as scoring from start to end.
+2019-09-03 13:31:37,274  WARN CharyparNagelActivityScoring:255 first activity: [type=home][coord=null][linkId=28625][startTime=undefined][endTime=07:00:00][duration=undefined][facilityId=null]
+2019-09-03 13:31:37,275  WARN CharyparNagelActivityScoring:256 last activity: [type=shelter][coord=null][linkId=25696][startTime=08:35:29][endTime=undefined][duration=undefined][facilityId=null]
+2019-09-03 13:31:37,275  WARN CharyparNagelActivityScoring:257 This may also happen when plans are not completed when the simulation ends.
+2019-09-03 13:31:37,275  WARN CharyparNagelActivityScoring:259 Additional warnings of this type are suppressed.
+2019-09-03 13:31:37,279  INFO ControlerListenerManagerImpl:251 [it.1] all ControlerAfterMobsimListeners called.
+2019-09-03 13:31:37,279  INFO AbstractController$4:152 ### ITERATION 1 fires scoring event
+2019-09-03 13:31:37,279  INFO ControlerListenerManagerImpl:183 calling notifyScoring on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:37,281  INFO NewScoreAssignerImpl:36 it: 1 msaStart: null
+2019-09-03 13:31:37,283  INFO ControlerListenerManagerImpl:194 [it.1] all ControlerScoringListeners called.
+2019-09-03 13:31:37,284  INFO AbstractController$5:160 ### ITERATION 1 fires iteration end event
+2019-09-03 13:31:37,284  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:37,295  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:37,296  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:37,296  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:37,297  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.counts.CountsControlerListener
+2019-09-03 13:31:37,297  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:37,300  INFO ModeStatsControlerListener:155 -- mode share of mode bike = 0.0
+2019-09-03 13:31:37,301  INFO ModeStatsControlerListener:155 -- mode share of mode car = 1.0
+2019-09-03 13:31:37,301  INFO ModeStatsControlerListener:155 -- mode share of mode other = 0.0
+2019-09-03 13:31:37,301  INFO ModeStatsControlerListener:155 -- mode share of mode pt = 0.0
+2019-09-03 13:31:37,301  INFO ModeStatsControlerListener:155 -- mode share of mode ride = 0.0
+2019-09-03 13:31:37,302  INFO ModeStatsControlerListener:155 -- mode share of mode walk = 0.0
+2019-09-03 13:31:37,530  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:37,530  INFO ScoreStatsControlerListener:191 -- avg. score of the executed plan of each agent: 95.62419684633315
+2019-09-03 13:31:37,530  INFO ScoreStatsControlerListener:192 -- avg. score of the worst plan of each agent: 95.62419684633315
+2019-09-03 13:31:37,531  INFO ScoreStatsControlerListener:193 -- avg. of the avg. plan score per agent: 95.62471018651742
+2019-09-03 13:31:37,531  INFO ScoreStatsControlerListener:194 -- avg. score of the best plan of each agent: 95.62522352670169
+2019-09-03 13:31:37,655  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.TravelDistanceStatsControlerListener
+2019-09-03 13:31:37,655  INFO TravelDistanceStats:128 [TravelDistanceStats] using 2 thread(s).
+2019-09-03 13:31:37,656  INFO TravelDistanceStats:141 [TravelDistanceStats] all threads finished.
+2019-09-03 13:31:37,656  INFO TravelDistanceStats:161 -- average of the average leg distance per plan (executed plans only): 116290.3391231132
+2019-09-03 13:31:37,656  INFO TravelDistanceStats:162 (TravelDistanceStats takes an average over all legs where the simulation reports travelled distances. These are car legs, pt legs,
+2019-09-03 13:31:37,656  INFO TravelDistanceStats:163 (and teleported legs whose route contains a distance.)
+2019-09-03 13:31:37,764  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:37,775  INFO LegHistogramListener:72 number of legs:	53	100%
+2019-09-03 13:31:37,775  INFO LegHistogramListener:79 number of car legs:	53	100.0%
+2019-09-03 13:31:38,155  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:38,156  INFO ControlerListenerManagerImpl:171 [it.1] all ControlerIterationEndsListeners called.
+2019-09-03 13:31:38,299  INFO AbstractController:170 ### ITERATION 1 ENDS
+2019-09-03 13:31:38,299  INFO AbstractController:171 ###################################################
+2019-09-03 13:31:38,300  INFO AbstractController:126 ###################################################
+2019-09-03 13:31:38,300  INFO AbstractController:127 ### ITERATION 2 BEGINS
+2019-09-03 13:31:38,302  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:38,303  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:38,303  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.replanning.ReplanningContextImpl
+2019-09-03 13:31:38,303  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ExperiencedPlansServiceImpl$1
+2019-09-03 13:31:38,303  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ScoringFunctionsForPopulation$1
+2019-09-03 13:31:38,304  INFO ControlerListenerManagerImpl:148 [it.2] all ControlerIterationStartsListeners called.
+2019-09-03 13:31:38,305  INFO ControlerListenerManagerImpl:205 calling notifyReplanning on org.matsim.core.controler.corelisteners.PlansReplanningImpl
+2019-09-03 13:31:38,307 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:38,310 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:38,312 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:38,315 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:38,316  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 40 plans handled. Strategy: BestPlanSelector
+2019-09-03 13:31:38,317  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 5 plans
+2019-09-03 13:31:38,346  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:38,375  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:38,394  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:38,403  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:38,403  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 5 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:38,403  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 5 plans
+2019-09-03 13:31:38,437  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:38,447  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:38,473  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:38,491  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:38,491  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 5 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:38,491  INFO ControlerListenerManagerImpl:213 [it.2] all ControlerReplanningListeners called.
+2019-09-03 13:31:38,493  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:38,494  INFO EventsManagerImpl:170 resetting Event-Handlers
+2019-09-03 13:31:38,494  INFO EventsManagerImpl:177   org.matsim.core.trafficmonitoring.TravelTimeCalculator
+2019-09-03 13:31:38,524  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToLegs
+2019-09-03 13:31:38,524  INFO EventsManagerImpl:177   org.matsim.analysis.VolumesAnalyzer
+2019-09-03 13:31:38,524  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToActivities
+2019-09-03 13:31:38,525  INFO EventsManagerImpl:177   org.matsim.analysis.CalcLegTimes
+2019-09-03 13:31:38,527  INFO EventsManagerImpl:177   org.matsim.analysis.LegHistogram
+2019-09-03 13:31:38,528  INFO EventsManagerImpl:177   org.matsim.core.scoring.ScoringFunctionsForPopulation
+2019-09-03 13:31:38,530  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:38,531  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:38,531  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:38,533  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:38,541  INFO EventsManagerImpl:156 
+2019-09-03 13:31:38,542  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:38,543  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:38,543  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:38,544  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:38,544  INFO EventsManagerImpl:156 
+2019-09-03 13:31:38,544  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.PlansDumpingImpl
+2019-09-03 13:31:38,545  INFO ControlerListenerManagerImpl:229 calling notifyBeforeMobsim on org.matsim.core.population.VspPlansCleaner
+2019-09-03 13:31:38,545  INFO ControlerListenerManagerImpl:232 [it.2] all ControlerBeforeMobsimListeners called.
+2019-09-03 13:31:38,553  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:38,556  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:38,558  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimAfterSimStepListener
+2019-09-03 13:31:38,560  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener
+2019-09-03 13:31:38,562  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.vis.snapshotwriters.SnapshotWriterManager
+2019-09-03 13:31:38,563  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimInitializedListener
+2019-09-03 13:31:38,638  INFO Injector:80 === printInjector start ===
+2019-09-03 13:31:38,641  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.VehicularDepartureHandler 
+2019-09-03 13:31:38,645  INFO Injector:85   --> provider: Key[type=org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngineDepartureHandlerProvider, annotation=[none]][Scopes.SINGLETON]
+2019-09-03 13:31:38,645  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:25)
+2019-09-03 13:31:38,651  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,654  INFO Injector:92 
+2019-09-03 13:31:38,665  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.AgentFactory 
+2019-09-03 13:31:38,693  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.agents.AgentFactory, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@44482774}[Scopes.SINGLETON]
+2019-09-03 13:31:38,707  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:30)
+2019-09-03 13:31:38,710  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,712  INFO Injector:92 
+2019-09-03 13:31:38,715  INFO Injector:84 org.matsim.core.mobsim.qsim.interfaces.Netsim 
+2019-09-03 13:31:38,718  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.interfaces.Netsim, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@36010af3[Scopes.SINGLETON]}
+2019-09-03 13:31:38,718  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:65)
+2019-09-03 13:31:38,718  INFO Injector:88   --> scope: Scopes.NO_SCOPE
+2019-09-03 13:31:38,719  INFO Injector:92 
+2019-09-03 13:31:38,719  INFO Injector:84 org.matsim.core.mobsim.jdeqsim.MessageQueue 
+2019-09-03 13:31:38,719  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@5d7adc2c[Scopes.SINGLETON]
+2019-09-03 13:31:38,720  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:24)
+2019-09-03 13:31:38,720  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,720  INFO Injector:92 
+2019-09-03 13:31:38,721  INFO Injector:84 org.matsim.core.mobsim.qsim.jdeqsimengine.SteppableScheduler 
+2019-09-03 13:31:38,721  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@7f72f7cb[Scopes.SINGLETON]
+2019-09-03 13:31:38,721  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:25)
+2019-09-03 13:31:38,722  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,722  INFO Injector:92 
+2019-09-03 13:31:38,723  INFO Injector:84 org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine 
+2019-09-03 13:31:38,723  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@47962a49[Scopes.SINGLETON]
+2019-09-03 13:31:38,724  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:26)
+2019-09-03 13:31:38,724  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,724  INFO Injector:92 
+2019-09-03 13:31:38,725  INFO Injector:84 org.matsim.core.mobsim.qsim.ActivityEngine 
+2019-09-03 13:31:38,727  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@632c8bb9[Scopes.SINGLETON]
+2019-09-03 13:31:38,727  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.ActivityEnginePlugin$1.configure(ActivityEnginePlugin.java:23)
+2019-09-03 13:31:38,727  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,728  INFO Injector:92 
+2019-09-03 13:31:38,728  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngine 
+2019-09-03 13:31:38,729  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@737bfc4e[Scopes.SINGLETON]
+2019-09-03 13:31:38,729  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:24)
+2019-09-03 13:31:38,730  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,730  INFO Injector:92 
+2019-09-03 13:31:38,730  INFO Injector:84 org.matsim.core.mobsim.qsim.DefaultTeleportationEngine 
+2019-09-03 13:31:38,736  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@6542a5cf[Scopes.SINGLETON]
+2019-09-03 13:31:38,738  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.TeleportationPlugin$1.configure(TeleportationPlugin.java:21)
+2019-09-03 13:31:38,738  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,739  INFO Injector:92 
+2019-09-03 13:31:38,739  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.PopulationAgentSource 
+2019-09-03 13:31:38,741  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@49b4e11c[Scopes.SINGLETON]
+2019-09-03 13:31:38,741  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:26)
+2019-09-03 13:31:38,742  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,744  INFO Injector:92 
+2019-09-03 13:31:38,744  INFO Injector:84 org.matsim.core.mobsim.qsim.QSim 
+2019-09-03 13:31:38,744  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@36010af3[Scopes.SINGLETON]
+2019-09-03 13:31:38,745  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:64)
+2019-09-03 13:31:38,745  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:38,745  INFO Injector:92 
+2019-09-03 13:31:38,745  INFO Injector:95 === printInjector end ===
+2019-09-03 13:31:38,745  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:38,746  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:38,746  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeSimStepListener
+2019-09-03 13:31:38,746  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine
+2019-09-03 13:31:38,782  INFO QNetsimEngine:504 Assigned 18088 nodes and 42206 links to QSimEngineRunner #0
+2019-09-03 13:31:38,787  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 07:00:00 : #links=7 #nodes=10
+2019-09-03 13:31:38,787  INFO QSim:506 SIMULATION (NEW QSim) AT 07:00:00 : #Veh=50 lost=0 simT=0.0s realT=0s; (s/r): 0.0
+2019-09-03 13:31:38,788  INFO Gbl:54 used RAM: 331766128B = 323990kB = 316MB  free: 306816656B = 292MB  total: 638582784B = 609MB
+2019-09-03 13:31:38,983  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 08:00:00 : #links=12 #nodes=0
+2019-09-03 13:31:38,983  INFO QSim:506 SIMULATION (NEW QSim) AT 08:00:00 : #Veh=45 lost=0 simT=3600.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:38,984  INFO Gbl:54 used RAM: 337982152B = 330060kB = 322MB  free: 300600632B = 286MB  total: 638582784B = 609MB
+2019-09-03 13:31:39,156  INFO EventsManagerImpl:134  event # 65536
+2019-09-03 13:31:39,206  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 09:00:00 : #links=9 #nodes=0
+2019-09-03 13:31:39,209  INFO QSim:506 SIMULATION (NEW QSim) AT 09:00:00 : #Veh=13 lost=0 simT=7200.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:39,209  INFO Gbl:54 used RAM: 346308048B = 338191kB = 330MB  free: 292274736B = 278MB  total: 638582784B = 609MB
+2019-09-03 13:31:39,368  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 10:00:00 : #links=1 #nodes=1
+2019-09-03 13:31:39,368  INFO QSim:506 SIMULATION (NEW QSim) AT 10:00:00 : #Veh=4 lost=0 simT=10800.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:39,369  INFO Gbl:54 used RAM: 351136448B = 342906kB = 334MB  free: 287446336B = 274MB  total: 638582784B = 609MB
+2019-09-03 13:31:39,511  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 11:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:39,511  INFO QSim:506 SIMULATION (NEW QSim) AT 11:00:00 : #Veh=3 lost=0 simT=14400.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:39,511  INFO Gbl:54 used RAM: 353911712B = 345616kB = 337MB  free: 284671072B = 271MB  total: 638582784B = 609MB
+2019-09-03 13:31:39,666  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 12:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:39,666  INFO QSim:506 SIMULATION (NEW QSim) AT 12:00:00 : #Veh=3 lost=0 simT=18000.0s realT=1s; (s/r): 18000.0
+2019-09-03 13:31:39,666  INFO Gbl:54 used RAM: 357352472B = 348977kB = 340MB  free: 281230312B = 268MB  total: 638582784B = 609MB
+2019-09-03 13:31:39,807  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 13:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:39,807  INFO QSim:506 SIMULATION (NEW QSim) AT 13:00:00 : #Veh=3 lost=0 simT=21600.0s realT=1s; (s/r): 21600.0
+2019-09-03 13:31:39,807  INFO Gbl:54 used RAM: 357352472B = 348977kB = 340MB  free: 281230312B = 268MB  total: 638582784B = 609MB
+2019-09-03 13:31:39,956  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 14:00:00 : #links=3 #nodes=1
+2019-09-03 13:31:39,956  INFO QSim:506 SIMULATION (NEW QSim) AT 14:00:00 : #Veh=3 lost=0 simT=25200.0s realT=1s; (s/r): 25200.0
+2019-09-03 13:31:39,956  INFO Gbl:54 used RAM: 357352472B = 348977kB = 340MB  free: 281230312B = 268MB  total: 638582784B = 609MB
+2019-09-03 13:31:40,106  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 15:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:40,106  INFO QSim:506 SIMULATION (NEW QSim) AT 15:00:00 : #Veh=1 lost=0 simT=28800.0s realT=1s; (s/r): 28800.0
+2019-09-03 13:31:40,106  INFO Gbl:54 used RAM: 360793240B = 352337kB = 344MB  free: 277789544B = 264MB  total: 638582784B = 609MB
+2019-09-03 13:31:40,190  INFO AbstractController$8:215 ### ITERATION 2 fires after mobsim event
+2019-09-03 13:31:40,191  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.analysis.LegTimesControlerListener
+2019-09-03 13:31:40,190  INFO Gbl:187 Thread performance: Thread=class org.matsim.core.events.SimStepParallelEventsManagerImpl$ProcessEventsRunnable0  cpu-time=0.4375sec
+2019-09-03 13:31:40,211  INFO LegTimesControlerListener:50 [2] average trip (probably: leg) duration is: 6515 seconds = 01:48:35
+2019-09-03 13:31:40,211  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.core.scoring.EventsToActivities$1
+2019-09-03 13:31:40,211  WARN CharyparNagelActivityScoring:252 The first and the last activity do not have the same type. 
+2019-09-03 13:31:40,211  WARN CharyparNagelActivityScoring:253 Will score the first activity from midnight to its end, and the last activity from its start to midnight.
+2019-09-03 13:31:40,211  WARN CharyparNagelActivityScoring:254 Because of the nonlinear function, this is not the same as scoring from start to end.
+2019-09-03 13:31:40,212  WARN CharyparNagelActivityScoring:255 first activity: [type=home][coord=null][linkId=28625][startTime=undefined][endTime=07:00:00][duration=undefined][facilityId=null]
+2019-09-03 13:31:40,212  WARN CharyparNagelActivityScoring:256 last activity: [type=shelter][coord=null][linkId=25696][startTime=08:35:29][endTime=undefined][duration=undefined][facilityId=null]
+2019-09-03 13:31:40,212  WARN CharyparNagelActivityScoring:257 This may also happen when plans are not completed when the simulation ends.
+2019-09-03 13:31:40,212  WARN CharyparNagelActivityScoring:259 Additional warnings of this type are suppressed.
+2019-09-03 13:31:40,216  INFO ControlerListenerManagerImpl:251 [it.2] all ControlerAfterMobsimListeners called.
+2019-09-03 13:31:40,219  INFO AbstractController$4:152 ### ITERATION 2 fires scoring event
+2019-09-03 13:31:40,220  INFO ControlerListenerManagerImpl:183 calling notifyScoring on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:40,220  INFO NewScoreAssignerImpl:36 it: 2 msaStart: null
+2019-09-03 13:31:40,221  INFO ControlerListenerManagerImpl:194 [it.2] all ControlerScoringListeners called.
+2019-09-03 13:31:40,221  INFO AbstractController$5:160 ### ITERATION 2 fires iteration end event
+2019-09-03 13:31:40,221  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:40,236  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:40,236  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:40,237  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:40,237  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.counts.CountsControlerListener
+2019-09-03 13:31:40,237  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:40,238  INFO ModeStatsControlerListener:155 -- mode share of mode bike = 0.0
+2019-09-03 13:31:40,238  INFO ModeStatsControlerListener:155 -- mode share of mode car = 1.0
+2019-09-03 13:31:40,238  INFO ModeStatsControlerListener:155 -- mode share of mode other = 0.0
+2019-09-03 13:31:40,239  INFO ModeStatsControlerListener:155 -- mode share of mode pt = 0.0
+2019-09-03 13:31:40,249  INFO ModeStatsControlerListener:155 -- mode share of mode ride = 0.0
+2019-09-03 13:31:40,256  INFO ModeStatsControlerListener:155 -- mode share of mode walk = 0.0
+2019-09-03 13:31:40,408  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:40,408  INFO ScoreStatsControlerListener:191 -- avg. score of the executed plan of each agent: 95.61698515077217
+2019-09-03 13:31:40,408  INFO ScoreStatsControlerListener:192 -- avg. score of the worst plan of each agent: 95.6159584704036
+2019-09-03 13:31:40,409  INFO ScoreStatsControlerListener:193 -- avg. of the avg. plan score per agent: 95.62102680698995
+2019-09-03 13:31:40,409  INFO ScoreStatsControlerListener:194 -- avg. score of the best plan of each agent: 95.62609514357624
+2019-09-03 13:31:40,523  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.TravelDistanceStatsControlerListener
+2019-09-03 13:31:40,523  INFO TravelDistanceStats:128 [TravelDistanceStats] using 2 thread(s).
+2019-09-03 13:31:40,525  INFO TravelDistanceStats:141 [TravelDistanceStats] all threads finished.
+2019-09-03 13:31:40,526  INFO TravelDistanceStats:161 -- average of the average leg distance per plan (executed plans only): 116495.23903216075
+2019-09-03 13:31:40,527  INFO TravelDistanceStats:162 (TravelDistanceStats takes an average over all legs where the simulation reports travelled distances. These are car legs, pt legs,
+2019-09-03 13:31:40,527  INFO TravelDistanceStats:163 (and teleported legs whose route contains a distance.)
+2019-09-03 13:31:40,667  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:40,683  INFO LegHistogramListener:72 number of legs:	53	100%
+2019-09-03 13:31:40,683  INFO LegHistogramListener:79 number of car legs:	53	100.0%
+2019-09-03 13:31:41,053  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:41,053  INFO ControlerListenerManagerImpl:171 [it.2] all ControlerIterationEndsListeners called.
+2019-09-03 13:31:41,158  INFO AbstractController:170 ### ITERATION 2 ENDS
+2019-09-03 13:31:41,158  INFO AbstractController:171 ###################################################
+2019-09-03 13:31:41,158  INFO AbstractController:126 ###################################################
+2019-09-03 13:31:41,158  INFO AbstractController:127 ### ITERATION 3 BEGINS
+2019-09-03 13:31:41,160  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:41,160  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:41,160  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.replanning.ReplanningContextImpl
+2019-09-03 13:31:41,160  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ExperiencedPlansServiceImpl$1
+2019-09-03 13:31:41,160  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ScoringFunctionsForPopulation$1
+2019-09-03 13:31:41,161  INFO ControlerListenerManagerImpl:148 [it.3] all ControlerIterationStartsListeners called.
+2019-09-03 13:31:41,161  INFO ControlerListenerManagerImpl:205 calling notifyReplanning on org.matsim.core.controler.corelisteners.PlansReplanningImpl
+2019-09-03 13:31:41,161 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:41,161 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:41,162 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:41,162 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:41,162  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 37 plans handled. Strategy: BestPlanSelector
+2019-09-03 13:31:41,162  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 7 plans
+2019-09-03 13:31:41,194  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:41,228  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:41,243  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:41,303  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:41,304  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 7 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:41,304  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 6 plans
+2019-09-03 13:31:41,317  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:41,332  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:41,350  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:41,385  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:41,385  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 6 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:41,385  INFO ControlerListenerManagerImpl:213 [it.3] all ControlerReplanningListeners called.
+2019-09-03 13:31:41,385  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:41,385  INFO EventsManagerImpl:170 resetting Event-Handlers
+2019-09-03 13:31:41,385  INFO EventsManagerImpl:177   org.matsim.core.trafficmonitoring.TravelTimeCalculator
+2019-09-03 13:31:41,408  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToLegs
+2019-09-03 13:31:41,408  INFO EventsManagerImpl:177   org.matsim.analysis.VolumesAnalyzer
+2019-09-03 13:31:41,409  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToActivities
+2019-09-03 13:31:41,409  INFO EventsManagerImpl:177   org.matsim.analysis.CalcLegTimes
+2019-09-03 13:31:41,409  INFO EventsManagerImpl:177   org.matsim.analysis.LegHistogram
+2019-09-03 13:31:41,410  INFO EventsManagerImpl:177   org.matsim.core.scoring.ScoringFunctionsForPopulation
+2019-09-03 13:31:41,411  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:41,412  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:41,412  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:41,412  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:41,412  INFO EventsManagerImpl:156 
+2019-09-03 13:31:41,412  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:41,412  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:41,412  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:41,413  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:41,413  INFO EventsManagerImpl:156 
+2019-09-03 13:31:41,413  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.PlansDumpingImpl
+2019-09-03 13:31:41,413  INFO ControlerListenerManagerImpl:229 calling notifyBeforeMobsim on org.matsim.core.population.VspPlansCleaner
+2019-09-03 13:31:41,413  INFO ControlerListenerManagerImpl:232 [it.3] all ControlerBeforeMobsimListeners called.
+2019-09-03 13:31:41,422  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:41,426  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:41,429  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimAfterSimStepListener
+2019-09-03 13:31:41,431  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener
+2019-09-03 13:31:41,431  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.vis.snapshotwriters.SnapshotWriterManager
+2019-09-03 13:31:41,432  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimInitializedListener
+2019-09-03 13:31:41,492  INFO Injector:80 === printInjector start ===
+2019-09-03 13:31:41,493  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.VehicularDepartureHandler 
+2019-09-03 13:31:41,493  INFO Injector:85   --> provider: Key[type=org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngineDepartureHandlerProvider, annotation=[none]][Scopes.SINGLETON]
+2019-09-03 13:31:41,493  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:25)
+2019-09-03 13:31:41,494  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,494  INFO Injector:92 
+2019-09-03 13:31:41,494  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.AgentFactory 
+2019-09-03 13:31:41,495  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.agents.AgentFactory, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@4759605c}[Scopes.SINGLETON]
+2019-09-03 13:31:41,495  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:30)
+2019-09-03 13:31:41,495  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,496  INFO Injector:92 
+2019-09-03 13:31:41,496  INFO Injector:84 org.matsim.core.mobsim.qsim.interfaces.Netsim 
+2019-09-03 13:31:41,497  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.interfaces.Netsim, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@673eadd9[Scopes.SINGLETON]}
+2019-09-03 13:31:41,497  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:65)
+2019-09-03 13:31:41,497  INFO Injector:88   --> scope: Scopes.NO_SCOPE
+2019-09-03 13:31:41,497  INFO Injector:92 
+2019-09-03 13:31:41,498  INFO Injector:84 org.matsim.core.mobsim.jdeqsim.MessageQueue 
+2019-09-03 13:31:41,498  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@1ad221cb[Scopes.SINGLETON]
+2019-09-03 13:31:41,498  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:24)
+2019-09-03 13:31:41,498  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,499  INFO Injector:92 
+2019-09-03 13:31:41,499  INFO Injector:84 org.matsim.core.mobsim.qsim.jdeqsimengine.SteppableScheduler 
+2019-09-03 13:31:41,499  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@e93df1c[Scopes.SINGLETON]
+2019-09-03 13:31:41,499  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:25)
+2019-09-03 13:31:41,499  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,500  INFO Injector:92 
+2019-09-03 13:31:41,500  INFO Injector:84 org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine 
+2019-09-03 13:31:41,500  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@3d7f8924[Scopes.SINGLETON]
+2019-09-03 13:31:41,500  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:26)
+2019-09-03 13:31:41,500  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,501  INFO Injector:92 
+2019-09-03 13:31:41,501  INFO Injector:84 org.matsim.core.mobsim.qsim.ActivityEngine 
+2019-09-03 13:31:41,501  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@65364ae3[Scopes.SINGLETON]
+2019-09-03 13:31:41,501  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.ActivityEnginePlugin$1.configure(ActivityEnginePlugin.java:23)
+2019-09-03 13:31:41,501  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,501  INFO Injector:92 
+2019-09-03 13:31:41,502  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngine 
+2019-09-03 13:31:41,502  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@29f5e2ac[Scopes.SINGLETON]
+2019-09-03 13:31:41,502  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:24)
+2019-09-03 13:31:41,502  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,502  INFO Injector:92 
+2019-09-03 13:31:41,502  INFO Injector:84 org.matsim.core.mobsim.qsim.DefaultTeleportationEngine 
+2019-09-03 13:31:41,503  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@263a4b70[Scopes.SINGLETON]
+2019-09-03 13:31:41,503  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.TeleportationPlugin$1.configure(TeleportationPlugin.java:21)
+2019-09-03 13:31:41,503  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,503  INFO Injector:92 
+2019-09-03 13:31:41,503  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.PopulationAgentSource 
+2019-09-03 13:31:41,504  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@494afcec[Scopes.SINGLETON]
+2019-09-03 13:31:41,504  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:26)
+2019-09-03 13:31:41,504  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,504  INFO Injector:92 
+2019-09-03 13:31:41,504  INFO Injector:84 org.matsim.core.mobsim.qsim.QSim 
+2019-09-03 13:31:41,504  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@673eadd9[Scopes.SINGLETON]
+2019-09-03 13:31:41,505  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:64)
+2019-09-03 13:31:41,505  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:41,505  INFO Injector:92 
+2019-09-03 13:31:41,505  INFO Injector:95 === printInjector end ===
+2019-09-03 13:31:41,505  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:41,505  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:41,506  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeSimStepListener
+2019-09-03 13:31:41,506  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine
+2019-09-03 13:31:41,533  INFO QNetsimEngine:504 Assigned 18088 nodes and 42206 links to QSimEngineRunner #0
+2019-09-03 13:31:41,545  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 07:00:00 : #links=7 #nodes=10
+2019-09-03 13:31:41,545  INFO QSim:506 SIMULATION (NEW QSim) AT 07:00:00 : #Veh=50 lost=0 simT=0.0s realT=0s; (s/r): 0.0
+2019-09-03 13:31:41,546  INFO Gbl:54 used RAM: 309295960B = 302046kB = 294MB  free: 339248296B = 323MB  total: 648544256B = 618MB
+2019-09-03 13:31:41,753  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 08:00:00 : #links=13 #nodes=1
+2019-09-03 13:31:41,753  INFO QSim:506 SIMULATION (NEW QSim) AT 08:00:00 : #Veh=45 lost=0 simT=3600.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:41,754  INFO Gbl:54 used RAM: 315785792B = 308384kB = 301MB  free: 332758464B = 317MB  total: 648544256B = 618MB
+2019-09-03 13:31:41,968  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 09:00:00 : #links=9 #nodes=0
+2019-09-03 13:31:41,968  INFO QSim:506 SIMULATION (NEW QSim) AT 09:00:00 : #Veh=13 lost=0 simT=7200.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:41,968  INFO Gbl:54 used RAM: 325152456B = 317531kB = 310MB  free: 323391800B = 308MB  total: 648544256B = 618MB
+2019-09-03 13:31:42,137  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 10:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:42,138  INFO QSim:506 SIMULATION (NEW QSim) AT 10:00:00 : #Veh=4 lost=0 simT=10800.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:42,138  INFO Gbl:54 used RAM: 330601568B = 322853kB = 315MB  free: 317942688B = 303MB  total: 648544256B = 618MB
+2019-09-03 13:31:42,289  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 11:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:42,289  INFO QSim:506 SIMULATION (NEW QSim) AT 11:00:00 : #Veh=3 lost=0 simT=14400.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:42,289  INFO Gbl:54 used RAM: 331642288B = 323869kB = 316MB  free: 316901968B = 302MB  total: 648544256B = 618MB
+2019-09-03 13:31:42,438  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 12:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:42,439  INFO QSim:506 SIMULATION (NEW QSim) AT 12:00:00 : #Veh=3 lost=0 simT=18000.0s realT=1s; (s/r): 18000.0
+2019-09-03 13:31:42,439  INFO Gbl:54 used RAM: 335009920B = 327158kB = 319MB  free: 313534336B = 299MB  total: 648544256B = 618MB
+2019-09-03 13:31:42,592  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 13:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:42,592  INFO QSim:506 SIMULATION (NEW QSim) AT 13:00:00 : #Veh=3 lost=0 simT=21600.0s realT=1s; (s/r): 21600.0
+2019-09-03 13:31:42,592  INFO Gbl:54 used RAM: 335009920B = 327158kB = 319MB  free: 313534336B = 299MB  total: 648544256B = 618MB
+2019-09-03 13:31:42,759  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 14:00:00 : #links=3 #nodes=1
+2019-09-03 13:31:42,759  INFO QSim:506 SIMULATION (NEW QSim) AT 14:00:00 : #Veh=3 lost=0 simT=25200.0s realT=1s; (s/r): 25200.0
+2019-09-03 13:31:42,759  INFO Gbl:54 used RAM: 339418296B = 331463kB = 323MB  free: 309125960B = 294MB  total: 648544256B = 618MB
+2019-09-03 13:31:42,899  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 15:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:42,899  INFO QSim:506 SIMULATION (NEW QSim) AT 15:00:00 : #Veh=1 lost=0 simT=28800.0s realT=1s; (s/r): 28800.0
+2019-09-03 13:31:42,899  INFO Gbl:54 used RAM: 340459024B = 332479kB = 324MB  free: 308085232B = 293MB  total: 648544256B = 618MB
+2019-09-03 13:31:42,957  INFO AbstractController$8:215 ### ITERATION 3 fires after mobsim event
+2019-09-03 13:31:42,957  INFO Gbl:187 Thread performance: Thread=class org.matsim.core.events.SimStepParallelEventsManagerImpl$ProcessEventsRunnable0  cpu-time=0.28125sec
+2019-09-03 13:31:42,957  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.analysis.LegTimesControlerListener
+2019-09-03 13:31:42,961  INFO LegTimesControlerListener:50 [3] average trip (probably: leg) duration is: 6514 seconds = 01:48:34
+2019-09-03 13:31:42,961  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.core.scoring.EventsToActivities$1
+2019-09-03 13:31:42,961  WARN CharyparNagelActivityScoring:252 The first and the last activity do not have the same type. 
+2019-09-03 13:31:42,961  WARN CharyparNagelActivityScoring:253 Will score the first activity from midnight to its end, and the last activity from its start to midnight.
+2019-09-03 13:31:42,961  WARN CharyparNagelActivityScoring:254 Because of the nonlinear function, this is not the same as scoring from start to end.
+2019-09-03 13:31:42,961  WARN CharyparNagelActivityScoring:255 first activity: [type=home][coord=null][linkId=28625][startTime=undefined][endTime=07:00:00][duration=undefined][facilityId=null]
+2019-09-03 13:31:42,962  WARN CharyparNagelActivityScoring:256 last activity: [type=shelter][coord=null][linkId=25696][startTime=08:35:29][endTime=undefined][duration=undefined][facilityId=null]
+2019-09-03 13:31:42,962  WARN CharyparNagelActivityScoring:257 This may also happen when plans are not completed when the simulation ends.
+2019-09-03 13:31:42,962  WARN CharyparNagelActivityScoring:259 Additional warnings of this type are suppressed.
+2019-09-03 13:31:42,962  INFO ControlerListenerManagerImpl:251 [it.3] all ControlerAfterMobsimListeners called.
+2019-09-03 13:31:42,962  INFO AbstractController$4:152 ### ITERATION 3 fires scoring event
+2019-09-03 13:31:42,963  INFO ControlerListenerManagerImpl:183 calling notifyScoring on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:42,963  INFO NewScoreAssignerImpl:36 it: 3 msaStart: null
+2019-09-03 13:31:42,963  INFO ControlerListenerManagerImpl:194 [it.3] all ControlerScoringListeners called.
+2019-09-03 13:31:42,963  INFO AbstractController$5:160 ### ITERATION 3 fires iteration end event
+2019-09-03 13:31:42,963  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:42,971  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:42,971  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:42,972  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:42,972  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.counts.CountsControlerListener
+2019-09-03 13:31:42,972  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:42,972  INFO ModeStatsControlerListener:155 -- mode share of mode bike = 0.0
+2019-09-03 13:31:42,973  INFO ModeStatsControlerListener:155 -- mode share of mode car = 1.0
+2019-09-03 13:31:42,973  INFO ModeStatsControlerListener:155 -- mode share of mode other = 0.0
+2019-09-03 13:31:42,974  INFO ModeStatsControlerListener:155 -- mode share of mode pt = 0.0
+2019-09-03 13:31:42,974  INFO ModeStatsControlerListener:155 -- mode share of mode ride = 0.0
+2019-09-03 13:31:42,975  INFO ModeStatsControlerListener:155 -- mode share of mode walk = 0.0
+2019-09-03 13:31:43,063  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:43,064  INFO ScoreStatsControlerListener:191 -- avg. score of the executed plan of each agent: 95.62468966610939
+2019-09-03 13:31:43,064  INFO ScoreStatsControlerListener:192 -- avg. score of the worst plan of each agent: 95.61455299293677
+2019-09-03 13:31:43,064  INFO ScoreStatsControlerListener:193 -- avg. of the avg. plan score per agent: 95.62184240039055
+2019-09-03 13:31:43,064  INFO ScoreStatsControlerListener:194 -- avg. score of the best plan of each agent: 95.62609514357624
+2019-09-03 13:31:43,148  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.TravelDistanceStatsControlerListener
+2019-09-03 13:31:43,148  INFO TravelDistanceStats:128 [TravelDistanceStats] using 2 thread(s).
+2019-09-03 13:31:43,149  INFO TravelDistanceStats:141 [TravelDistanceStats] all threads finished.
+2019-09-03 13:31:43,149  INFO TravelDistanceStats:161 -- average of the average leg distance per plan (executed plans only): 116281.18231851653
+2019-09-03 13:31:43,149  INFO TravelDistanceStats:162 (TravelDistanceStats takes an average over all legs where the simulation reports travelled distances. These are car legs, pt legs,
+2019-09-03 13:31:43,149  INFO TravelDistanceStats:163 (and teleported legs whose route contains a distance.)
+2019-09-03 13:31:43,235  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:43,249  INFO LegHistogramListener:72 number of legs:	53	100%
+2019-09-03 13:31:43,249  INFO LegHistogramListener:79 number of car legs:	53	100.0%
+2019-09-03 13:31:43,548  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:43,549  INFO ControlerListenerManagerImpl:171 [it.3] all ControlerIterationEndsListeners called.
+2019-09-03 13:31:43,686  INFO AbstractController:170 ### ITERATION 3 ENDS
+2019-09-03 13:31:43,686  INFO AbstractController:171 ###################################################
+2019-09-03 13:31:43,686  INFO AbstractController:126 ###################################################
+2019-09-03 13:31:43,686  INFO AbstractController:127 ### ITERATION 4 BEGINS
+2019-09-03 13:31:43,687  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:43,688  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:43,688  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.replanning.ReplanningContextImpl
+2019-09-03 13:31:43,688  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ExperiencedPlansServiceImpl$1
+2019-09-03 13:31:43,688  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ScoringFunctionsForPopulation$1
+2019-09-03 13:31:43,688  INFO ControlerListenerManagerImpl:148 [it.4] all ControlerIterationStartsListeners called.
+2019-09-03 13:31:43,689  INFO ControlerListenerManagerImpl:205 calling notifyReplanning on org.matsim.core.controler.corelisteners.PlansReplanningImpl
+2019-09-03 13:31:43,689 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:43,690 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:43,690 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:43,691 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:43,693  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 39 plans handled. Strategy: BestPlanSelector
+2019-09-03 13:31:43,694  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 7 plans
+2019-09-03 13:31:43,705  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:43,720  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:43,741  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:43,796  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:43,796  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 7 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:43,797  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 4 plans
+2019-09-03 13:31:43,817  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:43,818  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:43,836  INFO Counter:61 [PlanRouter] handled plan # 4
+2019-09-03 13:31:43,836  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:43,836  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 4 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:43,836  INFO ControlerListenerManagerImpl:213 [it.4] all ControlerReplanningListeners called.
+2019-09-03 13:31:43,837  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:43,837  INFO EventsManagerImpl:170 resetting Event-Handlers
+2019-09-03 13:31:43,837  INFO EventsManagerImpl:177   org.matsim.core.trafficmonitoring.TravelTimeCalculator
+2019-09-03 13:31:43,858  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToLegs
+2019-09-03 13:31:43,858  INFO EventsManagerImpl:177   org.matsim.analysis.VolumesAnalyzer
+2019-09-03 13:31:43,859  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToActivities
+2019-09-03 13:31:43,859  INFO EventsManagerImpl:177   org.matsim.analysis.CalcLegTimes
+2019-09-03 13:31:43,859  INFO EventsManagerImpl:177   org.matsim.analysis.LegHistogram
+2019-09-03 13:31:43,859  INFO EventsManagerImpl:177   org.matsim.core.scoring.ScoringFunctionsForPopulation
+2019-09-03 13:31:43,861  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:43,861  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:43,861  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:43,861  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:43,861  INFO EventsManagerImpl:156 
+2019-09-03 13:31:43,862  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:43,862  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:43,862  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:43,862  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:43,862  INFO EventsManagerImpl:156 
+2019-09-03 13:31:43,862  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.PlansDumpingImpl
+2019-09-03 13:31:43,862  INFO ControlerListenerManagerImpl:229 calling notifyBeforeMobsim on org.matsim.core.population.VspPlansCleaner
+2019-09-03 13:31:43,862  INFO ControlerListenerManagerImpl:232 [it.4] all ControlerBeforeMobsimListeners called.
+2019-09-03 13:31:43,870  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:43,871  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:43,872  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimAfterSimStepListener
+2019-09-03 13:31:43,872  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener
+2019-09-03 13:31:43,873  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.vis.snapshotwriters.SnapshotWriterManager
+2019-09-03 13:31:43,873  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimInitializedListener
+2019-09-03 13:31:43,961  INFO Injector:80 === printInjector start ===
+2019-09-03 13:31:43,961  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.VehicularDepartureHandler 
+2019-09-03 13:31:43,962  INFO Injector:85   --> provider: Key[type=org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngineDepartureHandlerProvider, annotation=[none]][Scopes.SINGLETON]
+2019-09-03 13:31:43,962  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:25)
+2019-09-03 13:31:43,962  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,962  INFO Injector:92 
+2019-09-03 13:31:43,962  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.AgentFactory 
+2019-09-03 13:31:43,963  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.agents.AgentFactory, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@438baad}[Scopes.SINGLETON]
+2019-09-03 13:31:43,963  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:30)
+2019-09-03 13:31:43,963  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,963  INFO Injector:92 
+2019-09-03 13:31:43,963  INFO Injector:84 org.matsim.core.mobsim.qsim.interfaces.Netsim 
+2019-09-03 13:31:43,964  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.interfaces.Netsim, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@6766e339[Scopes.SINGLETON]}
+2019-09-03 13:31:43,964  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:65)
+2019-09-03 13:31:43,964  INFO Injector:88   --> scope: Scopes.NO_SCOPE
+2019-09-03 13:31:43,964  INFO Injector:92 
+2019-09-03 13:31:43,964  INFO Injector:84 org.matsim.core.mobsim.jdeqsim.MessageQueue 
+2019-09-03 13:31:43,964  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@43a6e864[Scopes.SINGLETON]
+2019-09-03 13:31:43,965  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:24)
+2019-09-03 13:31:43,965  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,965  INFO Injector:92 
+2019-09-03 13:31:43,965  INFO Injector:84 org.matsim.core.mobsim.qsim.jdeqsimengine.SteppableScheduler 
+2019-09-03 13:31:43,965  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@70ed24db[Scopes.SINGLETON]
+2019-09-03 13:31:43,966  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:25)
+2019-09-03 13:31:43,966  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,966  INFO Injector:92 
+2019-09-03 13:31:43,966  INFO Injector:84 org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine 
+2019-09-03 13:31:43,966  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@1ec84195[Scopes.SINGLETON]
+2019-09-03 13:31:43,967  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:26)
+2019-09-03 13:31:43,967  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,967  INFO Injector:92 
+2019-09-03 13:31:43,967  INFO Injector:84 org.matsim.core.mobsim.qsim.ActivityEngine 
+2019-09-03 13:31:43,967  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@6d5dfc9c[Scopes.SINGLETON]
+2019-09-03 13:31:43,968  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.ActivityEnginePlugin$1.configure(ActivityEnginePlugin.java:23)
+2019-09-03 13:31:43,968  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,968  INFO Injector:92 
+2019-09-03 13:31:43,968  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngine 
+2019-09-03 13:31:43,968  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@5b2f9383[Scopes.SINGLETON]
+2019-09-03 13:31:43,969  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:24)
+2019-09-03 13:31:43,969  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,969  INFO Injector:92 
+2019-09-03 13:31:43,969  INFO Injector:84 org.matsim.core.mobsim.qsim.DefaultTeleportationEngine 
+2019-09-03 13:31:43,969  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@e9137c8[Scopes.SINGLETON]
+2019-09-03 13:31:43,969  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.TeleportationPlugin$1.configure(TeleportationPlugin.java:21)
+2019-09-03 13:31:43,970  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,970  INFO Injector:92 
+2019-09-03 13:31:43,970  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.PopulationAgentSource 
+2019-09-03 13:31:43,970  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@a6bdcee[Scopes.SINGLETON]
+2019-09-03 13:31:43,970  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:26)
+2019-09-03 13:31:43,970  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,971  INFO Injector:92 
+2019-09-03 13:31:43,971  INFO Injector:84 org.matsim.core.mobsim.qsim.QSim 
+2019-09-03 13:31:43,971  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@6766e339[Scopes.SINGLETON]
+2019-09-03 13:31:43,971  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:64)
+2019-09-03 13:31:43,971  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:43,972  INFO Injector:92 
+2019-09-03 13:31:43,972  INFO Injector:95 === printInjector end ===
+2019-09-03 13:31:43,972  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:43,972  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:43,972  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeSimStepListener
+2019-09-03 13:31:43,972  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine
+2019-09-03 13:31:44,002  INFO QNetsimEngine:504 Assigned 18088 nodes and 42206 links to QSimEngineRunner #0
+2019-09-03 13:31:44,006  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 07:00:00 : #links=7 #nodes=10
+2019-09-03 13:31:44,006  INFO QSim:506 SIMULATION (NEW QSim) AT 07:00:00 : #Veh=50 lost=0 simT=0.0s realT=0s; (s/r): 0.0
+2019-09-03 13:31:44,007  INFO Gbl:54 used RAM: 288402584B = 281643kB = 275MB  free: 371151720B = 353MB  total: 659554304B = 629MB
+2019-09-03 13:31:44,179  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 08:00:00 : #links=13 #nodes=1
+2019-09-03 13:31:44,179  INFO QSim:506 SIMULATION (NEW QSim) AT 08:00:00 : #Veh=45 lost=0 simT=3600.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:44,179  INFO Gbl:54 used RAM: 290636160B = 283824kB = 277MB  free: 368918144B = 351MB  total: 659554304B = 629MB
+2019-09-03 13:31:44,383  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 09:00:00 : #links=10 #nodes=0
+2019-09-03 13:31:44,384  INFO QSim:506 SIMULATION (NEW QSim) AT 09:00:00 : #Veh=13 lost=0 simT=7200.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:44,384  INFO Gbl:54 used RAM: 300733504B = 293685kB = 286MB  free: 358820800B = 342MB  total: 659554304B = 629MB
+2019-09-03 13:31:44,532  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 10:00:00 : #links=1 #nodes=1
+2019-09-03 13:31:44,532  INFO QSim:506 SIMULATION (NEW QSim) AT 10:00:00 : #Veh=4 lost=0 simT=10800.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:44,532  INFO Gbl:54 used RAM: 305394992B = 298237kB = 291MB  free: 354159312B = 337MB  total: 659554304B = 629MB
+2019-09-03 13:31:44,668  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 11:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:44,668  INFO QSim:506 SIMULATION (NEW QSim) AT 11:00:00 : #Veh=3 lost=0 simT=14400.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:44,668  INFO Gbl:54 used RAM: 305394992B = 298237kB = 291MB  free: 354159312B = 337MB  total: 659554304B = 629MB
+2019-09-03 13:31:44,802  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 12:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:44,802  INFO QSim:506 SIMULATION (NEW QSim) AT 12:00:00 : #Veh=3 lost=0 simT=18000.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:44,802  INFO Gbl:54 used RAM: 311173224B = 303880kB = 296MB  free: 348381080B = 332MB  total: 659554304B = 629MB
+2019-09-03 13:31:44,936  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 13:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:44,936  INFO QSim:506 SIMULATION (NEW QSim) AT 13:00:00 : #Veh=3 lost=0 simT=21600.0s realT=1s; (s/r): 21600.0
+2019-09-03 13:31:44,936  INFO Gbl:54 used RAM: 311173224B = 303880kB = 296MB  free: 348381080B = 332MB  total: 659554304B = 629MB
+2019-09-03 13:31:45,074  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 14:00:00 : #links=3 #nodes=1
+2019-09-03 13:31:45,074  INFO QSim:506 SIMULATION (NEW QSim) AT 14:00:00 : #Veh=3 lost=0 simT=25200.0s realT=1s; (s/r): 25200.0
+2019-09-03 13:31:45,074  INFO Gbl:54 used RAM: 314717960B = 307341kB = 300MB  free: 344836344B = 328MB  total: 659554304B = 629MB
+2019-09-03 13:31:45,210  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 15:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:45,210  INFO QSim:506 SIMULATION (NEW QSim) AT 15:00:00 : #Veh=1 lost=0 simT=28800.0s realT=1s; (s/r): 28800.0
+2019-09-03 13:31:45,210  INFO Gbl:54 used RAM: 315834720B = 308432kB = 301MB  free: 343719584B = 327MB  total: 659554304B = 629MB
+2019-09-03 13:31:45,266  INFO Gbl:187 Thread performance: Thread=class org.matsim.core.events.SimStepParallelEventsManagerImpl$ProcessEventsRunnable0  cpu-time=0.359375sec
+2019-09-03 13:31:45,266  INFO AbstractController$8:215 ### ITERATION 4 fires after mobsim event
+2019-09-03 13:31:45,267  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.analysis.LegTimesControlerListener
+2019-09-03 13:31:45,280  INFO LegTimesControlerListener:50 [4] average trip (probably: leg) duration is: 6514 seconds = 01:48:34
+2019-09-03 13:31:45,280  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.core.scoring.EventsToActivities$1
+2019-09-03 13:31:45,280  WARN CharyparNagelActivityScoring:252 The first and the last activity do not have the same type. 
+2019-09-03 13:31:45,280  WARN CharyparNagelActivityScoring:253 Will score the first activity from midnight to its end, and the last activity from its start to midnight.
+2019-09-03 13:31:45,280  WARN CharyparNagelActivityScoring:254 Because of the nonlinear function, this is not the same as scoring from start to end.
+2019-09-03 13:31:45,280  WARN CharyparNagelActivityScoring:255 first activity: [type=home][coord=null][linkId=28625][startTime=undefined][endTime=07:00:00][duration=undefined][facilityId=null]
+2019-09-03 13:31:45,281  WARN CharyparNagelActivityScoring:256 last activity: [type=shelter][coord=null][linkId=25696][startTime=08:35:29][endTime=undefined][duration=undefined][facilityId=null]
+2019-09-03 13:31:45,281  WARN CharyparNagelActivityScoring:257 This may also happen when plans are not completed when the simulation ends.
+2019-09-03 13:31:45,281  WARN CharyparNagelActivityScoring:259 Additional warnings of this type are suppressed.
+2019-09-03 13:31:45,281  INFO ControlerListenerManagerImpl:251 [it.4] all ControlerAfterMobsimListeners called.
+2019-09-03 13:31:45,281  INFO AbstractController$4:152 ### ITERATION 4 fires scoring event
+2019-09-03 13:31:45,282  INFO ControlerListenerManagerImpl:183 calling notifyScoring on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:45,282  INFO NewScoreAssignerImpl:36 it: 4 msaStart: null
+2019-09-03 13:31:45,282  INFO ControlerListenerManagerImpl:194 [it.4] all ControlerScoringListeners called.
+2019-09-03 13:31:45,282  INFO AbstractController$5:160 ### ITERATION 4 fires iteration end event
+2019-09-03 13:31:45,282  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:45,288  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:45,288  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:45,288  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:45,288  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.counts.CountsControlerListener
+2019-09-03 13:31:45,288  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:45,289  INFO ModeStatsControlerListener:155 -- mode share of mode bike = 0.0
+2019-09-03 13:31:45,289  INFO ModeStatsControlerListener:155 -- mode share of mode car = 1.0
+2019-09-03 13:31:45,289  INFO ModeStatsControlerListener:155 -- mode share of mode other = 0.0
+2019-09-03 13:31:45,289  INFO ModeStatsControlerListener:155 -- mode share of mode pt = 0.0
+2019-09-03 13:31:45,289  INFO ModeStatsControlerListener:155 -- mode share of mode ride = 0.0
+2019-09-03 13:31:45,289  INFO ModeStatsControlerListener:155 -- mode share of mode walk = 0.0
+2019-09-03 13:31:45,403  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:45,404  INFO ScoreStatsControlerListener:191 -- avg. score of the executed plan of each agent: 95.62130952013813
+2019-09-03 13:31:45,404  INFO ScoreStatsControlerListener:192 -- avg. score of the worst plan of each agent: 95.61439993473645
+2019-09-03 13:31:45,404  INFO ScoreStatsControlerListener:193 -- avg. of the avg. plan score per agent: 95.62105801746856
+2019-09-03 13:31:45,404  INFO ScoreStatsControlerListener:194 -- avg. score of the best plan of each agent: 95.62609514357624
+2019-09-03 13:31:45,480  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.TravelDistanceStatsControlerListener
+2019-09-03 13:31:45,481  INFO TravelDistanceStats:128 [TravelDistanceStats] using 2 thread(s).
+2019-09-03 13:31:45,481  INFO TravelDistanceStats:141 [TravelDistanceStats] all threads finished.
+2019-09-03 13:31:45,482  INFO TravelDistanceStats:161 -- average of the average leg distance per plan (executed plans only): 116394.55842330409
+2019-09-03 13:31:45,482  INFO TravelDistanceStats:162 (TravelDistanceStats takes an average over all legs where the simulation reports travelled distances. These are car legs, pt legs,
+2019-09-03 13:31:45,482  INFO TravelDistanceStats:163 (and teleported legs whose route contains a distance.)
+2019-09-03 13:31:45,566  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:45,574  INFO LegHistogramListener:72 number of legs:	53	100%
+2019-09-03 13:31:45,574  INFO LegHistogramListener:79 number of car legs:	53	100.0%
+2019-09-03 13:31:45,830  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:45,831  INFO ControlerListenerManagerImpl:171 [it.4] all ControlerIterationEndsListeners called.
+2019-09-03 13:31:45,945  INFO AbstractController:170 ### ITERATION 4 ENDS
+2019-09-03 13:31:45,945  INFO AbstractController:171 ###################################################
+2019-09-03 13:31:45,946  INFO AbstractController:126 ###################################################
+2019-09-03 13:31:45,946  INFO AbstractController:127 ### ITERATION 5 BEGINS
+2019-09-03 13:31:45,947  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:45,947  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:45,947  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.replanning.ReplanningContextImpl
+2019-09-03 13:31:45,947  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ExperiencedPlansServiceImpl$1
+2019-09-03 13:31:45,947  INFO ControlerListenerManagerImpl:145 calling notifyIterationStarts on org.matsim.core.scoring.ScoringFunctionsForPopulation$1
+2019-09-03 13:31:45,948  INFO ControlerListenerManagerImpl:148 [it.5] all ControlerIterationStartsListeners called.
+2019-09-03 13:31:45,948  INFO ControlerListenerManagerImpl:205 calling notifyReplanning on org.matsim.core.controler.corelisteners.PlansReplanningImpl
+2019-09-03 13:31:45,948 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:45,949 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:45,950 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:45,950 DEBUG NetworkRoutingProvider:75 requesting network routing module with routingMode=car;	mode=car
+2019-09-03 13:31:45,951  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 46 plans handled. Strategy: BestPlanSelector
+2019-09-03 13:31:45,952  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 3 plans
+2019-09-03 13:31:45,965  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:45,986  INFO Counter:61 [PlanRouter] handled plan # 2
+2019-09-03 13:31:45,987  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:45,987  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 3 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:45,987  INFO AbstractMultithreadedModule:141 [PlanRouter] starting 2 threads, handling 1 plans
+2019-09-03 13:31:45,993  INFO Counter:61 [PlanRouter] handled plan # 1
+2019-09-03 13:31:45,993  INFO AbstractMultithreadedModule:156 [PlanRouter] all 2 threads finished.
+2019-09-03 13:31:45,994  INFO GenericPlanStrategyImpl:125 Plan-Strategy finished, 1 plans handled. Strategy: RandomPlanSelector_ReRoute
+2019-09-03 13:31:45,994  INFO ControlerListenerManagerImpl:213 [it.5] all ControlerReplanningListeners called.
+2019-09-03 13:31:45,994  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:45,994  INFO EventsManagerImpl:170 resetting Event-Handlers
+2019-09-03 13:31:45,994  INFO EventsManagerImpl:177   org.matsim.core.trafficmonitoring.TravelTimeCalculator
+2019-09-03 13:31:46,015  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToLegs
+2019-09-03 13:31:46,015  INFO EventsManagerImpl:177   org.matsim.analysis.VolumesAnalyzer
+2019-09-03 13:31:46,015  INFO EventsManagerImpl:177   org.matsim.core.scoring.EventsToActivities
+2019-09-03 13:31:46,015  INFO EventsManagerImpl:177   org.matsim.analysis.CalcLegTimes
+2019-09-03 13:31:46,015  INFO EventsManagerImpl:177   org.matsim.analysis.LegHistogram
+2019-09-03 13:31:46,015  INFO EventsManagerImpl:177   org.matsim.core.scoring.ScoringFunctionsForPopulation
+2019-09-03 13:31:46,017  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:46,017  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:156 
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:144 adding Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:148   org.matsim.core.events.algorithms.EventWriter
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:148   org.matsim.core.events.handler.BasicEventHandler
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:207     > org.matsim.api.core.v01.events.Event
+2019-09-03 13:31:46,018  INFO EventsManagerImpl:156 
+2019-09-03 13:31:46,018  INFO ControlerListenerManagerImpl:224 calling notifyBeforeMobsim on org.matsim.core.controler.corelisteners.PlansDumpingImpl
+2019-09-03 13:31:46,018  INFO ControlerListenerManagerImpl:229 calling notifyBeforeMobsim on org.matsim.core.population.VspPlansCleaner
+2019-09-03 13:31:46,019  INFO ControlerListenerManagerImpl:232 [it.5] all ControlerBeforeMobsimListeners called.
+2019-09-03 13:31:46,027  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:46,030  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:46,033  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimAfterSimStepListener
+2019-09-03 13:31:46,037  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener
+2019-09-03 13:31:46,037  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.vis.snapshotwriters.SnapshotWriterManager
+2019-09-03 13:31:46,038  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimInitializedListener
+2019-09-03 13:31:46,088  INFO Injector:80 === printInjector start ===
+2019-09-03 13:31:46,088  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.VehicularDepartureHandler 
+2019-09-03 13:31:46,089  INFO Injector:85   --> provider: Key[type=org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngineDepartureHandlerProvider, annotation=[none]][Scopes.SINGLETON]
+2019-09-03 13:31:46,089  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:25)
+2019-09-03 13:31:46,089  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,089  INFO Injector:92 
+2019-09-03 13:31:46,089  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.AgentFactory 
+2019-09-03 13:31:46,090  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.agents.AgentFactory, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@4a95db7a}[Scopes.SINGLETON]
+2019-09-03 13:31:46,090  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:30)
+2019-09-03 13:31:46,090  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,090  INFO Injector:92 
+2019-09-03 13:31:46,090  INFO Injector:84 org.matsim.core.mobsim.qsim.interfaces.Netsim 
+2019-09-03 13:31:46,091  INFO Injector:85   --> provider: FactoryProxy{key=Key[type=org.matsim.core.mobsim.qsim.interfaces.Netsim, annotation=[none]], provider=com.google.inject.internal.ConstructorBindingImpl$Factory@50838e57[Scopes.SINGLETON]}
+2019-09-03 13:31:46,091  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:65)
+2019-09-03 13:31:46,091  INFO Injector:88   --> scope: Scopes.NO_SCOPE
+2019-09-03 13:31:46,091  INFO Injector:92 
+2019-09-03 13:31:46,091  INFO Injector:84 org.matsim.core.mobsim.jdeqsim.MessageQueue 
+2019-09-03 13:31:46,091  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@5cbecae9[Scopes.SINGLETON]
+2019-09-03 13:31:46,091  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:24)
+2019-09-03 13:31:46,091  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,092  INFO Injector:92 
+2019-09-03 13:31:46,092  INFO Injector:84 org.matsim.core.mobsim.qsim.jdeqsimengine.SteppableScheduler 
+2019-09-03 13:31:46,092  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@147eef80[Scopes.SINGLETON]
+2019-09-03 13:31:46,092  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:25)
+2019-09-03 13:31:46,093  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,093  INFO Injector:92 
+2019-09-03 13:31:46,093  INFO Injector:84 org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine 
+2019-09-03 13:31:46,093  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@dae62a4[Scopes.SINGLETON]
+2019-09-03 13:31:46,093  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueuePlugin$1.configure(MessageQueuePlugin.java:26)
+2019-09-03 13:31:46,093  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,093  INFO Injector:92 
+2019-09-03 13:31:46,093  INFO Injector:84 org.matsim.core.mobsim.qsim.ActivityEngine 
+2019-09-03 13:31:46,094  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@4aaf69ee[Scopes.SINGLETON]
+2019-09-03 13:31:46,094  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.ActivityEnginePlugin$1.configure(ActivityEnginePlugin.java:23)
+2019-09-03 13:31:46,094  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,094  INFO Injector:92 
+2019-09-03 13:31:46,094  INFO Injector:84 org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEngine 
+2019-09-03 13:31:46,094  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@48b60caf[Scopes.SINGLETON]
+2019-09-03 13:31:46,094  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.qnetsimengine.QNetsimEnginePlugin$1.configure(QNetsimEnginePlugin.java:24)
+2019-09-03 13:31:46,094  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,095  INFO Injector:92 
+2019-09-03 13:31:46,095  INFO Injector:84 org.matsim.core.mobsim.qsim.DefaultTeleportationEngine 
+2019-09-03 13:31:46,095  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@7585b672[Scopes.SINGLETON]
+2019-09-03 13:31:46,095  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.TeleportationPlugin$1.configure(TeleportationPlugin.java:21)
+2019-09-03 13:31:46,095  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,095  INFO Injector:92 
+2019-09-03 13:31:46,095  INFO Injector:84 org.matsim.core.mobsim.qsim.agents.PopulationAgentSource 
+2019-09-03 13:31:46,095  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@3cc5003a[Scopes.SINGLETON]
+2019-09-03 13:31:46,095  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.PopulationPlugin$1.configure(PopulationPlugin.java:26)
+2019-09-03 13:31:46,096  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,096  INFO Injector:92 
+2019-09-03 13:31:46,096  INFO Injector:84 org.matsim.core.mobsim.qsim.QSim 
+2019-09-03 13:31:46,096  INFO Injector:85   --> provider: com.google.inject.internal.ConstructorBindingImpl$Factory@50838e57[Scopes.SINGLETON]
+2019-09-03 13:31:46,096  INFO Injector:86   --> source: org.matsim.core.mobsim.qsim.QSimProvider$1.configure(QSimProvider.java:64)
+2019-09-03 13:31:46,096  INFO Injector:88   --> scope: eager singleton
+2019-09-03 13:31:46,096  INFO Injector:92 
+2019-09-03 13:31:46,096  INFO Injector:95 === printInjector end ===
+2019-09-03 13:31:46,097  INFO MobsimListenerManager:49 calling addQueueSimulationListener
+2019-09-03 13:31:46,097  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimListener
+2019-09-03 13:31:46,097  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.framework.listeners.MobsimBeforeSimStepListener
+2019-09-03 13:31:46,097  INFO MobsimListenerManager:53   assigned class org.matsim.core.mobsim.framework.listeners.MobsimListener to interface org.matsim.core.mobsim.qsim.messagequeueengine.MessageQueueEngine
+2019-09-03 13:31:46,123  INFO QNetsimEngine:504 Assigned 18088 nodes and 42206 links to QSimEngineRunner #0
+2019-09-03 13:31:46,128  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 07:00:00 : #links=7 #nodes=10
+2019-09-03 13:31:46,128  INFO QSim:506 SIMULATION (NEW QSim) AT 07:00:00 : #Veh=50 lost=0 simT=0.0s realT=0s; (s/r): 0.0
+2019-09-03 13:31:46,128  INFO Gbl:54 used RAM: 452330224B = 441728kB = 431MB  free: 207224080B = 197MB  total: 659554304B = 629MB
+2019-09-03 13:31:46,327  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 08:00:00 : #links=13 #nodes=1
+2019-09-03 13:31:46,327  INFO QSim:506 SIMULATION (NEW QSim) AT 08:00:00 : #Veh=45 lost=0 simT=3600.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:46,328  INFO Gbl:54 used RAM: 454563776B = 443909kB = 433MB  free: 204990528B = 195MB  total: 659554304B = 629MB
+2019-09-03 13:31:46,533  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 09:00:00 : #links=9 #nodes=0
+2019-09-03 13:31:46,534  INFO QSim:506 SIMULATION (NEW QSim) AT 09:00:00 : #Veh=13 lost=0 simT=7200.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:46,534  INFO Gbl:54 used RAM: 468159480B = 457186kB = 446MB  free: 191394824B = 182MB  total: 659554304B = 629MB
+2019-09-03 13:31:46,685  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 10:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:46,686  INFO QSim:506 SIMULATION (NEW QSim) AT 10:00:00 : #Veh=4 lost=0 simT=10800.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:46,686  INFO Gbl:54 used RAM: 469276264B = 458277kB = 447MB  free: 190278040B = 181MB  total: 659554304B = 629MB
+2019-09-03 13:31:46,884  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 11:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:46,885  INFO QSim:506 SIMULATION (NEW QSim) AT 11:00:00 : #Veh=3 lost=0 simT=14400.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:46,885  INFO Gbl:54 used RAM: 279098968B = 272557kB = 266MB  free: 382028200B = 364MB  total: 661127168B = 630MB
+2019-09-03 13:31:47,017  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 12:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:47,017  INFO QSim:506 SIMULATION (NEW QSim) AT 12:00:00 : #Veh=3 lost=0 simT=18000.0s realT=0s; (s/r): Infinity
+2019-09-03 13:31:47,017  INFO Gbl:54 used RAM: 279098968B = 272557kB = 266MB  free: 382028200B = 364MB  total: 661127168B = 630MB
+2019-09-03 13:31:47,159  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 13:00:00 : #links=0 #nodes=0
+2019-09-03 13:31:47,159  INFO QSim:506 SIMULATION (NEW QSim) AT 13:00:00 : #Veh=3 lost=0 simT=21600.0s realT=1s; (s/r): 21600.0
+2019-09-03 13:31:47,160  INFO Gbl:54 used RAM: 279098968B = 272557kB = 266MB  free: 382028200B = 364MB  total: 661127168B = 630MB
+2019-09-03 13:31:47,299  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 14:00:00 : #links=3 #nodes=1
+2019-09-03 13:31:47,299  INFO QSim:506 SIMULATION (NEW QSim) AT 14:00:00 : #Veh=3 lost=0 simT=25200.0s realT=1s; (s/r): 25200.0
+2019-09-03 13:31:47,300  INFO Gbl:54 used RAM: 283872568B = 277219kB = 270MB  free: 377254600B = 359MB  total: 661127168B = 630MB
+2019-09-03 13:31:47,447  INFO QNetsimEngine:347 SIMULATION (QNetsimEngine) AT 15:00:00 : #links=1 #nodes=0
+2019-09-03 13:31:47,448  INFO QSim:506 SIMULATION (NEW QSim) AT 15:00:00 : #Veh=1 lost=0 simT=28800.0s realT=1s; (s/r): 28800.0
+2019-09-03 13:31:47,448  INFO Gbl:54 used RAM: 284531512B = 277862kB = 271MB  free: 376595656B = 359MB  total: 661127168B = 630MB
+2019-09-03 13:31:47,512  INFO Gbl:187 Thread performance: Thread=class org.matsim.core.events.SimStepParallelEventsManagerImpl$ProcessEventsRunnable0  cpu-time=0.328125sec
+2019-09-03 13:31:47,512  INFO AbstractController$8:215 ### ITERATION 5 fires after mobsim event
+2019-09-03 13:31:47,512  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.analysis.LegTimesControlerListener
+2019-09-03 13:31:47,522  INFO LegTimesControlerListener:50 [5] average trip (probably: leg) duration is: 6514 seconds = 01:48:34
+2019-09-03 13:31:47,523  INFO ControlerListenerManagerImpl:248 calling notifyAfterMobsim on org.matsim.core.scoring.EventsToActivities$1
+2019-09-03 13:31:47,523  WARN CharyparNagelActivityScoring:252 The first and the last activity do not have the same type. 
+2019-09-03 13:31:47,523  WARN CharyparNagelActivityScoring:253 Will score the first activity from midnight to its end, and the last activity from its start to midnight.
+2019-09-03 13:31:47,523  WARN CharyparNagelActivityScoring:254 Because of the nonlinear function, this is not the same as scoring from start to end.
+2019-09-03 13:31:47,523  WARN CharyparNagelActivityScoring:255 first activity: [type=home][coord=null][linkId=28625][startTime=undefined][endTime=07:00:00][duration=undefined][facilityId=null]
+2019-09-03 13:31:47,523  WARN CharyparNagelActivityScoring:256 last activity: [type=shelter][coord=null][linkId=25696][startTime=08:35:29][endTime=undefined][duration=undefined][facilityId=null]
+2019-09-03 13:31:47,523  WARN CharyparNagelActivityScoring:257 This may also happen when plans are not completed when the simulation ends.
+2019-09-03 13:31:47,524  WARN CharyparNagelActivityScoring:259 Additional warnings of this type are suppressed.
+2019-09-03 13:31:47,524  INFO ControlerListenerManagerImpl:251 [it.5] all ControlerAfterMobsimListeners called.
+2019-09-03 13:31:47,524  INFO AbstractController$4:152 ### ITERATION 5 fires scoring event
+2019-09-03 13:31:47,524  INFO ControlerListenerManagerImpl:183 calling notifyScoring on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:47,524  INFO NewScoreAssignerImpl:36 it: 5 msaStart: null
+2019-09-03 13:31:47,525  INFO ControlerListenerManagerImpl:194 [it.5] all ControlerScoringListeners called.
+2019-09-03 13:31:47,526  INFO AbstractController$5:160 ### ITERATION 5 fires iteration end event
+2019-09-03 13:31:47,526  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:47,531  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:47,532  INFO EventsManagerImpl:161 removing Event-Handler: org.matsim.core.events.algorithms.EventWriterXML
+2019-09-03 13:31:47,532  INFO ControlerListenerManagerImpl:160 calling notifyIterationEnds on org.matsim.core.scoring.PlansScoringImpl
+2019-09-03 13:31:47,532  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.counts.CountsControlerListener
+2019-09-03 13:31:47,532  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:47,533  INFO ModeStatsControlerListener:155 -- mode share of mode bike = 0.0
+2019-09-03 13:31:47,533  INFO ModeStatsControlerListener:155 -- mode share of mode car = 1.0
+2019-09-03 13:31:47,533  INFO ModeStatsControlerListener:155 -- mode share of mode other = 0.0
+2019-09-03 13:31:47,533  INFO ModeStatsControlerListener:155 -- mode share of mode pt = 0.0
+2019-09-03 13:31:47,533  INFO ModeStatsControlerListener:155 -- mode share of mode ride = 0.0
+2019-09-03 13:31:47,533  INFO ModeStatsControlerListener:155 -- mode share of mode walk = 0.0
+2019-09-03 13:31:47,617  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:47,617  INFO ScoreStatsControlerListener:191 -- avg. score of the executed plan of each agent: 95.62573252488556
+2019-09-03 13:31:47,617  INFO ScoreStatsControlerListener:192 -- avg. score of the worst plan of each agent: 95.61439993473645
+2019-09-03 13:31:47,617  INFO ScoreStatsControlerListener:193 -- avg. of the avg. plan score per agent: 95.6209975810201
+2019-09-03 13:31:47,617  INFO ScoreStatsControlerListener:194 -- avg. score of the best plan of each agent: 95.62609514357624
+2019-09-03 13:31:47,699  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.TravelDistanceStatsControlerListener
+2019-09-03 13:31:47,699  INFO TravelDistanceStats:128 [TravelDistanceStats] using 2 thread(s).
+2019-09-03 13:31:47,700  INFO TravelDistanceStats:141 [TravelDistanceStats] all threads finished.
+2019-09-03 13:31:47,700  INFO TravelDistanceStats:161 -- average of the average leg distance per plan (executed plans only): 116286.75259053685
+2019-09-03 13:31:47,700  INFO TravelDistanceStats:162 (TravelDistanceStats takes an average over all legs where the simulation reports travelled distances. These are car legs, pt legs,
+2019-09-03 13:31:47,700  INFO TravelDistanceStats:163 (and teleported legs whose route contains a distance.)
+2019-09-03 13:31:47,785  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LegHistogramListener
+2019-09-03 13:31:47,797  INFO LegHistogramListener:72 number of legs:	53	100%
+2019-09-03 13:31:47,797  INFO LegHistogramListener:79 number of car legs:	53	100.0%
+2019-09-03 13:31:48,033  INFO ControlerListenerManagerImpl:167 calling notifyIterationEnds on org.matsim.analysis.LinkStatsControlerListener
+2019-09-03 13:31:48,033  INFO ControlerListenerManagerImpl:171 [it.5] all ControlerIterationEndsListeners called.
+2019-09-03 13:31:48,144  INFO AbstractController:170 ### ITERATION 5 ENDS
+2019-09-03 13:31:48,144  INFO AbstractController:171 ###################################################
+2019-09-03 13:31:48,144  INFO MatsimRuntimeModifications:58 S H U T D O W N   ---   start shutdown.
+2019-09-03 13:31:48,144  INFO ControlerListenerManagerImpl:121 calling notifyShutdown on org.matsim.core.controler.corelisteners.EventsHandlingImpl
+2019-09-03 13:31:48,144  INFO ControlerListenerManagerImpl:121 calling notifyShutdown on org.matsim.core.controler.corelisteners.DumpDataAtEndImpl
+2019-09-03 13:31:48,146  INFO Counter:61 [PopulationWriter] dumped person # 1
+2019-09-03 13:31:48,147  INFO Counter:61 [PopulationWriter] dumped person # 2
+2019-09-03 13:31:48,147  INFO Counter:61 [PopulationWriter] dumped person # 4
+2019-09-03 13:31:48,148  INFO Counter:61 [PopulationWriter] dumped person # 8
+2019-09-03 13:31:48,151  INFO Counter:61 [PopulationWriter] dumped person # 16
+2019-09-03 13:31:48,154  INFO Counter:61 [PopulationWriter] dumped person # 32
+2019-09-03 13:31:48,157  INFO PopulationWriter:139 Population written to: ./output/output_plans.xml.gz
+2019-09-03 13:31:48,164  INFO Counter:67 [PopulationWriter] dumped person # 50
+2019-09-03 13:31:48,200  INFO NetworkWriter:68 Writing network to file: ./output/output_network.xml.gz...
+2019-09-03 13:31:48,872  INFO NetworkWriter:71 done.
+2019-09-03 13:31:48,873  INFO Config:561 setting context to [file:/C:/Users/orran/OneDrive/Documentos/GitHub/matsim-example-project/original-input-data/artigo/]
+2019-09-03 13:31:48,946  INFO VehicleWriterV1:55 Vehicles written to: ./output/output_vehicles.xml.gz
+2019-09-03 13:31:48,951  INFO Counter:67 [HouseholdsWriter] dumped household # 0
+2019-09-03 13:31:49,014  INFO LanesWriter:65 Using LaneDefinitionWriter20...
+2019-09-03 13:31:49,014  INFO LanesWriter:74 writing to file: ./output/output_lanes.xml.gz
+2019-09-03 13:31:49,249  INFO ControlerListenerManagerImpl:126 calling notifyShutdown on org.matsim.analysis.ModeStatsControlerListener
+2019-09-03 13:31:49,254  INFO ControlerListenerManagerImpl:126 calling notifyShutdown on org.matsim.analysis.ScoreStatsControlerListener
+2019-09-03 13:31:49,260  INFO ControlerListenerManagerImpl:126 calling notifyShutdown on org.matsim.analysis.TravelDistanceStatsControlerListener
+2019-09-03 13:31:49,265  INFO ControlerListenerManagerImpl:129 all ControlerShutdownListeners called.
+2019-09-03 13:31:49,265  INFO MatsimRuntimeModifications:81 S H U T D O W N   ---   shutdown completed.
+2019-09-03 13:31:49,265  INFO OutputDirectoryLogging:146 closing the logfile, i.e. messages sent to the logger after this message are not written to the logfile.
