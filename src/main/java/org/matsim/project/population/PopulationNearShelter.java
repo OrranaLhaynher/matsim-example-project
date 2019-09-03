@@ -34,7 +34,7 @@ public class PopulationNearShelter{
 	private static final String UTM33N = "EPSG:2782";	
 	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
 	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
-	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\RouteAnalysis1\\dataset_after.csv";
+	private static final String csvFile = "C:\\Users\\orran\\Downloads\\dataset_before.csv";
 	
 	public static void main(String [] args) throws IOException {
 		
@@ -73,10 +73,10 @@ public class PopulationNearShelter{
 		it.close();
 		
 		int columns = 3;
-		createPersons(scenario, hom, rnd, (int) 30, ct, columns);
+		createPersons(scenario, hom, rnd, (int) 50, ct, columns);
 		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_after.xml";
+		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_before.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -103,7 +103,7 @@ public class PopulationNearShelter{
 			for (int i = 0; i < 3; i++) {
 				if(pers.getId().equals(Id.createPersonId(id[i]))){
 					List<Coord> coord = ShelterCoord.getCoordinates();
-					Activity mov = pb.createActivityFromCoord("mov", new Coord(coord.get(0).getX(), coord.get(0).getY()));
+					Activity mov = pb.createActivityFromCoord("mov", new Coord(coord.get(i).getX(), coord.get(i).getY()));
 					double startTime = 7.5*3600;
 					mov.setStartTime(startTime);
 					mov.setEndTime(startTime + 1*1800);
@@ -119,7 +119,6 @@ public class PopulationNearShelter{
 			Activity shelt = pb.createActivityFromCoord("shelter", new Coord(p.getX(), p.getY()));
 			double startTime = 8*3600;
 			shelt.setStartTime(startTime);
-			shelt.setEndTime(startTime + 6*3600);
 			plan.addActivity(shelt);
 
 		}

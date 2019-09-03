@@ -9,11 +9,11 @@
 
 	<person id="10010111010511510110897105116105110101110">
 		<plan selected="yes">
-			<activity type="home" x="3.580218279705475E7" y="3.5710376849114853E8" end_time="07:00:00" >
+			<activity type="home" x="557418.9364998378" y="73995.78777396627" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="547388.4848311602" y="99451.80634451644" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="543523.5977603454" y="98319.65254171292" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -27,7 +27,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="445278.87268937466" y="108290.73845043562" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="479217.60647659504" y="132473.60372849778" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -41,7 +41,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="445278.87268937466" y="108290.73845043562" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="445278.87268937466" y="108290.73845043562" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -51,11 +51,11 @@
 
 	<person id="1021111205248">
 		<plan selected="yes">
-			<activity type="home" x="1397846.0627522469" y="95936.91685173249" end_time="07:00:00" >
+			<activity type="home" x="557650.0662808729" y="73609.40964420736" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="542895.8561179938" y="98633.73427008421" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -65,11 +65,11 @@
 
 	<person id="10310111010110897109107105110">
 		<plan selected="yes">
-			<activity type="home" x="-3397313.0828173067" y="494824.551749284" end_time="07:00:00" >
+			<activity type="home" x="554738.7906594496" y="57736.95747540473" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="481835.9486199864" y="131882.09080081905" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -83,7 +83,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543523.5977603454" y="98319.65254171292" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="445278.87268937466" y="108290.73845043562" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -97,7 +97,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="481835.9486199864" y="131882.09080081905" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -107,11 +107,11 @@
 
 	<person id="106111104110101110100114105115115">
 		<plan selected="yes">
-			<activity type="home" x="3.580218279705475E7" y="3.5710376849114853E8" end_time="07:00:00" >
+			<activity type="home" x="557418.9364998378" y="73995.78777396627" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543523.5977603454" y="98319.65254171292" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="547388.4848311602" y="99451.80634451644" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -125,7 +125,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="547241.5570238958" y="90813.47716244178" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="448960.63797338307" y="88503.6475126515" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -139,7 +139,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="544102.0487582163" y="96414.0470000731" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="448960.63797338307" y="88503.6475126515" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -153,7 +153,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="547241.5570238958" y="90813.47716244178" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -163,11 +163,11 @@
 
 	<person id="10997114107110971079711510410510997">
 		<plan selected="yes">
-			<activity type="home" x="4519969.828511951" y="622137.4328229707" end_time="07:00:00" >
+			<activity type="home" x="507906.268509891" y="136499.9946299723" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="544102.0487582163" y="96414.0470000731" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="544102.0487582163" y="96414.0470000731" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -181,7 +181,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="445278.87268937466" y="108290.73845043562" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="448960.63797338307" y="88503.6475126515" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -191,11 +191,11 @@
 
 	<person id="1101011081081051011089797110">
 		<plan selected="yes">
-			<activity type="home" x="3.580218279705475E7" y="3.5710376849114853E8" end_time="07:00:00" >
+			<activity type="home" x="557418.9364998378" y="73995.78777396627" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="481835.9486199864" y="131882.09080081905" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -209,21 +209,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" end_time="14:00:00" >
-			</activity>
-		</plan>
-
-	</person>
-
-<!-- ====================================================================== -->
-
-	<person id="111112116105109105115116105991181059810149">
-		<plan selected="yes">
-			<activity type="home" x="448192.26945637807" y="90473.00076435451" end_time="07:00:00" >
-			</activity>
-			<leg mode="car">
-			</leg>
-			<activity type="shelter" x="445278.87268937466" y="108290.73845043562" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="543879.9343578734" y="96098.55739881938" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -237,7 +223,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="542895.8561179938" y="98633.73427008421" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="481835.9486199864" y="131882.09080081905" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -251,7 +237,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="542895.8561179938" y="98633.73427008421" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="547241.5570238958" y="90813.47716244178" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -265,7 +251,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="542895.8561179938" y="98633.73427008421" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="547388.4848311602" y="99451.80634451644" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -279,7 +265,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="448960.63797338307" y="88503.6475126515" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="547388.4848311602" y="99451.80634451644" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -289,11 +275,11 @@
 
 	<person id="1151111101059710297114111111113">
 		<plan selected="yes">
-			<activity type="home" x="520613.8832587067" y="1086823.9005610908" end_time="07:00:00" >
+			<activity type="home" x="522143.741038579" y="65013.29462647442" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543523.5977603454" y="98319.65254171292" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="543879.9343578734" y="96098.55739881938" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -307,7 +293,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543879.9343578734" y="96098.55739881938" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -321,7 +307,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543879.9343578734" y="96098.55739881938" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="542895.8561179938" y="98633.73427008421" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -335,7 +321,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="448960.63797338307" y="88503.6475126515" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="544102.0487582163" y="96414.0470000731" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -349,7 +335,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="547241.5570238958" y="90813.47716244178" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="544102.0487582163" y="96414.0470000731" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -363,7 +349,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="445278.87268937466" y="108290.73845043562" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -373,11 +359,11 @@
 
 	<person id="9711499116117114117115102108121101114">
 		<plan selected="yes">
-			<activity type="home" x="-2.4396234261018444E7" y="3.7727539521815725E7" end_time="07:00:00" >
+			<activity type="home" x="460167.2168790446" y="119614.41162166918" end_time="07:00:00" >
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="544102.0487582163" y="96414.0470000731" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -391,7 +377,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="479217.60647659504" y="132473.60372849778" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="479217.60647659504" y="132473.60372849778" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -405,7 +391,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="543030.551420603" y="95730.06985289408" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="542895.8561179938" y="98633.73427008421" start_time="08:00:00" >
 			</activity>
 		</plan>
 
@@ -419,7 +405,7 @@
 			</activity>
 			<leg mode="car">
 			</leg>
-			<activity type="shelter" x="547241.5570238958" y="90813.47716244178" start_time="08:00:00" end_time="14:00:00" >
+			<activity type="shelter" x="547388.4848311602" y="99451.80634451644" start_time="08:00:00" >
 			</activity>
 		</plan>
 
