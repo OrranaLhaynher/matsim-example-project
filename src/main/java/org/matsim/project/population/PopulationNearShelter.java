@@ -164,7 +164,7 @@ public class PopulationNearShelter{
     	
 		//System.out.println(path);
 		Coord c = ShelterCoord.getCoord(ct);
-        return MGC.coord2Point(c);
+		return MGC.coord2Point(c);
     	
 	}
 
