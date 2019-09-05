@@ -369,7 +369,7 @@
 		<param name="inputCRS" value="null" />
 		<!-- Path to a file containing person attributes (required file format: ObjectAttributes). -->
 		<param name="inputPersonAttributesFile" value="null" />
-		<param name="inputPlansFile" value="population_before.xml.gz" />
+		<param name="inputPlansFile" value="population_after.xml.gz" />
 		<!-- Defines how routes are stored in memory. Currently supported: LinkNetworkRoute, CompressedNetworkRoute. -->
 		<param name="networkRouteType" value="LinkNetworkRoute" />
 		<!-- (not tested) will remove plan attributes that are presumably not used, such as activityStartTime. default=false -->
