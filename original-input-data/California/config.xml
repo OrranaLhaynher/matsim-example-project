@@ -9,8 +9,6 @@
 
 	<module name="network">
 		<param name="inputNetworkFile" value="network.xml.gz" />
-		<param name="timeVariantNetwork" value="true" />
-		<param name="inputChangeEventsFile" value="networkChangeEvents.xml" />
 	</module>
 
 	<module name="plans">

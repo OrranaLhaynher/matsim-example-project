@@ -22,16 +22,15 @@ package org.matsim.project.population;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import org.apache.log4j.Logger;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.shape.random.RandomPointsBuilder;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
@@ -76,7 +75,6 @@ public class RunPopulationMaximumCapacityShelters {
 
 	public static void main(String [] args) throws IOException {
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
-		Random rdn = new Random();
 		// input files
 		String zonesFile = exampleDirectory + "evacuationArea.shp";
 		String networkFile = exampleDirectory + "network.shp";
@@ -87,40 +85,48 @@ public class RunPopulationMaximumCapacityShelters {
 		SimpleFeatureSource fts = ShapeFileReader.readDataFile(zonesFile);
 		SimpleFeatureSource net = ShapeFileReader.readDataFile(networkFile);
 		
-		SimpleFeature ft = null;
 		SimpleFeature shelter = null;
+		SimpleFeature ft = null;
 
 		//Iterator to iterate over the features from the shape file
 		SimpleFeatureIterator it = fts.getFeatures().features();
 		SimpleFeatureIterator in = net.getFeatures().features();
-		
+		ArrayList<SimpleFeature> t = new ArrayList<SimpleFeature>();
+
 		while (it.hasNext()) {
-			ft = it.next(); 
+            ft = it.next();
+            Geometry gm = (Geometry) ft.getDefaultGeometry();
+            ft.setDefaultGeometry(gm);
+            t.add(ft);
 		}
 		
 		while (in.hasNext()) {
-			shelter = in.next();
+			SimpleFeature sh = in.next();
+			shelter = sh;
 		}
 		
 		it.close();
 		in.close();
-		
-		createPersons(scenario, ft, (int) 1800, ct, rdn); //this method creates the remaining activities
+
+		createPersons(scenario, t, (int) 1800, ct); 
 		createActivities(scenario, shelter, ct);//this method creates the remaining activities
 		
+		it.close();
+		in.close();
+
 		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\California\\population.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 	}
 
-	private static void createPersons(Scenario scenario, SimpleFeature ft, int number, CoordinateTransformation ct, Random rdn) {
+	private static void createPersons(Scenario scenario, ArrayList<SimpleFeature> t, int number, CoordinateTransformation ct) {
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
 		for (; number > 0; number--) {
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
-			Coord c = getCoordInGeometry(ft);
+			Coord c = getCoordInGeometry(t);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
 			pers.addPlan(plan);
@@ -153,12 +159,15 @@ public class RunPopulationMaximumCapacityShelters {
 		}
 	}
 
-	private static Point getRandomPointInFeature(Random rnd, SimpleFeature ft) {
+	public static Coord getCoordInGeometry(ArrayList<SimpleFeature> t) {
+        Iterator<SimpleFeature> iter = t.iterator(); 
+        Collections.shuffle(t); 
+    	
         RandomPointsBuilder randomPointsBuilder = new RandomPointsBuilder(new GeometryFactory());
-        randomPointsBuilder.setNumPoints(2);
-        randomPointsBuilder.setExtent( (Geometry)ft.getDefaultGeometry());
-        Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[1];
-        return MGC.coordinate2Point(coordinate); 
+        randomPointsBuilder.setNumPoints(1);
+        randomPointsBuilder.setExtent( (Geometry)iter.next().getDefaultGeometry());
+        Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
+        return MGC.coordinate2Coord(coordinate);
 	}
 	
     public static Coord getRandomElement(List<Coord> list){ 
@@ -199,27 +208,6 @@ public class RunPopulationMaximumCapacityShelters {
     	Collections.shuffle(places); 
     	
     	return places;
-	}
-	
-	public static Coord getCoordInGeometry(SimpleFeature ft) {
-		//landcover <- area toda
-		double x, y;
-		Point point;
-		GeometryFactory geometryFactory = new GeometryFactory();
-		Random random = new Random();
-		Geometry regrion = (Geometry) ft.getDefaultGeometry();
-		
-		// if the landcover feature is in the correct region generate a random coordinate within the bounding box of the
-		// landcover feature. Repeat until a coordinate is found which is actually within the landcover feature.
-		do {
-			Envelope envelope = regrion.getEnvelopeInternal();
-
-			x = envelope.getMinX() + envelope.getWidth() * random.nextDouble();
-			y = envelope.getMinY() + envelope.getHeight() * random.nextDouble();
-			point = geometryFactory.createPoint(new Coordinate(x, y));
-		} while (point == null || !regrion.contains(point));
-
-		return new Coord(x, y);
 	}
 
 }
