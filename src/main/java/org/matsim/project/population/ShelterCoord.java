@@ -79,6 +79,7 @@ public class ShelterCoord {
 	} 
 	
 	public static List<Coord> getCoordinates() {
+		
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
 
         Coord shelterHCES = new Coord (-155.28821406, 19.41980187);

@@ -1,6 +1,7 @@
 package org.matsim.project.population;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -34,8 +35,9 @@ public class PopulationNearShelter{
 	private static final String UTM33N = "EPSG:2782";	
 	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
 	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
-	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\dataset_after.csv";
-	
+	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\nduplicates.csv";
+	private static final String csvFileD = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\duplicates.csv";
+
 	public static void main(String [] args) throws IOException {
 		
 		final String NETWORKFILE = exampleDirectory + "artigo.xml";
@@ -73,23 +75,21 @@ public class PopulationNearShelter{
 		it.close();
 		
 		int columns = 3;
-		createPersons(scenario, hom, rnd, (int) 27, ct, columns);
-		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
+		createPersons(scenario, hom, rnd, (int) 120, ct, columns);
+		createActivities(scenario, rnd, shelter, ct, network, leastCost, columns); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\population_after.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\population.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
     }
 
-	private static void createActivities(Scenario scenario, Random rnd,  SimpleFeature shelter, CoordinateTransformation ct, Network network, MatsimClassDijkstra leastCost) {
+	private static void createActivities(Scenario scenario, Random rnd,  SimpleFeature shelter, CoordinateTransformation ct, Network network, MatsimClassDijkstra leastCost, int col) {
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need
-		String[] id = new String[3];
-		id[0] = "10699104971101079910497110";
-		id[1] = "111100100109971101111171165553";
-		id[2] = "99111103100101115105103110";
+		String[][] dupl = new String[29][col];
+		dupl = CSV.getCSVData(csvFileD, 29, col);
 
 		for (Person pers : pop.getPersons().values()) { //this loop iterates over all persons
 			
@@ -100,10 +100,11 @@ public class PopulationNearShelter{
 			Leg leg = pb.createLeg(TransportMode.car);
 			plan.addLeg(leg); // there needs to be a log between two activities
 
-			for (int i = 0; i < 3; i++) {
-				if(pers.getId().equals(Id.createPersonId(id[i]))){
-					List<Coord> coord = ShelterCoord.getCoordinates();
-					Activity mov = pb.createActivityFromCoord("mov", new Coord(coord.get(i).getX(), coord.get(i).getY()));
+			for (int i = 0; i < 29; i++) {
+				if(pers.getId().equals(Id.createPersonId(dupl[i][0]))){
+					Coord c = new Coord(Double.parseDouble(dupl[i][1]), Double.parseDouble(dupl[i][2]));
+					Coord coord = ct.transform(c);
+					Activity mov = pb.createActivityFromCoord("mov", new Coord(coord.getX(), coord.getY()));
 					double startTime = 7.5*3600;
 					mov.setStartTime(startTime);
 					mov.setEndTime(startTime + 1*1800);
@@ -115,7 +116,7 @@ public class PopulationNearShelter{
 			}
 
 			//shelter activity on a random shelter among the shelter set
-			org.locationtech.jts.geom.Point p = getShelterPointInFeature(rnd, shelter, ct, homeAct, network, leastCost);
+			Point p = getShelterPointInFeature(rnd, shelter, ct, homeAct, network, leastCost);
 			Activity shelt = pb.createActivityFromCoord("shelter", new Coord(p.getX(), p.getY()));
 			double startTime = 8*3600;
 			shelt.setStartTime(startTime);

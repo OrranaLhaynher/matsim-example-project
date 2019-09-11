@@ -5,16 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 public class CSV {
 	
 	static String COMMA_DELIMITER = ",";
 
     public static void main(String [] args) throws IOException {
-		String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\dataset.csv";
+		String csvFile = "C:\\Users\\orran\\Downloads\\dataset.csv";
         String[][] data = new String[149][3];
         int m = 149;
         int n = 3;
@@ -45,7 +43,6 @@ public class CSV {
             	
                 // use comma as separator
                 position = line.split(cvsSplitBy);
-                System.out.println(position[p]);
                 person[p][0]=position[1];
                 person[p][1]=position[5];
                 person[p][2]=position[4];
