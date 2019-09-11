@@ -3,7 +3,11 @@ package org.matsim.project.population;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class CSV {
 	
@@ -14,13 +18,14 @@ public class CSV {
         String[][] data = new String[149][3];
         int m = 149;
         int n = 3;
-		data = getCSVData(csvFile, m, n);
+        //data = getCSVData(csvFile, m, n);
+        getDuplicates(csvFile);
 
-		for (int i = 0; i < 149; i++) {
+		/*for (int i = 0; i < 149; i++) {
 			for (int j = 0; j < 3; j++) {
 				System.out.println(data[i][j]);
 			}
-		}
+		}*/
 	}
 	
     public static String[][] getCSVData(String csvFile, int i, int j) {
@@ -40,7 +45,7 @@ public class CSV {
             	
                 // use comma as separator
                 position = line.split(cvsSplitBy);
-                
+                System.out.println(position[p]);
                 person[p][0]=position[1];
                 person[p][1]=position[5];
                 person[p][2]=position[4];
@@ -62,19 +67,46 @@ public class CSV {
             }
         }
 
-        /*int end = person.length;
-        for(int m = 0; m < end; m++){
-            for(int n = 0; n < 3; n++){
-                set.add(person[m][0]);
-            }
-        }
-        Iterator<String> it = set.iterator();
-        for(int k=0; k<person.length; k++){
-            person[k][0] = it.next();
-            System.out.println(person[k][0]);
-        }*/
-
         return person;
     }
 
+    public static void getDuplicates(String csvFile) throws IOException {
+          
+        // BufferedReader object for input.txt 
+        BufferedReader br = new BufferedReader(new FileReader(csvFile)); 
+        FileWriter csvWriter = new FileWriter("C:\\Users\\orran\\Desktop\\ArtigoTeste\\duplicates.csv");
+        FileWriter csvWriter1 = new FileWriter("C:\\Users\\orran\\Desktop\\ArtigoTeste\\nduplicates.csv");
+          
+         String line = br.readLine(); 
+          
+        // set store unique values 
+        HashSet<String> hs = new HashSet<String>(); 
+        String[] position = new String[149];
+        String cvsSplitBy = ",";
+              
+        // loop for each line of input.txt 
+        while(line != null) { 
+            // write only if not 
+            // present in hashset 
+            position = line.split(cvsSplitBy);
+
+            if(hs.add(position[1])){ 
+                csvWriter1.append(String.join(",", line)); 
+                csvWriter1.append("\n");
+            }else{
+                csvWriter.append(String.join(",", line)); 
+                csvWriter.append("\n");
+            }
+            line = br.readLine();  
+            csvWriter.flush();
+            csvWriter1.flush(); 
+        } 
+
+        br.close();
+        csvWriter.close();
+        csvWriter1.close();
+
+        System.out.println("File operation performed successfully"); 
+
+    }
 }
