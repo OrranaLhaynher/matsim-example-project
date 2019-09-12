@@ -1,11 +1,8 @@
 package org.matsim.project.population;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class IdDuplicate {
 
@@ -16,9 +13,8 @@ public class IdDuplicate {
         int n = 3;
 		data = CSV.getCSVData(csvFile, m, n);
         //findDuplicatesUsingJava8(data);
-            boolean id = getDuplicates(data);
+            String id = getDuplicates(data);
             System.out.println(id);
-        }
 		/*for (int i = 0; i < 149; i++) {
 			for (int j = 0; j < 3; j++) {
 				System.out.println(data[i][j]);
@@ -38,18 +34,10 @@ public class IdDuplicate {
                 return name;
             }
        }
+        return null;
 
     }
 
-    private static void findDuplicatesUsingJava8(String[][] inputArray) {   
-        Set<String[]> uniqueElements = new HashSet<>();
-            
-        Set<String[]> duplicateElements =  ((Object) Arrays.stream(inputArray).filter(i -> !uniqueElements.add(i)))
-                                                .boxed()
-                                                .collect(Collectors.toSet());
-            
-        System.out.println(duplicateElements);
-    }
     private static boolean findDuplicate(String string, String[][] position) {
         /*String[] duplicates = new String[120];
         for (int i = 0; i < position.length; i++) {

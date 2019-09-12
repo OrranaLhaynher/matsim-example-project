@@ -2,7 +2,6 @@ package org.matsim.project.router;
 
 import java.util.*;
 
-import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
@@ -10,8 +9,6 @@ import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Person;
 import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.router.util.LeastCostPathCalculator;
-import org.matsim.core.router.util.LeastCostPathCalculator.Path;
-import org.matsim.utils.objectattributes.attributable.Attributes;
 import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.router.util.TravelTime;
 import org.matsim.vehicles.Vehicle;
@@ -130,7 +127,7 @@ public final class Yen implements LeastCostPathCalculator, Cloneable {
 	
 	                    // Root path = prefix portion of the (k-1)st path up to the spur node
 	                    // REFACTOR THIS
-						Path rootPath = (Path) ((Yen) previousPath).cloneTo(i);
+						//Path rootPath = (Path) ((Yen) previousPath).cloneTo(i);
 	
 	                    /* Iterate over all of the (k-1) shortest paths */
 	                    for(Path p:ksp) {
@@ -159,7 +156,7 @@ public final class Yen implements LeastCostPathCalculator, Cloneable {
 	                    for(Link rootPathEdge : rootPathLinks) {
 	                        Node rn = rootPathEdge.getFromNode();
 	                        if (!rn.equals(spurNode)) {
-	                        	removedLinks.addAll((Collection<? extends Link>) network.removeNode(rn.getId()));
+	                        	//removedLinks.addAll((Collection<? extends Link>) network.removeNode(rn.getId()));
 	                        }
 	                    }
 	
@@ -168,9 +165,10 @@ public final class Yen implements LeastCostPathCalculator, Cloneable {
 	
 	                    // If a new spur path was identified...
 	                    if (spurPath != null) {
+							Path rootPath = null;
 	                        // Concatenate the root and spur paths to form the new candidate path
 	                        Path totalPath = rootPath;
-	                        totalPath.links.add((Link) spurPath);
+	                        //totalPath.links.add((Link) spurPath);
 
 	                        // If candidate path has not been generated previously, add it
 	                        if (!candidates.contains(totalPath))
@@ -252,7 +250,7 @@ public final class Yen implements LeastCostPathCalculator, Cloneable {
 	
 			//for (Edge edge : this.edges.subList(0,i)) {
 			for (int j = 0; j < i; j++) {
-				edges.add((Link) ((Object) netLink.get(j)).clone());
+				//edges.add((Link) ((Object) netLink.get(j)).clone());
 			}
 	
 			return new LeastCostPathCalculator.Path(null, edges, 0, 0);

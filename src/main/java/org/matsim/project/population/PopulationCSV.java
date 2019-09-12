@@ -1,20 +1,13 @@
 package org.matsim.project.population;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.shape.random.RandomPointsBuilder;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
@@ -36,12 +29,13 @@ import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.gis.ShapeFileReader;
 import org.opengis.feature.simple.SimpleFeature;
 
-public class PopulationNearShelter{
+public class PopulationCSV{
 	
-	private static int ID = 1;
 	private static final String UTM33N = "EPSG:2782";	
-	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
+	private static final Logger log = Logger.getLogger(PopulationCSV.class);
 	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
+	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\nduplicates.csv";
+	private static final String csvFileD = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\duplicates.csv";
 
 	public static void main(String [] args) throws IOException {
 		
@@ -56,8 +50,6 @@ public class PopulationNearShelter{
 		new MatsimNetworkReader(scenario.getNetwork()).readFile(NETWORKFILE);
 		Network network = scenario.getNetwork();
 		
-		MatsimClassDijkstra leastCost = new MatsimClassDijkstra(network, null, null);
-		
 		SimpleFeatureSource home = ShapeFileReader.readDataFile(zonesFile); //reads the shape file in
 		SimpleFeatureSource net = ShapeFileReader.readDataFile(networkFile);
 		
@@ -68,36 +60,35 @@ public class PopulationNearShelter{
 		//Iterator to iterate over the features from the shape file
 		SimpleFeatureIterator it = home.getFeatures().features();
 		SimpleFeatureIterator in = net.getFeatures().features();
-		ArrayList<SimpleFeature> t = new ArrayList<SimpleFeature>();
-
-		while (it.hasNext()) {
-            hom = it.next();
-            Geometry gm = (Geometry) hom.getDefaultGeometry();
-            hom.setDefaultGeometry(gm);
-            t.add(hom);
-		}
 		
 		while (in.hasNext()) {
-			SimpleFeature sh = in.next();
-			shelter = sh;
+			shelter = in.next();
+		}
+		while (it.hasNext()) {
+			hom = it.next(); 
 		}
 		
-		it.close();
 		in.close();
+		it.close();
 		
-		createPersons(scenario, t, rnd, (int) 120, ct);
-		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
+		int columns = 3;
+		HashSet<String> hs = new HashSet<String>(); 
+		hs = createPersons(scenario, hom, rnd, (int) 120, ct, columns);
+		createActivities(scenario, rnd, hs, shelter, ct, network, columns); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\population.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\populationh.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
     }
 
-	private static void createActivities(Scenario scenario, Random rnd,  SimpleFeature shelter, CoordinateTransformation ct, Network network, MatsimClassDijkstra leastCost) {
+	private static void createActivities(Scenario scenario, Random rnd, HashSet<String> hs, SimpleFeature shelter, CoordinateTransformation ct, Network network, int col) {
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need
+		String[][] dupl = new String[29][col];
+		dupl = CSV.getCSVData(csvFileD, 29, col);
+		HashSet<String> hp = new HashSet<String>();
 		
 		for (Person pers : pop.getPersons().values()) { //this loop iterates over all persons
 			
@@ -108,8 +99,26 @@ public class PopulationNearShelter{
 			Leg leg = pb.createLeg(TransportMode.car);
 			plan.addLeg(leg); // there needs to be a log between two activities
 
+			for (int i = 0; i < 29; i++) {
+				if(pers.getId().equals(Id.createPersonId(dupl[i][0]))){
+					if ((hp.add(dupl[i][1]) && (hp.add(dupl[i][2])))) {
+						Coord c = new Coord(Double.parseDouble(dupl[i][1]), Double.parseDouble(dupl[i][2]));
+						Coord coord = ct.transform(c);
+						Activity mov = pb.createActivityFromCoord("mov", new Coord(coord.getX(), coord.getY()));
+						double startTime = 7.5*3600;
+						mov.setStartTime(startTime);
+						mov.setEndTime(startTime + 1*1800);
+						if(!mov.getCoord().equals(homeAct.getCoord())){
+							plan.addActivity(mov);
+							Leg leg1 = pb.createLeg(TransportMode.car);
+							plan.addLeg(leg1); // there needs to be a log between two activities
+						}
+					}
+				} 
+			}
+
 			//shelter activity on a random shelter among the shelter set
-			Point p = getShelterPointInFeature(rnd, shelter, ct, homeAct, network, leastCost);
+			Point p = getShelterPointInFeature(rnd, shelter, ct, homeAct, network);
 			Activity shelt = pb.createActivityFromCoord("shelter", new Coord(p.getX(), p.getY()));
 			double startTime = 8*3600;
 			shelt.setStartTime(startTime);
@@ -119,35 +128,34 @@ public class PopulationNearShelter{
 
 	}
 
-	private static void createPersons(Scenario scenario, ArrayList<SimpleFeature> t, Random rnd, int number, CoordinateTransformation ct) {
+	private static HashSet<String> createPersons(Scenario scenario, SimpleFeature ft, Random rnd, int number,
+			CoordinateTransformation ct, int col) {
 	
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
+		String[][] position = new String[number][col];
+		position = CSV.getCSVData(csvFile, number, col);
+		HashSet<String> hs = new HashSet<String>(); 
+		int i = 0;
 
 		for (; number > 0; number--) {
-			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			Person pers = pb.createPerson(Id.create(position[i][0], Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
-			Coord c = getCoordInGeometry(t);
-			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			Coord c = new Coord(Double.parseDouble(position[i][1]), Double.parseDouble(position[i][2]));
+			hs.add(position[i][1]);
+			hs.add(position[i][2]);
+			Coord coord = ct.transform(c);
+			Activity act = pb.createActivityFromCoord("home", new Coord(coord.getX(), coord.getY()));
 			plan.addActivity(act);
 			pers.addPlan(plan);
+			i++;
 		}
-	}
-
-	public static Coord getCoordInGeometry(ArrayList<SimpleFeature> t) {
-        Iterator<SimpleFeature> iter = t.iterator(); 
-        Collections.shuffle(t); 
-    	
-        RandomPointsBuilder randomPointsBuilder = new RandomPointsBuilder(new GeometryFactory());
-        randomPointsBuilder.setNumPoints(1);
-        randomPointsBuilder.setExtent( (Geometry)iter.next().getDefaultGeometry());
-        Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
-        return MGC.coordinate2Coord(coordinate);
+		return hs;
 	}
 
 	public static Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct,
-			Activity home, Network network, MatsimClassDijkstra leastCost) {
+			Activity home, Network network) {
 
 		/*Coord x = home.getCoord();				
 		Node node = NetworkUtils.getNearestNode((network), x); 
