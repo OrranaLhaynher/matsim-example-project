@@ -111,7 +111,7 @@ public class PopulationCSV{
 						if(!mov.getCoord().equals(homeAct.getCoord())){
 							plan.addActivity(mov);
 							Leg leg1 = pb.createLeg(TransportMode.car);
-							plan.addLeg(leg1); // there needs to be a log between two activities
+							plan.addLeg(leg1); // there needs to be a leg between two activities
 						}
 					}
 				} 
