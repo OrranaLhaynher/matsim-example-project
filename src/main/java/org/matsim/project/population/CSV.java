@@ -13,9 +13,9 @@ public class CSV {
 
     public static void main(String [] args) throws IOException {
 		String csvFile = "C:\\Users\\orran\\Downloads\\dataset.csv";
-        String[][] data = new String[149][3];
-        int m = 149;
-        int n = 3;
+        //String[][] data = new String[149][3];
+        //int m = 149;
+        //int n = 3;
         //data = getCSVData(csvFile, m, n);
         getDuplicates(csvFile);
 

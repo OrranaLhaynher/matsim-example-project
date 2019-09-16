@@ -38,8 +38,8 @@ public class IdDuplicate {
 
     }
 
-    private static boolean findDuplicate(String string, String[][] position) {
-        /*String[] duplicates = new String[120];
+    /*private static boolean findDuplicate(String string, String[][] position) {
+        String[] duplicates = new String[120];
         for (int i = 0; i < position.length; i++) {
             for (int j = i + 1 ; j < position.length; j++) {
                 if (position[i][0].equals(position[j][0])) {
@@ -47,7 +47,7 @@ public class IdDuplicate {
                 }
             }
         }
-        return duplicates;*/
+        return duplicates;
         Set<String> set = new HashSet<String>();
 
 
@@ -57,7 +57,7 @@ public class IdDuplicate {
             }
        }
        return false;
-    }
+    }*/
 
     public static <T extends Comparable<T>> void getDuplicates(T[][] array) {
 		Set<T> dupes = new HashSet<T>();
@@ -70,7 +70,7 @@ public class IdDuplicate {
 
     }
 
-    private static boolean checkForDuplicates(String e, String[] array){
+    /*private static boolean checkForDuplicates(String e, String[] array){
 		// create an empty set
         Set<String> set = new HashSet<String>();
 
@@ -90,7 +90,7 @@ public class IdDuplicate {
 
 		// no duplicate found
 		return false;
-	}
+	}*/
     
 
 }
