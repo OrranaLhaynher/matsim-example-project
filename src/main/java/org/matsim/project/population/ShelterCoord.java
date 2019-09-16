@@ -16,7 +16,7 @@ public class ShelterCoord {
 	public static void main(String[] args) {
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
 		List<Coord> coord = getHomeCoordinates(30, ct, 3);
-		//System.out.println(coord);
+		System.out.println(coord);
 	}
 
 	public static Coord getCoord(CoordinateTransformation ct) {
@@ -110,9 +110,9 @@ public class ShelterCoord {
 				System.out.println(position[i][j]);		
 			}
 		} */
-		Double[][] coord = new Double[number][2];
-        Coord shelterHCES = new Coord (-155.28821406, 19.41980187);
-		Coord coordHCES = ct.transform(shelterHCES); 
+		//Double[][] coord = new Double[number][2];
+        //Coord shelterHCES = new Coord (-155.28821406, 19.41980187);
+		//Coord coordHCES = ct.transform(shelterHCES); 
         
 		List<Coord> list = new ArrayList<>(); 
 		for (int i = 0; i < number; i++) {
