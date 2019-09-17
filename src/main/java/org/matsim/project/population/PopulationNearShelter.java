@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
@@ -19,6 +20,7 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
 import org.matsim.api.core.v01.network.Network;
+import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Activity;
 import org.matsim.api.core.v01.population.Leg;
 import org.matsim.api.core.v01.population.Person;
@@ -27,7 +29,9 @@ import org.matsim.api.core.v01.population.Population;
 import org.matsim.api.core.v01.population.PopulationFactory;
 import org.matsim.api.core.v01.population.PopulationWriter;
 import org.matsim.core.config.ConfigUtils;
+import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.network.io.MatsimNetworkReader;
+import org.matsim.core.router.util.LeastCostPathCalculator.Path;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.geotools.MGC;
@@ -40,7 +44,7 @@ public class PopulationNearShelter{
 	private static int ID = 1;
 	private static final String UTM33N = "EPSG:2782";	
 	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
-	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
+	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\California\\";
 
 	public static void main(String [] args) throws IOException {
 		
@@ -84,10 +88,10 @@ public class PopulationNearShelter{
 		it.close();
 		in.close();
 		
-		createPersons(scenario, t, rnd, (int) 120, ct);
+		createPersons(scenario, t, rnd, (int) 1800, ct);
 		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\population.xml";
+		String popFilename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\California\\population.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -148,20 +152,21 @@ public class PopulationNearShelter{
 	public static Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct,
 			Activity home, Network network, MatsimClassDijkstra leastCost) {
 
-		/*Coord x = home.getCoord();				
+		Coord x = home.getCoord();				
 		Node node = NetworkUtils.getNearestNode((network), x); 
 		Node node1 = null;
 		List<Path> path = new ArrayList<Path>();
-		List<Coord> y = ShelterCoord.getCoord(ct);
+		List<Coord> y = new ArrayList<Coord>();
+		y.add(ShelterCoord.getCoord(ct));
 		int pos = 0;
 		
 		for (int i = 0; i < y.size(); i++) {
     		node1 = NetworkUtils.getNearestNode((network), y.get(i)); 
     		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
     		path.add(p);
-		}*/
+		}
     	
-		//System.out.println(path);
+		System.out.println(path);
 		Coord c = ShelterCoord.getCoord(ct);
 		return MGC.coord2Point(c);
     	

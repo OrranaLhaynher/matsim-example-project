@@ -12,18 +12,18 @@ public class CSV {
 	static String COMMA_DELIMITER = ",";
 
     public static void main(String [] args) throws IOException {
-		String csvFile = "C:\\Users\\orran\\Downloads\\dataset.csv";
-        //String[][] data = new String[149][3];
-        //int m = 149;
-        //int n = 3;
-        //data = getCSVData(csvFile, m, n);
-        getDuplicates(csvFile);
+		String csvFile = "C:\\Users\\orran\\Desktop\\allpoints\\dataset_before.csv";
+        String[][] data = new String[296][3];
+        int m = 296;
+        int n = 3;
+        data = getCSVData(csvFile, m, n);
+        //getDuplicates(csvFile);
 
-		/*for (int i = 0; i < 149; i++) {
+		for (int i = 0; i < 296; i++) {
 			for (int j = 0; j < 3; j++) {
 				System.out.println(data[i][j]);
 			}
-		}*/
+		}
 	}
 	
     public static String[][] getCSVData(String csvFile, int i, int j) {
@@ -71,8 +71,8 @@ public class CSV {
           
         // BufferedReader object for input.txt 
         BufferedReader br = new BufferedReader(new FileReader(csvFile)); 
-        FileWriter csvWriter = new FileWriter("C:\\Users\\orran\\Desktop\\ArtigoTeste\\duplicates.csv");
-        FileWriter csvWriter1 = new FileWriter("C:\\Users\\orran\\Desktop\\ArtigoTeste\\nduplicates.csv");
+        FileWriter csvWriter = new FileWriter("C:\\Users\\orran\\Desktop\\allpoints\\duplicates_before.csv");
+        FileWriter csvWriter1 = new FileWriter("C:\\Users\\orran\\Desktop\\allpoints\\nduplicates_before.csv");
           
          String line = br.readLine(); 
           

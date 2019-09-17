@@ -34,8 +34,8 @@ public class PopulationCSV{
 	private static final String UTM33N = "EPSG:2782";	
 	private static final Logger log = Logger.getLogger(PopulationCSV.class);
 	private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
-	private static final String csvFile = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\nduplicates.csv";
-	private static final String csvFileD = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\duplicates.csv";
+	private static final String csvFile = "C:\\Users\\orran\\Desktop\\allpoints\\nduplicates_before.csv";
+	private static final String csvFileD = "C:\\Users\\orran\\Desktop\\allpoints\\duplicates_before.csv";
 
 	public static void main(String [] args) throws IOException {
 		
@@ -73,10 +73,10 @@ public class PopulationCSV{
 		
 		int columns = 3;
 		HashSet<String> hs = new HashSet<String>(); 
-		hs = createPersons(scenario, hom, rnd, (int) 120, ct, columns);
+		hs = createPersons(scenario, hom, rnd, (int) 148, ct, columns);
 		createActivities(scenario, rnd, hs, shelter, ct, network, columns); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\populationh.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\allpoints\\population_before.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -86,8 +86,8 @@ public class PopulationCSV{
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need
-		String[][] dupl = new String[29][col];
-		dupl = CSV.getCSVData(csvFileD, 29, col);
+		String[][] dupl = new String[148][col];
+		dupl = CSV.getCSVData(csvFileD, 148, col);
 		HashSet<String> hp = new HashSet<String>();
 		
 		for (Person pers : pop.getPersons().values()) { //this loop iterates over all persons
@@ -99,7 +99,7 @@ public class PopulationCSV{
 			Leg leg = pb.createLeg(TransportMode.car);
 			plan.addLeg(leg); // there needs to be a log between two activities
 
-			for (int i = 0; i < 29; i++) {
+			for (int i = 0; i < 148; i++) {
 				if(pers.getId().equals(Id.createPersonId(dupl[i][0]))){
 					if ((hp.add(dupl[i][1]) && (hp.add(dupl[i][2])))) {
 						Coord c = new Coord(Double.parseDouble(dupl[i][1]), Double.parseDouble(dupl[i][2]));
