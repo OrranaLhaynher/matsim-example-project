@@ -158,7 +158,7 @@ public class PopulationNearShelter{
 		List<Path> path = new ArrayList<Path>();
 		List<Coord> y = new ArrayList<Coord>();
 		y.add(ShelterCoord.getCoord(ct));
-		int pos = 0;
+		//int pos = 0;
 		
 		for (int i = 0; i < y.size(); i++) {
     		node1 = NetworkUtils.getNearestNode((network), y.get(i)); 
