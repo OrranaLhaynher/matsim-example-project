@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.HashSet;
 
 public class CSV {
-	
-	static String COMMA_DELIMITER = ",";
 
     public static void main(String [] args) throws IOException {
 		String csvFile = "C:\\Users\\orran\\Desktop\\Minicurso\\uniquepoints\\dataset_before.csv";

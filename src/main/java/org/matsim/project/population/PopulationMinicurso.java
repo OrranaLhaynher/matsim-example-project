@@ -24,9 +24,9 @@ import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 public class PopulationMinicurso{
 	
 	private static final String UTM33N = "EPSG:2782";	
-	private static final Logger log = Logger.getLogger(PopulationCSV.class);
+	private static final Logger log = Logger.getLogger(PopulationMinicurso.class);
 	//private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
-    private static final String csvFile = "C:\\Users\\orran\\Desktop\\Minicurso\\uniquepoints\\dataset_after.csv";
+    private static final String csvFile = "C:\\Users\\orran\\Desktop\\Minicurso\\uniquepoints\\dataset_before.csv";
 
 	public static void main(String [] args) throws IOException {
 		
@@ -35,10 +35,10 @@ public class PopulationMinicurso{
 		Scenario scenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
         
         int columns = 3;
-		createPersons(scenario, 141, ct, columns);
+		createPersons(scenario, 145, ct, columns);
 		createActivities(scenario,ct); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\Minicurso\\population_after.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\Minicurso\\population_before.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -53,6 +53,7 @@ public class PopulationMinicurso{
 			
 			Plan plan = pers.getPlans().get(0); //each person has exactly one plan, that has been created in createPersons(...)
 			Activity homeAct = (Activity) plan.getPlanElements().get(0); //every plan has only one activity so far (home activity)
+			homeAct.setStartTime(0*3600);
 			homeAct.setEndTime(7*3600); // sets the endtime of this activity to 7 am
 
 			Leg leg = pb.createLeg(TransportMode.car);

@@ -15,13 +15,13 @@ public class ShelterCoord {
 
 	public static void main(String[] args) {
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
-		List<Coord> coord = getHomeCoordinates(30, ct, 3);
+		Coord coord = getCoord(ct);
 		System.out.println(coord);
 	}
 
 	public static Coord getCoord(CoordinateTransformation ct) {
 		
-		Coord shelterHCES = new Coord ((double) -155.084807, (double) 19.721082);
+		Coord shelterHCES = new Coord (-155.084807, 19.721082);
 		Coord coordHCES = ct.transform(shelterHCES); 
 		
 		Coord shelterHSH = new Coord ((double) -155.090788, (double) 19.723933);
@@ -67,9 +67,9 @@ public class ShelterCoord {
 	    list.add(coordUHH);
 	    list.add(coordHPA);
 	    list.add(coordHPALM);
-	    
-	    Coord coord = getRandomElement(list);
-	    return coord;
+	
+		Random rand = new Random(); 
+        return list.get(rand.nextInt(list.size())); 
 	    
 	}
 	
