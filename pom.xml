@@ -80,6 +80,12 @@
 		    <version>2.2.11</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
 		<!--to get ExamplesUtils. commented out since it is another dependency, but in general this is recommended. -->
 		<!--<dependency>-->
 		<!--	<groupId>org.matsim</groupId>-->
