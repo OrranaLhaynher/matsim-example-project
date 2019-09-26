@@ -1,4 +1,4 @@
-package org.matsim.project.network;
+package org.matsim.project.events;
 
 import java.io.BufferedReader;
 import java.io.File;
