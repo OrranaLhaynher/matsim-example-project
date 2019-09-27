@@ -17,7 +17,7 @@
  *   See also COPYING, LICENSE and WARRANTY file                           *
  *                                                                         *
  * *********************************************************************** */
-package org.matsim.project.population;
+package org.matsim.project.population.California;
 
 import java.util.ArrayList;
 import java.util.Comparator;

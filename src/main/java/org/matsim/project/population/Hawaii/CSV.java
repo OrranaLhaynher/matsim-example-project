@@ -1,4 +1,4 @@
-package org.matsim.project.population;
+package org.matsim.project.population.Hawaii;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

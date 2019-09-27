@@ -1,4 +1,4 @@
-package org.matsim.project.population;
+package org.matsim.project.population.California;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,9 +38,9 @@ public class PopulationGenerationRandomly {
 	
 	private static final Logger log = Logger.getLogger(PopulationGenerationRandomly.class);
 
-	private static int ID = 0;
+	private static int ID = 1;
 
-	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TentativaMATSim\\Network\\";
+	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\";
 
 	public static void main(String [] args) throws IOException {
 		
@@ -75,7 +75,7 @@ public class PopulationGenerationRandomly {
 		createPersons(scenario, hom, rnd, (int) 1800, ct);
 		createActivities(scenario, rnd, shelter, ct); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\TentativaMATSim\\Network\\populTeste.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\population.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		

@@ -1,4 +1,4 @@
-package org.matsim.project.population;
+package org.matsim.project.population.California;
 
 import java.io.IOException;
 import java.util.Random;

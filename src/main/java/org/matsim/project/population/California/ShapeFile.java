@@ -1,4 +1,4 @@
-package org.matsim.project.population;
+package org.matsim.project.population.California;
 
 import java.util.ArrayList;
 import java.util.Collections;
