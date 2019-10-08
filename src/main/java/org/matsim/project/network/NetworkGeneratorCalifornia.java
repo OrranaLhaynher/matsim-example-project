@@ -20,7 +20,7 @@ class NetworkGeneratorCalifornia {
 	public static final String CALIFORNIACoord = "EPSG:3311";
 
 	public static void main(String [] args) throws SAXException {
-		String osm = "C:\\Users\\orran\\Downloads\\evacuationArea.osm";
+		String osm = "C:\\Users\\orran\\Downloads\\part5(9914970).osm";
 
 		Scenario sc = ScenarioUtils.createScenario(ConfigUtils.createConfig()) ;
 		Network net = sc.getNetwork();	
@@ -33,7 +33,7 @@ class NetworkGeneratorCalifornia {
 		onr.parse(osm); //começa a conversão de .osm para matsim
 
 		new NetworkCleaner().run(net); //remove links isolados ou não conectados
-		String filename = "C:\\Users\\orran\\Desktop\\TCC\\evacuationArea.xml";
+		String filename = "C:\\Users\\orran\\Desktop\\TCC\\part5.xml";
 		new NetworkWriter(net).write(filename);
 
 		// Cria um ESRI shape file da rede MATSim
@@ -42,7 +42,7 @@ class NetworkGeneratorCalifornia {
 		builder.setWidthCoefficient(0.01);
 		builder.setFeatureGeneratorPrototype(PolygonFeatureGenerator.class);
 		builder.setWidthCalculatorPrototype(CapacityBasedWidthCalculator.class);
-		new Links2ESRIShape(net,"C:\\Users\\orran\\Desktop\\TCC\\evacuationArea.shp", builder).write();
+		new Links2ESRIShape(net,"C:\\Users\\orran\\Desktop\\TCC\\part5.shp", builder).write();
 
 	}
 
