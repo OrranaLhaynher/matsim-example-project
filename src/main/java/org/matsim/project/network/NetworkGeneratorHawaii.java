@@ -20,7 +20,7 @@ class NetworkGeneratorHawaii {
 	public static final String HAWAIICoord = "EPSG:2782";
 
 	public static void main(String [] args) throws SAXException {
-		String osm = "C:\\Users\\orran\\Desktop\\ArtigoTeste\\artigo.osm";
+		String osm = "C:\\Users\\orran\\Desktop\\Minicurso-SINFO\\artigo.osm";
 
 		Scenario sc = ScenarioUtils.createScenario(ConfigUtils.createConfig()) ;
 		Network net = sc.getNetwork();	
@@ -33,7 +33,7 @@ class NetworkGeneratorHawaii {
 		onr.parse(osm); //começa a conversão de .osm para matsim
 
 		new NetworkCleaner().run(net); //remove links isolados ou não conectados
-		String filename = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\artigo.xml";
+		String filename = "C:\\Users\\orran\\Desktop\\Minicurso-SINFO\\teste\\artigo.xml.gz";
 		new NetworkWriter(net).write(filename);
 
 		// Cria um ESRI shape file da rede MATSim
@@ -42,7 +42,7 @@ class NetworkGeneratorHawaii {
 		builder.setWidthCoefficient(0.01);
 		builder.setFeatureGeneratorPrototype(PolygonFeatureGenerator.class);
 		builder.setWidthCalculatorPrototype(CapacityBasedWidthCalculator.class);
-		new Links2ESRIShape(net,"C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\artigo.shp", builder).write();
+		new Links2ESRIShape(net,"C:\\Users\\orran\\Desktop\\Minicurso-SINFO\\teste\\artigo.shp", builder).write();
 
 	}
 

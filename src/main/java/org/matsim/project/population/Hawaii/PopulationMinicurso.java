@@ -25,7 +25,6 @@ public class PopulationMinicurso{
 	
 	private static final String UTM33N = "EPSG:2782";	
 	private static final Logger log = Logger.getLogger(PopulationMinicurso.class);
-	//private static final String exampleDirectory = "C:\\Users\\orran\\OneDrive\\Documentos\\GitHub\\matsim-example-project\\original-input-data\\artigo\\";
     private static final String csvFile = "C:\\Users\\orran\\Desktop\\Minicurso\\uniquepoints\\dataset_before.csv";
 
 	public static void main(String [] args) throws IOException {
@@ -38,7 +37,7 @@ public class PopulationMinicurso{
 		createPersons(scenario, 145, ct, columns);
 		createActivities(scenario,ct); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\Minicurso\\population_before.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\Minicurso-SINFO\\teste\\population_before.xml.gz";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
