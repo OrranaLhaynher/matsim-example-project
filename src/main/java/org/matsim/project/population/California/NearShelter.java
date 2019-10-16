@@ -165,7 +165,6 @@ public class NearShelter{
     		node1 = NetworkUtils.getNearestNode((network), coord.get(i)); 
     		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
 		}
-		p.
 	}
 
 }

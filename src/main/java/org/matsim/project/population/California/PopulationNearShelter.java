@@ -45,20 +45,19 @@ public class PopulationNearShelter{
 	private static int ID = 1;
 	private static final String UTM33N = "EPSG:3311";	
 	private static final Logger log = Logger.getLogger(PopulationNearShelter.class);
-	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\";
+	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\areaScheduling\\";
 
 	public static void main(String [] args) throws IOException {
 		
-		final String NETWORKFILE = exampleDirectory + "network.xml";
+		final String NETWORKFILE = "C:\\Users\\orran\\Desktop\\TCC\\network.xml";
 		
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
 		// input files
-		String zonesFile1 = exampleDirectory + "part1.shp";
-		String zonesFile2 = exampleDirectory + "part2.shp";
-		String zonesFile3 = exampleDirectory + "part3.shp";
-		String zonesFile4 = exampleDirectory + "part4.shp";
-		String zonesFile5 = exampleDirectory + "part5.shp";
-		String networkFile = exampleDirectory + "network.shp";
+		String zonesFile1 = exampleDirectory + "area1.shp";
+		String zonesFile2 = exampleDirectory + "area2.shp";
+		String zonesFile3 = exampleDirectory + "area3.shp";
+		String zonesFile4 = exampleDirectory + "area4.shp";
+		String networkFile = "C:\\Users\\orran\\Desktop\\TCC\\network.shp";
 
 		Scenario scenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
 		new MatsimNetworkReader(scenario.getNetwork()).readFile(NETWORKFILE);
@@ -70,7 +69,6 @@ public class PopulationNearShelter{
 		SimpleFeatureSource area2 = ShapeFileReader.readDataFile(zonesFile2);
 		SimpleFeatureSource area3 = ShapeFileReader.readDataFile(zonesFile3);
 		SimpleFeatureSource area4 = ShapeFileReader.readDataFile(zonesFile4);
-		SimpleFeatureSource area5 = ShapeFileReader.readDataFile(zonesFile5);
 		SimpleFeatureSource net = ShapeFileReader.readDataFile(networkFile);
 		
 		Random rnd = new Random();
@@ -78,7 +76,6 @@ public class PopulationNearShelter{
 		SimpleFeature home2 = null;
 		SimpleFeature home3 = null;
 		SimpleFeature home4 = null;
-		SimpleFeature home5 = null;
 		SimpleFeature shelter = null;
 
 		//Iterator to iterate over the features from the shape file
@@ -86,14 +83,12 @@ public class PopulationNearShelter{
 		SimpleFeatureIterator it2 = area2.getFeatures().features();
 		SimpleFeatureIterator it3 = area3.getFeatures().features();
 		SimpleFeatureIterator it4 = area4.getFeatures().features();
-		SimpleFeatureIterator it5 = area5.getFeatures().features();
 		SimpleFeatureIterator in = net.getFeatures().features();
 
 		ArrayList<SimpleFeature> t1 = new ArrayList<SimpleFeature>();
 		ArrayList<SimpleFeature> t2 = new ArrayList<SimpleFeature>();
 		ArrayList<SimpleFeature> t3 = new ArrayList<SimpleFeature>();
 		ArrayList<SimpleFeature> t4 = new ArrayList<SimpleFeature>();
-		ArrayList<SimpleFeature> t5 = new ArrayList<SimpleFeature>();
 
 		while (it1.hasNext()) {
             home1 = it1.next();
@@ -122,13 +117,6 @@ public class PopulationNearShelter{
             home4.setDefaultGeometry(gm4);
             t4.add(home4);
 		}
-
-		while (it5.hasNext()) {
-            home5 = it5.next();
-            Geometry gm5 = (Geometry) home5.getDefaultGeometry();
-            home5.setDefaultGeometry(gm5);
-            t5.add(home5);
-		}
 		
 		while (in.hasNext()) {
 			SimpleFeature sh = in.next();
@@ -139,10 +127,9 @@ public class PopulationNearShelter{
 		it2.close();
 		it3.close();
 		it4.close();
-		it5.close();
 		in.close();
 		
-		createPersons(scenario, t1, t2, t3, t4, t5, rnd, (int) 1800, ct);
+		createPersons(scenario, t1, t2, t3, t4, rnd, (int) 1800, ct);
 		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
 		
 		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\population.xml";
@@ -178,12 +165,12 @@ public class PopulationNearShelter{
 
 	}
 
-	private static void createPersons(Scenario scenario, ArrayList<SimpleFeature> t1, ArrayList<SimpleFeature> t2, ArrayList<SimpleFeature> t3, ArrayList<SimpleFeature> t4, ArrayList<SimpleFeature> t5, Random rnd, int number, CoordinateTransformation ct) {
+	private static void createPersons(Scenario scenario, ArrayList<SimpleFeature> t1, ArrayList<SimpleFeature> t2, ArrayList<SimpleFeature> t3, ArrayList<SimpleFeature> t4, Random rnd, int number, CoordinateTransformation ct) {
 	
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
 
-		for (number=0; number<360; number++) {
+		for (number=0; number<450; number++) {
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
@@ -193,7 +180,7 @@ public class PopulationNearShelter{
 			plan.addActivity(act);
 			pers.addPlan(plan);
 		}
-		for (number= 360; number< 720; number++) {
+		for (number= 450; number< 900; number++) {
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
@@ -203,7 +190,7 @@ public class PopulationNearShelter{
 			act.setEndTime(7.45*3600);
 			pers.addPlan(plan);
 		}
-		for (number= 720; number<1080; number++) {
+		for (number= 900; number<1350; number++) {
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
@@ -213,7 +200,7 @@ public class PopulationNearShelter{
 			act.setEndTime(8*3600);
 			pers.addPlan(plan);
 		}
-		for (number= 1080; number<1440; number++) {
+		for (number= 1350; number<1800; number++) {
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
@@ -221,16 +208,6 @@ public class PopulationNearShelter{
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
 			act.setEndTime(8.40*3600);
-			pers.addPlan(plan);
-		}
-		for (number= 1440; number<1800; number++) {
-			Person pers = pb.createPerson(Id.create(ID++, Person.class));
-			pop.addPerson(pers);
-			Plan plan = pb.createPlan();
-			Coord c = getCoordInGeometry(t5);
-			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
-			plan.addActivity(act);
-			act.setEndTime(8.20*3600);
 			pers.addPlan(plan);
 		}
 	}
