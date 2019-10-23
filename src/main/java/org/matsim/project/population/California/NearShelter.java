@@ -3,22 +3,15 @@ package org.matsim.project.population.California;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.log4j.Logger;
-import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.data.simple.SimpleFeatureSource;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.shape.random.RandomPointsBuilder;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
+import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Activity;
@@ -31,20 +24,11 @@ import org.matsim.api.core.v01.population.PopulationWriter;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.network.io.MatsimNetworkReader;
-import org.matsim.core.router.Dijkstra;
-import org.matsim.core.router.util.LeastCostPathCalculator;
-import org.matsim.core.router.util.PreProcessDijkstra;
-import org.matsim.core.router.util.TravelDisutility;
-import org.matsim.core.router.util.TravelTime;
 import org.matsim.core.router.util.LeastCostPathCalculator.Path;
-import org.matsim.pt.router.MultiNodeDijkstra;
+import org.matsim.core.router.util.TravelDisutility;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
-import org.matsim.core.utils.geometry.geotools.MGC;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
-import org.matsim.core.utils.gis.ShapeFileReader;
-import org.matsim.project.population.Hawaii.ShelterCoord;
-import org.opengis.feature.simple.SimpleFeature;
 
 public class NearShelter{
 	
@@ -52,6 +36,7 @@ public class NearShelter{
 	private static final String UTM33N = "EPSG:3311";	
 	private static final Logger log = Logger.getLogger(NearShelter.class);
 	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\";
+	static TravelDisutility costFunction;
 
 	public static void main(String [] args) throws IOException {
 		
@@ -79,6 +64,7 @@ public class NearShelter{
 		List<Coord> coord = new ArrayList<>();
 		coord = getShelter(ct);
 		int i = 0;
+		MatsimClassDijkstra leastCost = new MatsimClassDijkstra(network, null, null);
 		
 		for (Person pers : pop.getPersons().values()) { //this loop iterates over all persons
 	
@@ -87,13 +73,14 @@ public class NearShelter{
 			homeAct.setEndTime(7*3600); // sets the endtime of this activity to 7 am
             
             Coord x = homeAct.getCoord();				
-            Node node = NetworkUtils.getNearestNode((network), x); 
+			Node node = NetworkUtils.getNearestNode((network), x); 
+			Point p = getShelterPointInFeature(ct, homeAct, network, leastCost);
         
 			Leg leg = pb.createLeg(TransportMode.car);
             plan.addLeg(leg); // there needs to be a log between two activities
 
 			//shelter activity on a random shelter among the shelter set
-			Activity shelt = pb.createActivityFromCoord("shelter", new Coord((coord.get(i).getX()), (coord.get(i).getY())));
+			Activity shelt = pb.createActivityFromCoord("shelter", new Coord((p.getX()), (p.getY())));
 			double startTime = 10*3600;
 			shelt.setStartTime(startTime);
 			plan.addActivity(shelt);
@@ -151,13 +138,12 @@ public class NearShelter{
     	return places;
 	}
 	
-	public static Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct,
+	public static Point getShelterPointInFeature(CoordinateTransformation ct,
 			Activity home, Network network, MatsimClassDijkstra leastCost) {
 
 		Coord x = home.getCoord();				
 		Node node = NetworkUtils.getNearestNode((network), x); 
 		Node node1 = null;
-		Path p = null;
 		List<Coord> coord = new ArrayList<>();
 		coord = getShelter(ct);
 
@@ -165,6 +151,13 @@ public class NearShelter{
     		node1 = NetworkUtils.getNearestNode((network), coord.get(i)); 
     		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
 		}
+
+		for(Link link1 : network.getLinks().values()){
+			System.out.println("passou");
+			System.out.println(costFunction.getLinkMinimumTravelDisutility(link1));
+
+		}
+		return null;
 	}
 
 }

@@ -56,7 +56,7 @@ public final class MatsimClassDijkstra implements LeastCostPathCalculator {
 		}
 
 	});
-	MatsimClassDijkstra(Network network, TravelDisutility travelCosts,
+	public MatsimClassDijkstra(Network network, TravelDisutility travelCosts,
 			TravelTime travelTimes) {
 		this.network = network;
 
