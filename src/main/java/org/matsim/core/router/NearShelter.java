@@ -121,7 +121,7 @@ public class NearShelter{
 		it3.close();
 		it4.close();
 
-		createPersons(scenario, t1, t2, t3, t4, (int) 1, ct);
+		createPersons(scenario, t1, t2, t3, t4, (int) 1800, ct);
 		createActivities(scenario, ct, network); // this method creates the remaining activities
 
 		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\populationTeste.xml";
@@ -151,8 +151,6 @@ public class NearShelter{
 
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); // the population builder creates all we need
-
-		getNode(network);
 
 		for (Person pers : pop.getPersons().values()) { // this loop iterates over all persons
 			Plan plan = pers.getPlans().get(0); // each person has exactly one plan, that has been created in createPersons(...)
@@ -186,12 +184,13 @@ public class NearShelter{
 
 	public static Coord getNearShelterPointInFeature(CoordinateTransformation ct, Scenario scenario, Network network, Activity homeAct) {
 		
-		List<Path> path = new ArrayList<Path>();
+		//List<Path> path = new ArrayList<Path>();
 		Map<Double, Integer> travelLength = new LinkedHashMap<Double, Integer>();
+		Map<Integer, Path> path = new LinkedHashMap<Integer, Path>();
 		TravelTime travelTimes = null;
 		TravelDisutility travelCosts = null;
 		List<Node> coord = new ArrayList<>();
-		Coord[] y = getShelter(ct, network);
+		Node[] y = getShelter(ct, network);
 		coord = getShelterLotation(y, network);
 		MatsimClassDijkstra least = new MatsimClassDijkstra(network, travelCosts, travelTimes);
 
@@ -199,8 +198,8 @@ public class NearShelter{
 		Node node = NetworkUtils.getNearestNode(network, x);
 
 		for (int i = 0; i < y.length; i++) {
-			Node node1 = NetworkUtils.getNearestNode(network, y[i]);
-			path.add(least.calcLeastCostPath(node, node1, 0.0, null, null));
+			Node node1 = y[i];
+			path.put(i, least.calcLeastCostPath(node, node1, 0.0, null, null));
 		}
 
 		for (int i = 0; i < path.size(); i++) {
@@ -213,9 +212,35 @@ public class NearShelter{
 		Coord shelter = new Coord();
 
 		for (int i = 0; i < coord.size(); i++) {
-			if (coord.get(i).getCoord().equals(path.get(key).getToNode().getCoord())) {
+			if (coord.get(i).getCoord().equals(y[key].getCoord())) {
 				coord.remove(coord.get(i));
-				shelter = path.get(key).getToNode().getCoord();
+				shelter = y[key].getCoord();
+			}else{
+				if (!coord.get(i).getCoord().equals(y[key].getCoord())){
+					int key1 = valuesList.get(1);
+					if(coord.get(i).getCoord().equals(y[key1].getCoord())){
+						coord.remove(coord.get(i));
+						shelter = y[key1].getCoord();
+					}else if(!coord.get(i).getCoord().equals(y[key1].getCoord())){
+						int key2 = valuesList.get(2);
+						if (coord.get(i).getCoord().equals(y[key2].getCoord())) {
+							coord.remove(coord.get(i));
+							shelter = y[key2].getCoord();
+						}else if(!coord.get(i).getCoord().equals(y[key2].getCoord())){
+							int key3 = valuesList.get(3);
+							if (coord.get(i).getCoord().equals(y[key3].getCoord())) {
+								coord.remove(coord.get(i));
+								shelter = y[key3].getCoord();
+							}else if(!coord.get(i).getCoord().equals(y[key3].getCoord())){
+								int key4 = valuesList.get(4);
+								if (coord.get(i).getCoord().equals(y[key4].getCoord())) {
+									coord.remove(coord.get(i));
+									shelter = y[key4].getCoord();
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	
@@ -243,54 +268,57 @@ public class NearShelter{
 		return length;
 	}
 
-	public static Coord[] getShelter (CoordinateTransformation ct, Network network){
+	public static Node[] getShelter (CoordinateTransformation ct, Network network){
 
 		Coord shelterYSF = new Coord ((double) -121.610496, (double) 39.130820);
 		Coord coordYSF = ct.transform(shelterYSF);
+		Node YSF = NetworkUtils.getNearestNode(network, coordYSF);
+
     	Coord shelterBCF = new Coord ((double) -121.684840, (double) 39.366423);
 		Coord coordBCF = ct.transform(shelterBCF);
+		Node BCF = NetworkUtils.getNearestNode(network, coordBCF);
+
     	Coord shelterEAC = new Coord ((double) -121.830866, (double) 39.761694);
 		Coord coordEAC = ct.transform(shelterEAC);
+		Node EAC = NetworkUtils.getNearestNode(network, coordEAC);
+
     	Coord shelterGCF = new Coord ((double) -122.181001, (double) 39.742266);
 		Coord coordGCF = ct.transform(shelterGCF);
+		Node GCF = NetworkUtils.getNearestNode(network, coordGCF);
+
     	Coord shelterSDF = new Coord ((double) -121.812576, (double) 39.717312);;
 		Coord coordSDF = ct.transform(shelterSDF);
+		Node SDF = NetworkUtils.getNearestNode(network, coordSDF);
 		
-		Coord[] y = new Coord[5];
+		Node[] y = new Node[5];
 
-		y[0] = coordEAC;
-		y[1] = coordGCF;
-		y[2] = coordSDF;
-		y[3] = coordYSF;
-		y[4] = coordBCF;
+		y[0] = EAC;
+		y[1] = GCF;
+		y[2] = SDF;
+		y[3] = YSF;
+		y[4] = BCF;
 
 		return y;
 	}
 
-	public static List<Node> getShelterLotation(Coord[] list, Network network) {
-    	
-		Node YSF = NetworkUtils.getNearestNode(network, list[3]);
-		Node BCF = NetworkUtils.getNearestNode(network, list[4]);
-		Node EAC = NetworkUtils.getNearestNode(network, list[0]);
-		Node GCF = NetworkUtils.getNearestNode(network, list[1]);
-		Node SDF = NetworkUtils.getNearestNode(network, list[2]);
+	public static List<Node> getShelterLotation(Node[] list, Network network) {
     	
     	List<Node> places = new ArrayList<>();
     			
     	for (int i=0; i<100; i++) {
-    	   places.add(BCF);
+    	   places.add(list[4]);
     	}
     	for (int i=0; i<620; i++) {
-    	   places.add(SDF);
+    	   places.add(list[2]);
     	}
     	for (int i=0; i<250; i++) {
-     	   places.add(EAC);
+     	   places.add(list[0]);
      	}
     	for (int i=0; i<450; i++) {
-     	   places.add(GCF);
+     	   places.add(list[1]);
      	}
     	for (int i=0; i<380; i++) {
-     	   places.add(YSF);
+     	   places.add(list[3]);
      	}
     	
     	Collections.shuffle(places); 
