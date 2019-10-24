@@ -51,3 +51,46 @@
 		if (ls.intersects(this.p) || this.p.covers(ls)) {
 			return Double.POSITIVE_INFINITY;
 		}*/
+
+		/* if (!coord.isEmpty()) {
+				if(coord.get(i).getCoord().equals(path.get(key).getToNode().getCoord())){
+					coord.remove(coord.get(i));
+					shelter = path.get(key).getToNode().getCoord();
+				}else if(!coord.get(i).getCoord().equals(path.get(key).getToNode().getCoord())){
+					int key1 = valuesList.get(1);
+					if (coord.get(i).getCoord().equals(path.get(key1).getToNode().getCoord())) {
+						coord.remove(coord.get(i));
+						shelter = path.get(key1).getToNode().getCoord();
+					}else if(!coord.get(i).getCoord().equals(path.get(key1).getToNode().getCoord())){
+						int key2 = valuesList.get(2);
+						if (coord.get(i).getCoord().equals(path.get(key2).getToNode().getCoord())) {
+							coord.remove(coord.get(i));
+							shelter = path.get(key2).getToNode().getCoord();
+						}else if(!coord.get(i).getCoord().equals(path.get(key2).getToNode().getCoord())){
+							int key3 = valuesList.get(3);
+							if (coord.get(i).getCoord().equals(path.get(key3).getToNode().getCoord())) {
+								coord.remove(coord.get(i));
+								shelter = path.get(key3).getToNode().getCoord();
+							}else if(!coord.get(i).getCoord().equals(path.get(key3).getToNode().getCoord())){
+								int key4 = valuesList.get(4);
+								if (coord.get(i).getCoord().equals(path.get(key4).getToNode().getCoord())) {
+									coord.remove(coord.get(i));
+									shelter = path.get(key4).getToNode().getCoord();
+								}
+							}
+						}
+					}
+				}*/
+
+				/*public static void getNode(Network network) {
+					List<Node> n = NetworkUtils.getNodes(network, null);
+
+					for (int i = 0; i < n.size(); i++) {
+						System.out.println(n.get(i));
+						if(n.get(i).getId().equals(Id.createNodeId("86378149"))){
+							System.out.println("Node"+n.get(i));
+						}else{
+							System.out.println("Nope");
+						}
+					}
+				}*/

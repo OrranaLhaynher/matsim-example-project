@@ -124,7 +124,7 @@ public class NearShelter{
 		createPersons(scenario, t1, t2, t3, t4, (int) 1800, ct);
 		createActivities(scenario, ct, network); // this method creates the remaining activities
 
-		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\populationTeste.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\populationTeste.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename);
 
@@ -135,14 +135,44 @@ public class NearShelter{
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
 
-		for (; number > 0; number--) {
+		for (number=0; number<450; number++) {
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
 			Coord c = getCoordInGeometry(t1);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
-			act.setEndTime(7 * 3600);
+			act.setEndTime(7.23*3600);
 			plan.addActivity(act);
+			pers.addPlan(plan);
+		}
+		for (number= 450; number<900; number++) {
+			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			pop.addPerson(pers);
+			Plan plan = pb.createPlan();
+			Coord c = getCoordInGeometry(t2);
+			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			plan.addActivity(act);
+			act.setEndTime(7.45*3600);
+			pers.addPlan(plan);
+		}
+		for (number= 900; number<1350; number++) {
+			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			pop.addPerson(pers);
+			Plan plan = pb.createPlan();
+			Coord c = getCoordInGeometry(t3);
+			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			plan.addActivity(act);
+			act.setEndTime(8*3600);
+			pers.addPlan(plan);
+		}
+		for (number= 1350; number<1800; number++) {
+			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			pop.addPerson(pers);
+			Plan plan = pb.createPlan();
+			Coord c = getCoordInGeometry(t4);
+			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			plan.addActivity(act);
+			act.setEndTime(8.40*3600);
 			pers.addPlan(plan);
 		}
 	}
@@ -151,19 +181,43 @@ public class NearShelter{
 
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); // the population builder creates all we need
+		Coord shelter = new Coord();
+		List<Node> coord = new ArrayList<>();
+		Node[] y = getShelter(ct, network);
+		coord = getShelterLotation(y, network);
 
 		for (Person pers : pop.getPersons().values()) { // this loop iterates over all persons
 			Plan plan = pers.getPlans().get(0); // each person has exactly one plan, that has been created in createPersons(...)
-			Activity homeAct = (Activity) plan.getPlanElements().get(0); // every plan has only one activity so far (home activity)
-			homeAct.setEndTime(7 * 3600); // sets the endtime of this activity to 7 am
+
+			List<Integer> valuesList = getNearShelterPointInFeature(ct, scenario, network, (Activity) plan.getPlanElements().get(0));
+			int key = valuesList.get(0);
+			int key1 = valuesList.get(1);
+			int key2 = valuesList.get(2);
+			int key3 = valuesList.get(3);
+			int key4 = valuesList.get(4);
 
 			Leg leg = pb.createLeg(TransportMode.car);
 			plan.addLeg(leg); // there needs to be a log between two activities
-
-			Coord c = getNearShelterPointInFeature(ct, scenario, network, homeAct);
+			
+			if (coord.contains(y[key])) {
+				coord.remove(y[key]);
+				shelter = y[key].getCoord();
+			}else if ((!coord.contains(y[key])) && (coord.contains(y[key1]))){
+				coord.remove(y[key1]);
+				shelter = y[key1].getCoord();
+			}else if((!coord.contains(y[key])) && (!coord.contains(y[key1])) && (coord.contains(y[key2]))) {
+				coord.remove(y[key2]);
+				shelter = y[key2].getCoord();
+			}else if((!coord.contains(y[key])) && (!coord.contains(y[key1])) && (!coord.contains(y[key2])) && (coord.contains(y[key3]))) {
+				coord.remove(y[key3]);
+				shelter = y[key3].getCoord();
+			}else if((!coord.contains(y[key])) && (!coord.contains(y[key1])) && (!coord.contains(y[key2])) && (!coord.contains(y[key3])) && (coord.contains(y[key4]))) {
+				coord.remove(y[key4]);
+				shelter = y[key4].getCoord();
+			}
 
 			// shelter activity on a random shelter among the shelter set
-			Activity shelt = pb.createActivityFromCoord("shelter", new Coord((c.getX()), (c.getY())));
+			Activity shelt = pb.createActivityFromCoord("shelter", new Coord((shelter.getX()), (shelter.getY())));
 			double startTime = 10 * 3600;
 			shelt.setStartTime(startTime);
 			plan.addActivity(shelt);
@@ -182,16 +236,13 @@ public class NearShelter{
 		return MGC.coordinate2Coord(coordinate);
 	}
 
-	public static Coord getNearShelterPointInFeature(CoordinateTransformation ct, Scenario scenario, Network network, Activity homeAct) {
-		
-		//List<Path> path = new ArrayList<Path>();
+	public static List<Integer> getNearShelterPointInFeature(CoordinateTransformation ct, Scenario scenario, Network network, Activity homeAct) {
+	
 		Map<Double, Integer> travelLength = new LinkedHashMap<Double, Integer>();
 		Map<Integer, Path> path = new LinkedHashMap<Integer, Path>();
 		TravelTime travelTimes = null;
 		TravelDisutility travelCosts = null;
-		List<Node> coord = new ArrayList<>();
 		Node[] y = getShelter(ct, network);
-		coord = getShelterLotation(y, network);
 		MatsimClassDijkstra least = new MatsimClassDijkstra(network, travelCosts, travelTimes);
 
 		Coord x = homeAct.getCoord();
@@ -208,56 +259,30 @@ public class NearShelter{
 
 		final Map<Double, Integer> sortedByCount = travelLength.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 		List<Integer> valuesList = new ArrayList<Integer>(sortedByCount.values());
-		int key = valuesList.get(0);
-		Coord shelter = new Coord();
 
-		for (int i = 0; i < coord.size(); i++) {
-			if (coord.get(i).getCoord().equals(y[key].getCoord())) {
-				coord.remove(coord.get(i));
-				shelter = y[key].getCoord();
-			}else{
-				if (!coord.get(i).getCoord().equals(y[key].getCoord())){
-					int key1 = valuesList.get(1);
-					if(coord.get(i).getCoord().equals(y[key1].getCoord())){
-						coord.remove(coord.get(i));
-						shelter = y[key1].getCoord();
-					}else if(!coord.get(i).getCoord().equals(y[key1].getCoord())){
-						int key2 = valuesList.get(2);
-						if (coord.get(i).getCoord().equals(y[key2].getCoord())) {
-							coord.remove(coord.get(i));
-							shelter = y[key2].getCoord();
-						}else if(!coord.get(i).getCoord().equals(y[key2].getCoord())){
-							int key3 = valuesList.get(3);
-							if (coord.get(i).getCoord().equals(y[key3].getCoord())) {
-								coord.remove(coord.get(i));
-								shelter = y[key3].getCoord();
-							}else if(!coord.get(i).getCoord().equals(y[key3].getCoord())){
-								int key4 = valuesList.get(4);
-								if (coord.get(i).getCoord().equals(y[key4].getCoord())) {
-									coord.remove(coord.get(i));
-									shelter = y[key4].getCoord();
-								}
-							}
-						}
-					}
+		/*for (int i = 0; i < coord.size(); i++) {
+			if(!coord.isEmpty()) {
+				if(coord.get(i).getCoord().equals(y[key].getCoord())) {
+					coord.remove(coord.get(i));
+					System.out.println(coord.size());
+					shelter = y[key].getCoord();
+				}else if(coord.get(i).getCoord().equals(y[key1].getCoord())){
+					coord.remove(coord.get(i));
+					shelter = y[key1].getCoord();
+				}else if(coord.get(i).getCoord().equals(y[key2].getCoord())) {
+					coord.remove(coord.get(i));
+					shelter = y[key2].getCoord();
+				}else if(coord.get(i).getCoord().equals(y[key3].getCoord())) {
+					coord.remove(coord.get(i));
+					shelter = y[key3].getCoord();
+				}else if(coord.get(i).getCoord().equals(y[key4].getCoord())) {
+					coord.remove(coord.get(i));
+					shelter = y[key4].getCoord();
 				}
-			}
-		}
+			}	
+		}*/
 	
-		return shelter;
-	}
-
-	public static void getNode(Network network) {
-		List<Node> n = NetworkUtils.getNodes(network, null);
-
-		for (int i = 0; i < n.size(); i++) {
-			System.out.println(n.get(i));
-			if(n.get(i).getId().equals(Id.createNodeId("86378149"))){
-				System.out.println("Node"+n.get(i));
-			}else{
-				System.out.println("Nope");
-			}
-		}
+		return valuesList;
 	}
 
 	public static double getLinkTravelDisutility(List<Link> link, double time, Person person, Vehicle vehicle) {
@@ -305,15 +330,15 @@ public class NearShelter{
     	
     	List<Node> places = new ArrayList<>();
     			
-    	for (int i=0; i<100; i++) {
-    	   places.add(list[4]);
-    	}
     	for (int i=0; i<620; i++) {
-    	   places.add(list[2]);
-    	}
-    	for (int i=0; i<250; i++) {
+			places.add(list[2]);
+		}
+		for (int i=0; i<250; i++) {
      	   places.add(list[0]);
      	}
+		 for (int i=0; i<100; i++) {
+    	   places.add(list[4]);
+    	}
     	for (int i=0; i<450; i++) {
      	   places.add(list[1]);
      	}
@@ -325,35 +350,5 @@ public class NearShelter{
     	
     	return places;
 	}
-
-	/* if (!coord.isEmpty()) {
-				if(coord.get(i).getCoord().equals(path.get(key).getToNode().getCoord())){
-					coord.remove(coord.get(i));
-					shelter = path.get(key).getToNode().getCoord();
-				}else if(!coord.get(i).getCoord().equals(path.get(key).getToNode().getCoord())){
-					int key1 = valuesList.get(1);
-					if (coord.get(i).getCoord().equals(path.get(key1).getToNode().getCoord())) {
-						coord.remove(coord.get(i));
-						shelter = path.get(key1).getToNode().getCoord();
-					}else if(!coord.get(i).getCoord().equals(path.get(key1).getToNode().getCoord())){
-						int key2 = valuesList.get(2);
-						if (coord.get(i).getCoord().equals(path.get(key2).getToNode().getCoord())) {
-							coord.remove(coord.get(i));
-							shelter = path.get(key2).getToNode().getCoord();
-						}else if(!coord.get(i).getCoord().equals(path.get(key2).getToNode().getCoord())){
-							int key3 = valuesList.get(3);
-							if (coord.get(i).getCoord().equals(path.get(key3).getToNode().getCoord())) {
-								coord.remove(coord.get(i));
-								shelter = path.get(key3).getToNode().getCoord();
-							}else if(!coord.get(i).getCoord().equals(path.get(key3).getToNode().getCoord())){
-								int key4 = valuesList.get(4);
-								if (coord.get(i).getCoord().equals(path.get(key4).getToNode().getCoord())) {
-									coord.remove(coord.get(i));
-									shelter = path.get(key4).getToNode().getCoord();
-								}
-							}
-						}
-					}
-				}*/
 	
 }
