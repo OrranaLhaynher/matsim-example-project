@@ -49,9 +49,9 @@ public class EventsTeste {
 	 * @param args
 	 */
 
-    private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\areaScheduling\\";
-    final static String NETWORKFILE = exampleDirectory + "area4.xml";
-    public static final String xmlFilePath = exampleDirectory + "networkChangeEvents.xml";
+    private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\";
+    final static String NETWORKFILE = exampleDirectory + "evacuationArea.xml";
+    public static final String xmlFilePath = exampleDirectory + "networkChangeEventsTeste.xml";
 
     public static void main(String[] args) {
 

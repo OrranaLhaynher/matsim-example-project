@@ -1,18 +1,17 @@
 package org.matsim.project.population.Hawaii;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
-import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.data.simple.SimpleFeatureSource;
-import org.locationtech.jts.geom.Point;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
-import org.matsim.api.core.v01.network.Network;
+//import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.population.Activity;
 import org.matsim.api.core.v01.population.Leg;
 import org.matsim.api.core.v01.population.Person;
@@ -24,10 +23,7 @@ import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.network.io.MatsimNetworkReader;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
-import org.matsim.core.utils.geometry.geotools.MGC;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
-import org.matsim.core.utils.gis.ShapeFileReader;
-import org.opengis.feature.simple.SimpleFeature;
 
 public class PopulationCSV{
 	
@@ -42,39 +38,16 @@ public class PopulationCSV{
 		final String NETWORKFILE = exampleDirectory + "artigo.xml";
 		
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, UTM33N);
-		// input files
-		String zonesFile = exampleDirectory + "area.shp";
-		String networkFile = exampleDirectory + "artigo.shp";
 
 		Scenario scenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
 		new MatsimNetworkReader(scenario.getNetwork()).readFile(NETWORKFILE);
-		Network network = scenario.getNetwork();
+		//Network network = scenario.getNetwork();
 		
-		SimpleFeatureSource home = ShapeFileReader.readDataFile(zonesFile); //reads the shape file in
-		SimpleFeatureSource net = ShapeFileReader.readDataFile(networkFile);
-		
-		Random rnd = new Random();
-		SimpleFeature hom = null;
-		SimpleFeature shelter = null;
-
-		//Iterator to iterate over the features from the shape file
-		SimpleFeatureIterator it = home.getFeatures().features();
-		SimpleFeatureIterator in = net.getFeatures().features();
-		
-		while (in.hasNext()) {
-			shelter = in.next();
-		}
-		while (it.hasNext()) {
-			hom = it.next(); 
-		}
-		
-		in.close();
-		it.close();
 		
 		int columns = 3;
 		HashSet<String> hs = new HashSet<String>(); 
-		hs = createPersons(scenario, hom, rnd, (int) 148, ct, columns);
-		createActivities(scenario, rnd, hs, shelter, ct, network, columns); //this method creates the remaining activities
+		hs = createPersons(scenario, 148, ct, columns);
+		createActivities(scenario, hs, 148, ct, columns); //this method creates the remaining activities
 		
 		String popFilename = "C:\\Users\\orran\\Desktop\\allpoints\\population_before.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
@@ -82,12 +55,12 @@ public class PopulationCSV{
 		
     }
 
-	private static void createActivities(Scenario scenario, Random rnd, HashSet<String> hs, SimpleFeature shelter, CoordinateTransformation ct, Network network, int col) {
+	private static void createActivities(Scenario scenario, HashSet<String> hs, int number, CoordinateTransformation ct, int col) {
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need
-		String[][] dupl = new String[148][col];
-		dupl = CSV.getCSVData(csvFileD, 148, col);
+		String[][] dupl = new String[number][col];
+		dupl = CSV.getCSVData(csvFileD, number, col);
 		HashSet<String> hp = new HashSet<String>();
 		
 		for (Person pers : pop.getPersons().values()) { //this loop iterates over all persons
@@ -118,7 +91,7 @@ public class PopulationCSV{
 			}
 
 			//shelter activity on a random shelter among the shelter set
-			Point p = getShelterPointInFeature(rnd, shelter, ct, homeAct, network);
+			Coord p = getShelterPointInFeature(ct);
 			Activity shelt = pb.createActivityFromCoord("shelter", new Coord(p.getX(), p.getY()));
 			double startTime = 8*3600;
 			shelt.setStartTime(startTime);
@@ -128,8 +101,7 @@ public class PopulationCSV{
 
 	}
 
-	private static HashSet<String> createPersons(Scenario scenario, SimpleFeature ft, Random rnd, int number,
-			CoordinateTransformation ct, int col) {
+	private static HashSet<String> createPersons(Scenario scenario, int number, CoordinateTransformation ct, int col) {
 	
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
@@ -154,26 +126,56 @@ public class PopulationCSV{
 		return hs;
 	}
 
-	public static Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct,
-			Activity home, Network network) {
-
-		/*Coord x = home.getCoord();				
-		Node node = NetworkUtils.getNearestNode((network), x); 
-		Node node1 = null;
-		List<Path> path = new ArrayList<Path>();
-		List<Coord> y = ShelterCoord.getCoord(ct);
-		int pos = 0;
+	public static Coord getShelterPointInFeature(CoordinateTransformation ct) {
+		Coord shelterHCES = new Coord (-155.084807, 19.721082);
+		Coord coordHCES = ct.transform(shelterHCES); 
 		
-		for (int i = 0; i < y.size(); i++) {
-    		node1 = NetworkUtils.getNearestNode((network), y.get(i)); 
-    		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
-    		path.add(p);
-		}*/
-    	
-		//System.out.println(path);
-		Coord c = ShelterCoord.getCoord(ct);
-		return MGC.coord2Point(c);
-    	
+		Coord shelterHSH = new Coord ((double) -155.090788, (double) 19.723933);
+		Coord coordHSH = ct.transform(shelterHSH);
+		
+		Coord shelterUN = new Coord ((double) -155.98662, (double) 19.63223);
+		Coord coordUN = ct.transform(shelterUN);
+		
+		Coord shelterUHHAF = new Coord ((double) -155.04953, (double) 19.65319);
+		Coord coordUHHAF = ct.transform(shelterUHHAF);
+		
+		Coord shelterPACRC = new Coord ((double) -155.04791, (double) 19.73122);
+		Coord coordPACRC = ct.transform(shelterPACRC);
+		
+		Coord shelterHCC = new Coord ((double) -156.022302, (double) 19.810874);
+		Coord coordHCC = ct.transform(shelterHCC);
+		
+		Coord shelterCCECS = new Coord ((double) -155.079334, (double) 19.703855);
+		Coord coordCCECS = ct.transform(shelterCCECS);
+		
+		Coord shelterTDKICP = new Coord ((double) -155.08957, (double) 19.6977);
+		Coord coordTDKICP = ct.transform(shelterTDKICP);
+		
+		Coord shelterUHH = new Coord ((double) -155.08146, (double) 19.70101);
+		Coord coordUHH = ct.transform(shelterUHH);
+		
+		Coord shelterHPA = new Coord ((double) -155.698639, (double) 20.029981);
+		Coord coordHPA = ct.transform(shelterHPA);
+		
+		Coord shelterHPALM = new Coord ((double) -155.673607, (double) 20.024664);
+		Coord coordHPALM = ct.transform(shelterHPALM);
+		
+		List<Coord> list = new ArrayList<>(); 
+	     
+	    list.add(coordHCES);
+	    list.add(coordHSH);
+	    list.add(coordUN);
+	    list.add(coordUHHAF);
+	    list.add(coordPACRC);
+	    list.add(coordHCC);
+	    list.add(coordCCECS);
+	    list.add(coordTDKICP);
+	    list.add(coordUHH);
+	    list.add(coordHPA);
+	    list.add(coordHPALM);
+	
+		Random rand = new Random(); 
+        return list.get(rand.nextInt(list.size()));
 	}
 
 }
