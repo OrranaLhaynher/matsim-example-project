@@ -45,12 +45,12 @@ import org.matsim.project.router.MatsimClassDijkstra;
 import org.matsim.vehicles.Vehicle;
 import org.opengis.feature.simple.SimpleFeature;
 
-public class NearShelter{
+public class NearShelterLotation{
 
 	private static int ID = 1;
 	private static final String Cali = "EPSG:3311";
 	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\areaScheduling\\";
-	private static final Logger log = Logger.getLogger(NearShelter.class);
+	private static final Logger log = Logger.getLogger(NearShelterLotation.class);
 
 	public static void main(String[] args) throws IOException {
 
@@ -259,28 +259,6 @@ public class NearShelter{
 
 		final Map<Double, Integer> sortedByCount = travelLength.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 		List<Integer> valuesList = new ArrayList<Integer>(sortedByCount.values());
-
-		/*for (int i = 0; i < coord.size(); i++) {
-			if(!coord.isEmpty()) {
-				if(coord.get(i).getCoord().equals(y[key].getCoord())) {
-					coord.remove(coord.get(i));
-					System.out.println(coord.size());
-					shelter = y[key].getCoord();
-				}else if(coord.get(i).getCoord().equals(y[key1].getCoord())){
-					coord.remove(coord.get(i));
-					shelter = y[key1].getCoord();
-				}else if(coord.get(i).getCoord().equals(y[key2].getCoord())) {
-					coord.remove(coord.get(i));
-					shelter = y[key2].getCoord();
-				}else if(coord.get(i).getCoord().equals(y[key3].getCoord())) {
-					coord.remove(coord.get(i));
-					shelter = y[key3].getCoord();
-				}else if(coord.get(i).getCoord().equals(y[key4].getCoord())) {
-					coord.remove(coord.get(i));
-					shelter = y[key4].getCoord();
-				}
-			}	
-		}*/
 	
 		return valuesList;
 	}
@@ -346,7 +324,7 @@ public class NearShelter{
      	   places.add(list[3]);
      	}
     	
-    	Collections.shuffle(places); 
+    	Collections.shuffle(places); //fazer teste sobre essa linha (acho que no script atual é desnecessária)
     	
     	return places;
 	}
