@@ -253,6 +253,8 @@ public class NearShelterLotation{
 			path.put(i, least.calcLeastCostPath(node, node1, 0.0, null, null));
 		}
 
+		System.out.println(path.get(0).nodes);
+
 		for (int i = 0; i < path.size(); i++) {
 			travelLength.put(getLinkTravelDisutility(path.get(i).links, 0.0, null, null), i);
 		}
@@ -324,7 +326,7 @@ public class NearShelterLotation{
      	   places.add(list[3]);
      	}
     	
-    	Collections.shuffle(places); //fazer teste sobre essa linha (acho que no script atual é desnecessária)
+    	//Collections.shuffle(places); //fazer teste sobre essa linha (acho que no script atual é desnecessária)
     	
     	return places;
 	}

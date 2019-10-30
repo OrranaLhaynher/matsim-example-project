@@ -27,7 +27,7 @@ public class CongestionDetectionEventHandler implements LinkEnterEventHandler,
 	private Map<Id<Vehicle>,Double> earliestLinkExitTime = new HashMap<>() ;
 	private Network network;
 	
-	public CongestionDetectionEventHandler( Network network ) {
+	CongestionDetectionEventHandler( Network network ) {
 		this.network = network ;
 	}
 
