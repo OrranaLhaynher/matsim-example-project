@@ -248,12 +248,11 @@ public class NearShelterLotation{
 		Coord x = homeAct.getCoord();
 		Node node = NetworkUtils.getNearestNode(network, x);
 
+
 		for (int i = 0; i < y.length; i++) {
 			Node node1 = y[i];
 			path.put(i, least.calcLeastCostPath(node, node1, 0.0, null, null));
 		}
-
-		System.out.println(path.get(0).nodes);
 
 		for (int i = 0; i < path.size(); i++) {
 			travelLength.put(getLinkTravelDisutility(path.get(i).links, 0.0, null, null), i);
