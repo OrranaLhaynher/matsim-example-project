@@ -13,14 +13,12 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.shape.random.RandomPointsBuilder;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.api.core.v01.TransportMode;
 import org.matsim.api.core.v01.network.Network;
-import org.matsim.api.core.v01.network.Node;
 import org.matsim.api.core.v01.population.Activity;
 import org.matsim.api.core.v01.population.Leg;
 import org.matsim.api.core.v01.population.Person;
@@ -29,15 +27,12 @@ import org.matsim.api.core.v01.population.Population;
 import org.matsim.api.core.v01.population.PopulationFactory;
 import org.matsim.api.core.v01.population.PopulationWriter;
 import org.matsim.core.config.ConfigUtils;
-import org.matsim.core.network.NetworkUtils;
 import org.matsim.core.network.io.MatsimNetworkReader;
-import org.matsim.core.router.util.LeastCostPathCalculator.Path;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.geotools.MGC;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.gis.ShapeFileReader;
-import org.matsim.project.population.Hawaii.ShelterCoord;
 import org.opengis.feature.simple.SimpleFeature;
 
 public class PopulationNearShelter{
@@ -213,13 +208,13 @@ public class PopulationNearShelter{
 	}
 
 	public static Coord getCoordInGeometry(ArrayList<SimpleFeature> t) {
-        Iterator<SimpleFeature> iter = t.iterator(); 
+		Iterator<SimpleFeature> iter = t.iterator(); 
         Collections.shuffle(t); 
     	
         RandomPointsBuilder randomPointsBuilder = new RandomPointsBuilder(new GeometryFactory());
         randomPointsBuilder.setNumPoints(1);
         randomPointsBuilder.setExtent( (Geometry)iter.next().getDefaultGeometry());
-        Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
+		Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
         return MGC.coordinate2Coord(coordinate);
 	}
 
@@ -256,29 +251,6 @@ public class PopulationNearShelter{
     	Collections.shuffle(places); 
     	
     	return places;
-	}
-	
-	public static Point getShelterPointInFeature(Random rnd, SimpleFeature shelter, CoordinateTransformation ct,
-			Activity home, Network network, MatsimClassDijkstra leastCost) {
-
-		Coord x = home.getCoord();				
-		Node node = NetworkUtils.getNearestNode((network), x); 
-		Node node1 = null;
-		List<Path> path = new ArrayList<Path>();
-		List<Coord> y = new ArrayList<Coord>();
-		y.add(ShelterCoord.getCoord(ct));
-		//int pos = 0;
-		
-		for (int i = 0; i < y.size(); i++) {
-    		node1 = NetworkUtils.getNearestNode((network), y.get(i)); 
-    		Path p = leastCost.calcLeastCostPath(node, node1, 0, null, null);
-    		path.add(p);
-		}
-    	
-		//System.out.println(path);
-		Coord c = ShelterCoord.getCoord(ct);
-		return MGC.coord2Point(c);
-    	
 	}
 
 }
