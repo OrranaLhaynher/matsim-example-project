@@ -86,7 +86,7 @@ public final class MatsimClassDijkstra implements LeastCostPathCalculator {
 		return null;
 	}
 
-	private Path createPath(Id<Node> toNodeId, Id<Node> fromNodeId) {
+	public Path createPath(Id<Node> toNodeId, Id<Node> fromNodeId) {
 		List<Node> nodes = new ArrayList<Node>();
 		List<Link> links = new ArrayList<Link>();
 		Node lastNode = network.getNodes().get(toNodeId);
