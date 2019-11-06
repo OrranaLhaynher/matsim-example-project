@@ -34,28 +34,40 @@
 			<!-- For MATSim snapshots: -->
 			<id>ojo-snapshots</id>
 			<url>http://oss.jfrog.org/libs-snapshot</url>
-		</repository>	
+		</repository>
+		<repository>
+	  		<!-- For SBB Extension -->
+	  	    <id>jitpack.io</id>
+	  	    <url>https://jitpack.io</url>
+	  	</repository>	
 	</repositories>
 
 	<dependencies>
+		<!--MATSim core:-->
 		<dependency>
-			<!-- This is the matsim "core": -->
 			<groupId>org.matsim</groupId>
 			<artifactId>matsim</artifactId>
 			<version>${matsim.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
+		<!-- to get MatsimTestUtils -->
 		<dependency>
-			<groupId>org.matsim.contrib</groupId>
-			<artifactId>decongestion</artifactId>
+			<groupId>org.matsim</groupId>
+			<artifactId>matsim</artifactId>
+			<type>test-jar</type>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
 			<version>${matsim.version}</version>
-		</dependency>
-
-		<dependency>
-			<!-- Include the JUnit testing library.  Not transitive. -->
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -68,7 +80,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>2.2.11</version>
@@ -103,17 +115,17 @@
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
-		</dependency>
+		</dependency> -->
 
 		<!--dependencies from here to where stated below are added as a service; they can be removed if you don't need them-->
-		<!--to get ExamplesUtils: -->
+		<!--to get ExamplesUtils:-->
 		<dependency>
 			<groupId>org.matsim</groupId>
 			<artifactId>matsim-examples</artifactId>
 			<version>${matsim.version}</version>
 		</dependency>
 
-		<!--some contribs:-->
+		<!-- Include some MATSim extensions -->
 		<dependency>
 			<groupId>org.matsim.contrib</groupId>
 			<artifactId>minibus</artifactId>
@@ -153,6 +165,43 @@
 			<groupId>org.matsim.contrib</groupId>
 			<artifactId>decongestion</artifactId>
 			<version>${matsim.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.6.1</version>
+		</dependency>
+
+		<!-- Include the JUnit testing library -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Include SBB MATSim Extensions local version: -->
+<!--		<dependency>-->
+<!--			<groupId>ch.sbb</groupId>-->
+<!--			<artifactId>matsim-sbb-extensions</artifactId>-->
+<!--			<version>11.3-SNAPSHOT</version>-->
+<!--		</dependency>-->
+
+		<!-- Include SBB MATSim Extensions from jitpack: -->
+		<!-- Note that this will also pick up the local version if that local version has com.github.XXX as groupId!-->
+		<dependency>
+			<groupId>com.github.vsp-gleich</groupId>
+			<artifactId>matsim-sbb-extensions</artifactId>
+<!--			<version>11.5-vsp-2019-08-19</version>-->
+<!--			<version>11.3-vsp-2019-08-14</version>-->
+			<version>0.10.2-minibus4</version>
 		</dependency>
 		<!--Dependencies from where stated above to here are added as a service; they can be removed if you don't need them-->
 
