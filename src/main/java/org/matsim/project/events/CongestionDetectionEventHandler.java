@@ -12,6 +12,8 @@ import org.matsim.api.core.v01.events.handler.LinkLeaveEventHandler;
 import org.matsim.api.core.v01.events.handler.PersonDepartureEventHandler;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
+import org.matsim.core.api.experimental.events.EventsManager;
+import org.matsim.core.events.EventsUtils;
 import org.matsim.vehicles.Vehicle;
 /**
  * This EventHandler implementation counts the travel time of
@@ -53,5 +55,18 @@ public class CongestionDetectionEventHandler implements LinkEnterEventHandler,
 	public void handleEvent(PersonDepartureEvent event) {
 		Id<Vehicle> vehId = Id.create( event.getPersonId(), Vehicle.class ) ; // unfortunately necessary since vehicle departures are not uniformly registered
 		this.earliestLinkExitTime.put( vehId, event.getTime() ) ;
+	}
+
+	public void teste(LinkEnterEvent event){
+		Map<Id<Vehicle>, Map<Id<Link>, Double>> vehicleLinkTravelTime = new HashMap<>();
+		EventsManager manager = EventsUtils.createEventsManager();
+		manager.addHandler(new VehicleLinkTravelTimeHandler(vehicleLinkTravelTime));
+
+		Map<Id<Link>, Double> travelTime1 = vehicleLinkTravelTime.get(event.getVehicleId());
+	
+		Link link = network.getLinks().get( event.getLinkId() ) ;
+		
+		double carTravelTime = travelTime1.get(link.getId()); // 1000 / min(25, vehSpeed)
+		double speedUsedInSimulation = Math.round( link.getLength() / (carTravelTime - 1) );
 	}
 }

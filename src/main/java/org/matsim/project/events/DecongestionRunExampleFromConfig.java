@@ -21,14 +21,14 @@
 /**
  * 
  */
-package org.matsim.contrib.decongestion;
+package org.matsim.project.events;
 
 
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Scenario;
-import org.matsim.contrib.decongestion.routing.TollTimeDistanceTravelDisutilityFactory;
+import org.matsim.contrib.decongestion.src.main.java.org.matsim.contrib.decongestion.routing.TollTimeDistanceTravelDisutilityFactory;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.controler.AbstractModule;
@@ -42,9 +42,9 @@ import org.matsim.core.scenario.ScenarioUtils;
  * @author ikaddoura
  *
  */
-public class DecongestionRunExample{
+public class DecongestionRunExampleFromConfig {
 
-	private static final Logger log = Logger.getLogger(DecongestionRunExample.class);
+	private static final Logger log = Logger.getLogger(DecongestionRunExampleFromConfig.class);
 
 	private static String configFile;
 	
@@ -56,7 +56,7 @@ public class DecongestionRunExample{
 			log.info("config file: "+ configFile);
 
 		} else {
-			configFile = "path/to/config.xml";
+			configFile = "C:\\Users\\orran\\Desktop\\TCC\\config.xml";
 		}
 		
 		DecongestionRunExampleFromConfig main = new DecongestionRunExampleFromConfig();
@@ -94,3 +94,4 @@ public class DecongestionRunExample{
         controler.run();
 	}
 }
+

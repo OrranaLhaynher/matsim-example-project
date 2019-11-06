@@ -46,6 +46,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.matsim.contrib</groupId>
+			<artifactId>decongestion</artifactId>
+			<version>${matsim.version}</version>
+		</dependency>
+
+		<dependency>
 			<!-- Include the JUnit testing library.  Not transitive. -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

@@ -124,7 +124,7 @@ public class NearShelterLotation{
 		createPersons(scenario, t1, t2, t3, t4, (int) 1800, ct);
 		createActivities(scenario, ct, network); // this method creates the remaining activities
 
-		String popFilename = "C:\\Users\\orran\\Desktop\\populationTeste.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\population.xml";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename);
 
@@ -136,12 +136,14 @@ public class NearShelterLotation{
 		PopulationFactory pb = pop.getFactory();
 
 		for (number=0; number<450; number++) {
+			// 37:00 minutos de diferença entre o fim das atividades home
+
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
 			Coord c = getCoordInGeometry(t1);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
-			act.setEndTime(7.23*3600);
+			act.setEndTime(7.3833333333*3600); //07:23  7.3833333333
 			plan.addActivity(act);
 			pers.addPlan(plan);
 		}
@@ -152,7 +154,7 @@ public class NearShelterLotation{
 			Coord c = getCoordInGeometry(t2);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
-			act.setEndTime(7.45*3600);
+			act.setEndTime(8*3600);  //08:00
 			pers.addPlan(plan);
 		}
 		for (number= 900; number<1350; number++) {
@@ -162,7 +164,7 @@ public class NearShelterLotation{
 			Coord c = getCoordInGeometry(t3);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
-			act.setEndTime(8*3600);
+			act.setEndTime(8.6166666667*3600); //08:37
 			pers.addPlan(plan);
 		}
 		for (number= 1350; number<1800; number++) {
@@ -172,7 +174,7 @@ public class NearShelterLotation{
 			Coord c = getCoordInGeometry(t4);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
-			act.setEndTime(8.40*3600);
+			act.setEndTime(9.2333333333*3600); //09:14 9.2333333333
 			pers.addPlan(plan);
 		}
 	}
