@@ -1,0 +1,6 @@
+pattern	0+	5+	10+	15+	20+	25+	30+	35+	40+	45+	50+	55+	60+
+home---mov	1	0	0	0	0	0	0	0	1	0	0	0	1
+home---shelter	1	2	3	0	0	0	1	2	3	1	4	2	28
+mov---shelter	0	0	0	1	0	0	0	0	1	0	0	0	1
+
+average trip duration: 4660.0 seconds = 01:17:40
