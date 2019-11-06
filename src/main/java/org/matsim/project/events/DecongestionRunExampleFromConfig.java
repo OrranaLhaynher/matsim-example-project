@@ -34,7 +34,7 @@ import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.controler.AbstractModule;
 import org.matsim.core.controler.Controler;
-import org.matsim.core.controler.OutputDirectoryHierarchy;
+import org.matsim.core.controler.OutputDirectoryHierarchy.OverwriteFileSetting;
 import org.matsim.core.scenario.ScenarioUtils;
 
 /**
@@ -46,8 +46,8 @@ import org.matsim.core.scenario.ScenarioUtils;
 public class DecongestionRunExampleFromConfig {
 
 	private static final Logger log = Logger.getLogger(DecongestionRunExampleFromConfig.class);
-
 	private static String configFile;
+	public static final String outputDirectory = "C:\\Users\\orran\\Desktop\\TCC\\output" ;
 	
 	public static void main(String[] args) throws IOException {		
 		if (args.length > 0) {
@@ -90,8 +90,9 @@ public class DecongestionRunExampleFromConfig {
 		});	
 		
 		// #############################################################
-	
-		controler.getConfig().controler().setOverwriteFileSetting(OutputDirectoryHierarchy.OverwriteFileSetting.failIfDirectoryExists);
+
+		controler.getConfig().controler().setOutputDirectory(outputDirectory);
+		controler.getConfig().controler().setOverwriteFileSetting(OverwriteFileSetting.overwriteExistingFiles);
         controler.run();
 	}
 }
