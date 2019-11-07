@@ -59,8 +59,6 @@ public class PopulationSimple{
 		new MatsimNetworkReader(scenario.getNetwork()).readFile(NETWORKFILE);
 		Network network = scenario.getNetwork();
 		
-		MatsimClassDijkstra leastCost = new MatsimClassDijkstra(network, null, null);
-		
 		SimpleFeatureSource area1 = ShapeFileReader.readDataFile(zonesFile1); //reads the shape file in
 		SimpleFeatureSource area2 = ShapeFileReader.readDataFile(zonesFile2);
 		SimpleFeatureSource area3 = ShapeFileReader.readDataFile(zonesFile3);
@@ -126,7 +124,7 @@ public class PopulationSimple{
 		in.close();
 		
 		createPersons(scenario, t1, t2, t3, t4, rnd, (int) 1800, ct);
-		createActivities(scenario, rnd, shelter, ct, network, leastCost); //this method creates the remaining activities
+		createActivities(scenario, rnd, shelter, ct, network); //this method creates the remaining activities
 		
 		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\populationSimple.xml.gz";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
@@ -134,7 +132,7 @@ public class PopulationSimple{
 		
     }
 
-	private static void createActivities(Scenario scenario, Random rnd,  SimpleFeature shelter, CoordinateTransformation ct, Network network, MatsimClassDijkstra leastCost) {
+	private static void createActivities(Scenario scenario, Random rnd,  SimpleFeature shelter, CoordinateTransformation ct, Network network) {
 		
 		Population pop =  scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); //the population builder creates all we need

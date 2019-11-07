@@ -1,4 +1,4 @@
-package org.matsim.core.router;
+package org.matsim.project.router;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,29 +41,26 @@ import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.geotools.MGC;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.gis.ShapeFileReader;
-import org.matsim.project.router.MatsimClassDijkstra;
 import org.matsim.vehicles.Vehicle;
 import org.opengis.feature.simple.SimpleFeature;
 
-public class NearShelterScheduling{
+public class NearShelterLotation{
 
 	private static int ID = 1;
 	private static final String Cali = "EPSG:3311";
 	private static final String exampleDirectory = "C:\\Users\\orran\\Desktop\\TCC\\areaScheduling\\";
-	private static final Logger log = Logger.getLogger(NearShelterScheduling.class);
+	private static final Logger log = Logger.getLogger(NearShelterLotation.class);
 
 	public static void main(String[] args) throws IOException {
 
-        final String NETWORKFILE = "C:\\Users\\orran\\Desktop\\TCC\\network.xml";
-        
+		final String NETWORKFILE = "C:\\Users\\orran\\Desktop\\TCC\\network.xml";
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(TransformationFactory.WGS84, Cali);
 
 		// input files
 		String zonesFile1 = exampleDirectory + "area1.shp";
 		String zonesFile2 = exampleDirectory + "area2.shp";
 		String zonesFile3 = exampleDirectory + "area3.shp";
-        String zonesFile4 = exampleDirectory + "area4.shp";
-        String evacuationArea = "C:\\Users\\orran\\Desktop\\TCC\\evacuationArea.shp";
+		String zonesFile4 = exampleDirectory + "area4.shp";
 
 		Scenario scenario = ScenarioUtils.createScenario(ConfigUtils.createConfig());
 		new MatsimNetworkReader(scenario.getNetwork()).readFile(NETWORKFILE);
@@ -72,27 +69,23 @@ public class NearShelterScheduling{
 		SimpleFeatureSource area1 = ShapeFileReader.readDataFile(zonesFile1); // reads the shape file in
 		SimpleFeatureSource area2 = ShapeFileReader.readDataFile(zonesFile2);
 		SimpleFeatureSource area3 = ShapeFileReader.readDataFile(zonesFile3);
-        SimpleFeatureSource area4 = ShapeFileReader.readDataFile(zonesFile4);
-        SimpleFeatureSource areaEvac = ShapeFileReader.readDataFile(evacuationArea);
+		SimpleFeatureSource area4 = ShapeFileReader.readDataFile(zonesFile4);
 
 		SimpleFeature home1 = null;
 		SimpleFeature home2 = null;
 		SimpleFeature home3 = null;
-        SimpleFeature home4 = null;
-        SimpleFeature evac = null;
+		SimpleFeature home4 = null;
 
 		// Iterator to iterate over the features from the shape file
 		SimpleFeatureIterator it1 = area1.getFeatures().features();
 		SimpleFeatureIterator it2 = area2.getFeatures().features();
 		SimpleFeatureIterator it3 = area3.getFeatures().features();
-        SimpleFeatureIterator it4 = area4.getFeatures().features();
-        SimpleFeatureIterator ev = areaEvac.getFeatures().features();
+		SimpleFeatureIterator it4 = area4.getFeatures().features();
 
 		ArrayList<SimpleFeature> t1 = new ArrayList<SimpleFeature>();
 		ArrayList<SimpleFeature> t2 = new ArrayList<SimpleFeature>();
 		ArrayList<SimpleFeature> t3 = new ArrayList<SimpleFeature>();
 		ArrayList<SimpleFeature> t4 = new ArrayList<SimpleFeature>();
-        ArrayList<SimpleFeature> t5 = new ArrayList<SimpleFeature>();
 
 		while (it1.hasNext()) {
 			home1 = it1.next();
@@ -120,72 +113,82 @@ public class NearShelterScheduling{
 			Geometry gm4 = (Geometry) home4.getDefaultGeometry();
 			home4.setDefaultGeometry(gm4);
 			t4.add(home4);
-        }
-        
-        while (ev.hasNext()) {
-			evac = ev.next();
-			Geometry gm = (Geometry) evac.getDefaultGeometry();
-			evac.setDefaultGeometry(gm);
-			t5.add(evac);
 		}
 
 		it1.close();
 		it2.close();
 		it3.close();
-        it4.close();
-        ev.close();
+		it4.close();
 
-		createPersons(scenario, t5, (int) 1800, ct);
-		createActivities(scenario, ct, network, t1, t2, t3, t4); // this method creates the remaining activities
+		createPersons(scenario, t1, t2, t3, t4, (int) 1800, ct);
+		createActivities(scenario, ct, network); // this method creates the remaining activities
 
-		String popFilename = "C:\\Users\\orran\\Desktop\\populationTeste.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\population.xml.gz";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename);
 
 	}
 
-	private static void createPersons(Scenario scenario, ArrayList<SimpleFeature> evac, int number, CoordinateTransformation ct) {
+	private static void createPersons(Scenario scenario, ArrayList<SimpleFeature> t1, ArrayList<SimpleFeature> t2, ArrayList<SimpleFeature> t3, ArrayList<SimpleFeature> t4, int number, CoordinateTransformation ct) {
 
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory();
 
-		for (; number > 0; number--){
+		for (number=0; number<450; number++) {
+			// 37:00 minutos de diferença entre o fim das atividades home
+
 			Person pers = pb.createPerson(Id.create(ID++, Person.class));
 			pop.addPerson(pers);
 			Plan plan = pb.createPlan();
-			Coord c = getCoordInGeometry(evac);
+			Coord c = getCoordInGeometry(t1);
+			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			act.setEndTime(7.383333333333333*3600); //07:23  7.383333333333333
+			plan.addActivity(act);
+			pers.addPlan(plan);
+		}
+		for (number= 450; number<900; number++) {
+			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			pop.addPerson(pers);
+			Plan plan = pb.createPlan();
+			Coord c = getCoordInGeometry(t2);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
+			act.setEndTime(8*3600);  //08:00
+			pers.addPlan(plan);
+		}
+		for (number= 900; number<1350; number++) {
+			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			pop.addPerson(pers);
+			Plan plan = pb.createPlan();
+			Coord c = getCoordInGeometry(t3);
+			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			plan.addActivity(act);
+			act.setEndTime(8.6166666667*3600); //08:37
+			pers.addPlan(plan);
+		}
+		for (number= 1350; number<1800; number++) {
+			Person pers = pb.createPerson(Id.create(ID++, Person.class));
+			pop.addPerson(pers);
+			Plan plan = pb.createPlan();
+			Coord c = getCoordInGeometry(t4);
+			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
+			plan.addActivity(act);
+			act.setEndTime(9.233333333333333*3600); //09:14 9.233333333333333‬
 			pers.addPlan(plan);
 		}
 	}
 
-	private static void createActivities(Scenario scenario, CoordinateTransformation ct, Network network, ArrayList<SimpleFeature> t1, ArrayList<SimpleFeature> t2, ArrayList<SimpleFeature> t3, ArrayList<SimpleFeature> t4) {
+	private static void createActivities(Scenario scenario, CoordinateTransformation ct, Network network) {
 
 		Population pop = scenario.getPopulation();
 		PopulationFactory pb = pop.getFactory(); // the population builder creates all we need
 		Coord shelter = new Coord();
 		List<Node> coord = new ArrayList<>();
 		Node[] y = getShelter(ct, network);
-        coord = getShelterLotation(y, network);
+		coord = getShelterLotation(y, network);
 
 		for (Person pers : pop.getPersons().values()) { // this loop iterates over all persons
 			Plan plan = pers.getPlans().get(0); // each person has exactly one plan, that has been created in createPersons(...)
-            //Activity homeAct = (Activity) plan.getPlanElements().get(0); //every plan has only one activity so far (home activity)
-            /*boolean e = false;
-            
-            if((e = findCoordInGeometry(t1, homeAct.getCoord())) == true){
-                homeAct.setEndTime(7.23*3600);
-            }
-            if((e = findCoordInGeometry(t2, homeAct.getCoord())) == true){
-                homeAct.setEndTime(7.45*3600);
-            }
-            if((e = findCoordInGeometry(t3, homeAct.getCoord())) == true){
-                homeAct.setEndTime(8*3600);
-            }
-            if((e = findCoordInGeometry(t4, homeAct.getCoord())) == true){
-                homeAct.setEndTime(8.40*3600);
-            }*/
 
 			List<Integer> valuesList = getNearShelterPointInFeature(ct, scenario, network, (Activity) plan.getPlanElements().get(0));
 			int key = valuesList.get(0);
@@ -232,21 +235,6 @@ public class NearShelterScheduling{
 		randomPointsBuilder.setExtent((Geometry) iter.next().getDefaultGeometry());
 		Coordinate coordinate = randomPointsBuilder.getGeometry().getCoordinates()[0];
 		return MGC.coordinate2Coord(coordinate);
-    }
-    
-    public static boolean findCoordInGeometry(ArrayList<SimpleFeature> t, Coord c) {
-        Iterator<SimpleFeature> iter = t.iterator();
-        boolean e = false;
-        Coordinate coord = new Coordinate();
-        coord.setX(c.getX());
-        coord.setY(c.getY());
-
-        Geometry g = (Geometry) iter.next().getDefaultGeometry();
-        for (int i = 0; i < g.getCoordinates().length; i++) {
-            e = g.getCoordinates()[i].equals2D(coord);
-        }
-
-        return e;
 	}
 
 	public static List<Integer> getNearShelterPointInFeature(CoordinateTransformation ct, Scenario scenario, Network network, Activity homeAct) {

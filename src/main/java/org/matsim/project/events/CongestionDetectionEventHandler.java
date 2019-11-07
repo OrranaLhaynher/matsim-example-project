@@ -68,5 +68,6 @@ public class CongestionDetectionEventHandler implements LinkEnterEventHandler,
 		
 		double carTravelTime = travelTime1.get(link.getId()); // 1000 / min(25, vehSpeed)
 		double speedUsedInSimulation = Math.round( link.getLength() / (carTravelTime - 1) );
+		System.out.println(speedUsedInSimulation);
 	}
 }
