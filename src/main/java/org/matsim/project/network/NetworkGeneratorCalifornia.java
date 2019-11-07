@@ -33,7 +33,7 @@ class NetworkGeneratorCalifornia {
 		onr.parse(osm); //começa a conversão de .osm para matsim
 
 		new NetworkCleaner().run(net); //remove links isolados ou não conectados
-		String filename = "C:\\Users\\orran\\Desktop\\TCC\\areaScheduling\\area4.xml";
+		String filename = "C:\\Users\\orran\\Desktop\\TCC\\areaScheduling\\area4.xml.gz";
 		new NetworkWriter(net).write(filename);
 
 		// Cria um ESRI shape file da rede MATSim

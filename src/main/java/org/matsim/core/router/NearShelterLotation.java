@@ -124,7 +124,7 @@ public class NearShelterLotation{
 		createPersons(scenario, t1, t2, t3, t4, (int) 1800, ct);
 		createActivities(scenario, ct, network); // this method creates the remaining activities
 
-		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\population.xml";
+		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\population.xml.gz";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename);
 
