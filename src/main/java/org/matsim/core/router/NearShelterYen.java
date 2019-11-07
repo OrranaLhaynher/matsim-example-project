@@ -1,6 +1,6 @@
 package org.matsim.core.router;
 
-import java.io.IOException;
+/*import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -337,4 +337,4 @@ public class NearShelterYen{
     	return places;
 	}
 	
-}
+}*/
