@@ -143,7 +143,7 @@ public class NearShelterLotation{
 			Plan plan = pb.createPlan();
 			Coord c = getCoordInGeometry(t1);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
-			act.setEndTime(7.3833333333*3600); //07:23  7.3833333333
+			act.setEndTime(7.383333333333333*3600); //07:23  7.383333333333333
 			plan.addActivity(act);
 			pers.addPlan(plan);
 		}
@@ -174,7 +174,7 @@ public class NearShelterLotation{
 			Coord c = getCoordInGeometry(t4);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
-			act.setEndTime(9.2333333333*3600); //09:14 9.2333333333
+			act.setEndTime(9.233333333333333*3600); //09:14 9.233333333333333‬
 			pers.addPlan(plan);
 		}
 	}
