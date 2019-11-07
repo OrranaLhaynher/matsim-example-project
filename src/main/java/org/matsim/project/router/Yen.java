@@ -1,6 +1,6 @@
 package org.matsim.project.router;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +26,7 @@ import org.matsim.vehicles.Vehicle;
 /**
  * @author Filippo Muzzini
  *
- */
+ 
 public class Yen {
 	
 	private Path[] A; 
@@ -48,7 +48,7 @@ public class Yen {
 	 * @param person 
 	 * @param vehicle 
 	 * @return 
-	 */
+	 
 	public List<Path> route(Id<Node> source, Id<Node> dest, double startTime, Person person, Vehicle veh, Network network) {
 		TravelTime travelTimes = null;
 		TravelDisutility travelCosts = null;
@@ -151,7 +151,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.core.router.util.TravelDisutility#getLinkTravelDisutility(org.matsim.api.core.v01.network.Link, double, org.matsim.api.core.v01.population.Person, org.matsim.vehicles.Vehicle)
-		 */
+		
 		@Override
 		public double getLinkTravelDisutility(Link link, double time, Person person, Vehicle vehicle) {
 			if (isRemoved(link)) {
@@ -163,7 +163,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.core.router.util.TravelDisutility#getLinkMinimumTravelDisutility(org.matsim.api.core.v01.network.Link)
-		 */
+		 
 		@Override
 		public double getLinkMinimumTravelDisutility(Link link) {
 			if (isRemoved(link)) {
@@ -193,7 +193,7 @@ public class Yen {
 		/**
 		 * @param link
 		 * @return
-		 */
+		 
 		private boolean isRemoved(Link link) {
 			return this.removedLinks.contains(link);
 		}
@@ -226,7 +226,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.utils.objectattributes.attributable.Attributable#getAttributes()
-		 */
+		 
 		@Override
 		public Attributes getAttributes() {
 			return this.delegate.getAttributes();
@@ -234,7 +234,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#getFactory()
-		 */
+		 
 		@Override
 		public NetworkFactory getFactory() {
 			return this.delegate.getFactory();
@@ -242,7 +242,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#getNodes()
-		 */
+		 
 		@Override
 		public Map<Id<Node>, ? extends Node> getNodes() {
 			return this.delegate.getNodes();
@@ -250,7 +250,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#getLinks()
-		 */
+		 
 		@Override
 		public Map<Id<Link>, ? extends Link> getLinks() {
 			return this.delegate.getLinks();
@@ -258,7 +258,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#getCapacityPeriod()
-		 */
+		 
 		@Override
 		public double getCapacityPeriod() {
 			return this.delegate.getCapacityPeriod();
@@ -266,7 +266,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#getEffectiveLaneWidth()
-		 */
+		 
 		@Override
 		public double getEffectiveLaneWidth() {
 			return this.delegate.getEffectiveLaneWidth();
@@ -274,7 +274,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#addNode(org.matsim.api.core.v01.network.Node)
-		 */
+		 
 		@Override
 		public void addNode(Node nn) {
 			this.delegate.addNode(nn);;
@@ -283,7 +283,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#addLink(org.matsim.api.core.v01.network.Link)
-		 */
+		 
 		@Override
 		public void addLink(Link ll) {
 			this.delegate.addLink(ll);;
@@ -292,7 +292,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#removeNode(org.matsim.api.core.v01.Id)
-		 */
+		 
 		@Override
 		public Node removeNode(Id<Node> nodeId) {
 			Node node = this.delegate.removeNode(nodeId);
@@ -304,7 +304,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#removeLink(org.matsim.api.core.v01.Id)
-		 */
+		 
 		@Override
 		public Link removeLink(Id<Link> linkId) {
 			Link link = this.delegate.removeLink(linkId);
@@ -316,7 +316,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#setCapacityPeriod(double)
-		 */
+		 
 		@Override
 		public void setCapacityPeriod(double capPeriod) {
 			this.delegate.setCapacityPeriod(capPeriod);
@@ -325,7 +325,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#setEffectiveCellSize(double)
-		 */
+		 
 		@Override
 		public void setEffectiveCellSize(double effectiveCellSize) {
 			this.delegate.setEffectiveCellSize(effectiveCellSize);
@@ -334,7 +334,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#setEffectiveLaneWidth(double)
-		 */
+		 
 		@Override
 		public void setEffectiveLaneWidth(double effectiveLaneWidth) {
 			this.delegate.setEffectiveLaneWidth(effectiveLaneWidth);
@@ -343,7 +343,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#setName(java.lang.String)
-		 */
+		 
 		@Override
 		public void setName(String name) {
 			this.delegate.setName(name);
@@ -352,7 +352,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#getName()
-		 */
+		 
 		@Override
 		public String getName() {
 			return this.delegate.getName();
@@ -360,7 +360,7 @@ public class Yen {
 
 		/* (non-Javadoc)
 		 * @see org.matsim.api.core.v01.network.Network#getEffectiveCellSize()
-		 */
+		 
 		@Override
 		public double getEffectiveCellSize() {
 			return this.delegate.getEffectiveCellSize();
@@ -368,4 +368,4 @@ public class Yen {
 		
 	}
 
-}
+}*/
