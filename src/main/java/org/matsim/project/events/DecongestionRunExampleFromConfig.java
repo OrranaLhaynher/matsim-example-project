@@ -47,7 +47,7 @@ public class DecongestionRunExampleFromConfig {
 
 	private static final Logger log = Logger.getLogger(DecongestionRunExampleFromConfig.class);
 	private static String configFile;
-	public static final String outputDirectory = "C:\\Users\\orran\\Desktop\\TCC\\output" ;
+	public static final String outputDirectory = "C:\\Users\\orran\\Desktop\\TCC\\outputDescongestion3" ;
 	
 	public static void main(String[] args) throws IOException {		
 		if (args.length > 0) {

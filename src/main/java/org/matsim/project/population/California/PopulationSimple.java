@@ -126,7 +126,7 @@ public class PopulationSimple{
 		createPersons(scenario, t1, t2, t3, t4, rnd, (int) 1800, ct);
 		createActivities(scenario, rnd, shelter, ct, network); //this method creates the remaining activities
 		
-		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\populationSimple.xml.gz";
+		String popFilename = "C:\\Users\\orran\\Desktop\\TCC\\populationSimple1.xml.gz";
 		new PopulationWriter(scenario.getPopulation(), scenario.getNetwork()).write(popFilename); // and finally the population will be written to a xml file
 		log.info("population written to: " + popFilename); 
 		
@@ -150,7 +150,7 @@ public class PopulationSimple{
 
 			//shelter activity on a random shelter among the shelter set
 			Activity shelt = pb.createActivityFromCoord("shelter", new Coord(p.getX(), p.getY()));
-			double startTime = 10*3600;
+			double startTime = 7.25*3600;
 			shelt.setStartTime(startTime);
 			plan.addActivity(shelt);
 		}
@@ -168,7 +168,7 @@ public class PopulationSimple{
 			Plan plan = pb.createPlan();
 			Coord c = getCoordInGeometry(t1);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
-			act.setEndTime(7.383333333333333*3600);
+			act.setEndTime(7.23*3600);
 			plan.addActivity(act);
 			pers.addPlan(plan);
 		}
@@ -179,7 +179,7 @@ public class PopulationSimple{
 			Coord c = getCoordInGeometry(t2);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
-			act.setEndTime(8*3600);
+			act.setEndTime(7.45*3600);
 			pers.addPlan(plan);
 		}
 		for (number= 900; number<1350; number++) {
@@ -189,7 +189,7 @@ public class PopulationSimple{
 			Coord c = getCoordInGeometry(t3);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
-			act.setEndTime(8.6166666667*3600);
+			act.setEndTime(8*3600);
 			pers.addPlan(plan);
 		}
 		for (number= 1350; number<1800; number++) {
@@ -199,7 +199,7 @@ public class PopulationSimple{
 			Coord c = getCoordInGeometry(t4);
 			Activity act = pb.createActivityFromCoord("home", new Coord(c.getX(), c.getY()));
 			plan.addActivity(act);
-			act.setEndTime(9.233333333333333*3600);
+			act.setEndTime(8.40*3600);
 			pers.addPlan(plan);
 		}
 	}
