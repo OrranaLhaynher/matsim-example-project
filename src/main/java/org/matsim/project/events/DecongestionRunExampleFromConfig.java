@@ -28,7 +28,6 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.contrib.decongestion.DecongestionConfigGroup;
-import org.matsim.contrib.decongestion.DecongestionModule;
 import org.matsim.contrib.decongestion.routing.TollTimeDistanceTravelDisutilityFactory;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.ConfigUtils;
@@ -47,7 +46,7 @@ public class DecongestionRunExampleFromConfig {
 
 	private static final Logger log = Logger.getLogger(DecongestionRunExampleFromConfig.class);
 	private static String configFile;
-	public static final String outputDirectory = "C:\\Users\\orran\\Desktop\\TCC\\outputDescongestion3" ;
+	public static final String outputDirectory = "C:\\Users\\orran\\Desktop\\TCC\\outputDescongestionTeste" ;
 	
 	public static void main(String[] args) throws IOException {		
 		if (args.length > 0) {
